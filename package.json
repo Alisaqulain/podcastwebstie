@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:podcasts": "node scripts/seed-podcasts.mjs"
+    "seed:podcasts": "node scripts/seed-podcasts.mjs",
+    "seed:packages": "node scripts/seed-packages.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@tiptap/extension-image": "^3.22.5",
     "@tiptap/extension-link": "^3.22.5",
     "@tiptap/extension-placeholder": "^3.22.5",
     "@tiptap/pm": "^3.22.5",
@@ -23,6 +25,7 @@
     "mongodb": "^7.2.0",
     "next": "14.2.35",
     "next-auth": "^4.24.14",
+    "razorpay": "^2.9.6",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.75.0",

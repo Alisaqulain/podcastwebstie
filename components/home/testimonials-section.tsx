@@ -16,12 +16,16 @@ export async function TestimonialsSection() {
     name: String(t.name),
     message: String(t.message),
     image: t.image ? String(t.image) : undefined,
+    rating:
+      typeof t.rating === "number" && t.rating >= 1 && t.rating <= 5
+        ? t.rating
+        : undefined,
   }));
 
   const preview = items.slice(0, 6);
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="border-t border-luxury-border bg-luxury-section py-20 md:py-28">
       <Container>
         <SectionHeading
           eyebrow="Proof"
@@ -30,9 +34,12 @@ export async function TestimonialsSection() {
         />
 
         {items.length === 0 ? (
-          <div className="glass-panel mx-auto max-w-xl rounded-3xl p-10 text-center text-brand-dark/70">
+          <div className="glass-panel mx-auto max-w-xl rounded-3xl p-10 text-center text-luxury-body">
             Testimonials will appear here soon.{" "}
-            <Link href="/contact" className="font-semibold text-brand-gold-deep">
+            <Link
+              href="/contact"
+              className="font-semibold text-brand-gold-deep hover:text-brand-gold"
+            >
               Share your story
             </Link>{" "}
             with Namrata.

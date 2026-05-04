@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Star } from "lucide-react";
 import type { TestimonialItem } from "./testimonial-slider";
 import { ImageCard } from "@/components/ui/image-card";
+import { cn } from "@/lib/utils";
 
 export function TestimonialGridCard({
   item,
@@ -17,7 +19,8 @@ export function TestimonialGridCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.45, delay: index * 0.05 }}
-      className="rounded-3xl border border-brand-gold/15 bg-white/55 p-6 shadow-sm backdrop-blur"
+      whileHover={{ y: -3 }}
+      className="glass-panel rounded-3xl border border-luxury-border p-6 shadow-luxury-card transition-shadow hover:border-brand-gold/35 hover:shadow-gold-glow"
     >
       <div className="flex items-center gap-3">
         <div className="relative h-12 w-12 shrink-0">
@@ -27,18 +30,37 @@ export function TestimonialGridCard({
               testimonialShape="square"
               src={item.image}
               alt={`${item.name} — testimonial photo`}
-              className="h-12 w-12 shadow-sm ring-1 ring-brand-gold/15"
+              className="h-12 w-12 shadow-sm ring-1 ring-luxury-border"
               sizes="48px"
             />
           ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-brand-gold/15 bg-brand-cream text-sm font-display text-brand-gold-deep shadow-sm">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-luxury-border bg-luxury-bg text-sm font-display text-brand-gold-deep shadow-inner">
               {item.name.charAt(0)}
             </div>
           )}
         </div>
-        <p className="font-display font-semibold text-brand-dark">{item.name}</p>
+        <div>
+          <p className="font-display font-semibold text-luxury-heading">
+            {item.name}
+          </p>
+          {item.rating ? (
+            <div className="mt-1 flex gap-0.5" aria-hidden>
+              {Array.from({ length: 5 }, (_, i) => (
+                <Star
+                  key={i}
+                  className={cn(
+                    "h-3.5 w-3.5",
+                    i < item.rating!
+                      ? "fill-brand-gold text-brand-gold"
+                      : "text-luxury-border"
+                  )}
+                />
+              ))}
+            </div>
+          ) : null}
+        </div>
       </div>
-      <p className="mt-4 text-sm leading-relaxed text-brand-dark/70 line-clamp-4">
+      <p className="mt-4 text-sm leading-relaxed text-luxury-body line-clamp-4">
         {item.message}
       </p>
     </motion.div>

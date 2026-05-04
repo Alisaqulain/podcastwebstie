@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      <header className="border-b border-brand-gold/10 bg-white/40 py-14 backdrop-blur-sm md:py-20">
+      <header className="border-b border-luxury-border bg-luxury-section py-14 md:py-20">
         <Container className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold-deep">
             {post.createdAt
@@ -91,11 +91,11 @@ export default async function BlogPostPage({ params }: Props) {
                 })
               : "Article"}
           </p>
-          <h1 className="mt-4 font-display text-4xl font-semibold text-brand-dark md:text-5xl">
+          <h1 className="mt-4 font-display text-4xl font-semibold text-luxury-heading md:text-5xl">
             {String(post.title)}
           </h1>
           {post.seoDescription ? (
-            <p className="mt-6 text-lg text-brand-dark/70">
+            <p className="mt-6 text-lg text-luxury-body">
               {String(post.seoDescription)}
             </p>
           ) : null}
@@ -110,7 +110,7 @@ export default async function BlogPostPage({ params }: Props) {
             alt={coverAlt ?? "Article cover image"}
             textSafeOverlay
             priority
-            className="ring-1 ring-brand-gold/15"
+            className="ring-1 ring-luxury-border"
             sizes="(max-width:1024px) 100vw, 896px"
           />
         </Container>

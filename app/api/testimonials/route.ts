@@ -27,8 +27,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
   }
 
-  const body = (await req.json()) as TestimonialInput;
+  const body = (await req.json()) as TestimonialInput & { rating?: unknown };
   const { name, image, message } = body;
+  let rating: number | undefined;
+  const rawR = body.rating as unknown;
+  if (rawR != null && rawR !== "") {
+    const r = Number(rawR);
+    if (Number.isFinite(r) && r >= 1 && r <= 5) rating = Math.round(r);
+  }
 
   if (!name?.trim() || !message?.trim()) {
     return NextResponse.json(
@@ -41,6 +47,7 @@ export async function POST(req: NextRequest) {
     name: name.trim(),
     image: (image || "").trim(),
     message: message.trim(),
+    ...(rating != null ? { rating } : {}),
   };
 
   const result = await db.collection("testimonials").insertOne(doc);

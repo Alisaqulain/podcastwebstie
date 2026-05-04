@@ -1,19 +1,34 @@
 import Link from "next/link";
 import { getDb } from "@/lib/mongodb";
-import { Mic2, FileText, Heart, Inbox } from "lucide-react";
+import { Mic2, FileText, Heart, Inbox, PackageOpen, CalendarRange } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminHomePage() {
   const db = await getDb();
-  const [podcasts, blogs, testimonials, contacts] = await Promise.all([
-    db ? db.collection("podcasts").countDocuments() : 0,
-    db ? db.collection("blogs").countDocuments() : 0,
-    db ? db.collection("testimonials").countDocuments() : 0,
-    db ? db.collection("contacts").countDocuments() : 0,
-  ]);
+  const [packages, bookings, podcasts, blogs, testimonials, contacts] =
+    await Promise.all([
+      db ? db.collection("packages").countDocuments() : 0,
+      db ? db.collection("bookings").countDocuments() : 0,
+      db ? db.collection("podcasts").countDocuments() : 0,
+      db ? db.collection("blogs").countDocuments() : 0,
+      db ? db.collection("testimonials").countDocuments() : 0,
+      db ? db.collection("contacts").countDocuments() : 0,
+    ]);
 
   const cards = [
+    {
+      label: "Packages",
+      count: packages,
+      href: "/admin/packages",
+      icon: PackageOpen,
+    },
+    {
+      label: "Bookings",
+      count: bookings,
+      href: "/admin/bookings",
+      icon: CalendarRange,
+    },
     {
       label: "Podcasts",
       count: podcasts,
@@ -36,10 +51,10 @@ export default async function AdminHomePage() {
         Dashboard
       </h1>
       <p className="mt-2 text-sm text-brand-dark/65">
-        Manage podcasts, articles, testimonials, and inbound messages.
+        Packages, bookings, podcasts, blogs, testimonials, and inbound messages.
       </p>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
         {cards.map(({ label, count, href, icon: Icon }) => (
           <Link
             key={href}

@@ -48,7 +48,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#1a1a1a",
+  themeColor: "#f9f7f4",
 };
 
 export default function RootLayout({
@@ -58,7 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${poppins.variable}`}>
-      <body className="min-h-screen bg-brand-cream font-sans antialiased">
+      <body className="min-h-screen bg-luxury-bg font-sans antialiased text-luxury-body selection:bg-brand-gold/25 selection:text-luxury-heading">
         <OrganizationJsonLd />
         <PodcastSeriesJsonLd />
         <Providers>

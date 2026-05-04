@@ -28,6 +28,16 @@ export async function PATCH(req: NextRequest, context: Ctx) {
   if (body.name !== undefined) update.name = String(body.name).trim();
   if (body.image !== undefined) update.image = String(body.image).trim();
   if (body.message !== undefined) update.message = String(body.message).trim();
+  if (body.rating !== undefined) {
+    if (body.rating === null) {
+      update.rating = null;
+    } else {
+      const r = Number(body.rating);
+      if (Number.isFinite(r) && r >= 1 && r <= 5) {
+        update.rating = Math.round(r);
+      }
+    }
+  }
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: "No fields to update" }, { status: 400 });

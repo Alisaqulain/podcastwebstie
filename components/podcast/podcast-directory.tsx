@@ -63,7 +63,7 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
 
   return (
     <div className="pb-24">
-      <section className="border-b border-brand-gold/10 bg-white/30 py-14 backdrop-blur-sm md:py-20">
+      <section className="border-b border-luxury-border bg-luxury-section py-14 md:py-20">
         <Container>
           <SectionHeading
             align="left"
@@ -73,16 +73,16 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
             className="mb-0"
           />
           <div className="relative mt-10 max-w-xl">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-dark/35" />
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-luxury-muted" />
             <input
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search episodes..."
-              className="w-full rounded-2xl border border-brand-gold/20 bg-white/80 py-3.5 pl-12 pr-4 text-sm text-brand-dark shadow-sm outline-none ring-brand-gold/30 placeholder:text-brand-dark/40 focus:ring-2"
+              className="field-input w-full py-3.5 pl-12 pr-4 shadow-sm"
             />
             {loading ? (
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-brand-dark/45">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-luxury-muted">
                 Updating…
               </span>
             ) : null}
@@ -92,7 +92,7 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
 
       <Container className="mt-14">
         {sorted.length === 0 ? (
-          <div className="glass-panel rounded-3xl p-12 text-center text-brand-dark/70">
+          <div className="glass-panel rounded-3xl p-12 text-center text-luxury-body">
             No episodes match your search yet. Try another keyword—or explore
             the channel on YouTube.
           </div>
@@ -107,9 +107,10 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.45, delay: Math.min(idx * 0.04, 0.2) }}
-                  className="grid gap-8 rounded-4xl border border-brand-gold/12 bg-white/55 p-6 shadow-card backdrop-blur md:grid-cols-[1.15fr_0.85fr] md:p-8"
+                  whileHover={{ y: -4 }}
+                  className="grid gap-8 rounded-4xl border border-luxury-border bg-luxury-section p-6 shadow-luxury-card transition hover:border-brand-gold/40 hover:shadow-gold-glow md:grid-cols-[1.15fr_0.85fr] md:p-8"
                 >
-                  <div className="overflow-hidden rounded-3xl bg-brand-dark/5">
+                  <div className="overflow-hidden rounded-3xl bg-luxury-bg ring-1 ring-luxury-border">
                     {embed ? (
                       <div className="aspect-video w-full">
                         <iframe
@@ -122,7 +123,7 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                         />
                       </div>
                     ) : (
-                      <div className="flex aspect-video items-center justify-center text-sm text-brand-dark/50">
+                      <div className="flex aspect-video items-center justify-center text-sm text-luxury-muted">
                         Invalid YouTube URL
                       </div>
                     )}
@@ -137,10 +138,10 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                           })
                         : "Episode"}
                     </p>
-                    <h2 className="mt-3 font-display text-2xl font-semibold text-brand-dark md:text-3xl">
+                    <h2 className="mt-3 font-display text-2xl font-semibold text-luxury-heading md:text-3xl">
                       {p.title}
                     </h2>
-                    <p className="mt-4 leading-relaxed text-brand-dark/70">
+                    <p className="mt-4 leading-relaxed text-luxury-body">
                       {p.description}
                     </p>
                     <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -149,7 +150,7 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                           type="podcast"
                           src={p.thumbnail}
                           alt={`Thumbnail: ${p.title}`}
-                          className="w-28 shrink-0 shadow-sm ring-1 ring-brand-gold/15"
+                          className="w-28 shrink-0 shadow-sm ring-1 ring-luxury-border"
                           sizes="112px"
                         />
                       ) : null}
@@ -157,7 +158,7 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                         href={p.youtubeLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-semibold text-brand-gold-deep hover:underline"
+                        className="text-sm font-semibold text-brand-gold-deep hover:text-brand-gold hover:underline"
                       >
                         Open on YouTube
                       </a>

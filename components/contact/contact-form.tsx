@@ -44,15 +44,15 @@ export function ContactForm() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       onSubmit={handleSubmit(onSubmit)}
-      className="glass-panel space-y-6 rounded-3xl p-8 md:p-10"
+      className="surface-form space-y-6 rounded-3xl p-8 md:p-10"
     >
       <div>
-        <label className="text-sm font-medium text-brand-dark" htmlFor="name">
+        <label className="text-sm font-medium text-luxury-heading" htmlFor="name">
           Name
         </label>
         <input
           id="name"
-          className="mt-2 w-full rounded-2xl border border-brand-gold/20 bg-white/80 px-4 py-3 text-sm outline-none ring-brand-gold/30 focus:ring-2"
+          className="field-input mt-2"
           {...register("name")}
         />
         {errors.name ? (
@@ -60,13 +60,13 @@ export function ContactForm() {
         ) : null}
       </div>
       <div>
-        <label className="text-sm font-medium text-brand-dark" htmlFor="email">
+        <label className="text-sm font-medium text-luxury-heading" htmlFor="email">
           Email
         </label>
         <input
           id="email"
           type="email"
-          className="mt-2 w-full rounded-2xl border border-brand-gold/20 bg-white/80 px-4 py-3 text-sm outline-none ring-brand-gold/30 focus:ring-2"
+          className="field-input mt-2"
           {...register("email")}
         />
         {errors.email ? (
@@ -75,7 +75,7 @@ export function ContactForm() {
       </div>
       <div>
         <label
-          className="text-sm font-medium text-brand-dark"
+          className="text-sm font-medium text-luxury-heading"
           htmlFor="message"
         >
           Message
@@ -83,7 +83,7 @@ export function ContactForm() {
         <textarea
           id="message"
           rows={5}
-          className="mt-2 w-full resize-y rounded-2xl border border-brand-gold/20 bg-white/80 px-4 py-3 text-sm outline-none ring-brand-gold/30 focus:ring-2"
+          className="field-input mt-2 resize-y"
           {...register("message")}
         />
         {errors.message ? (
@@ -94,7 +94,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gold-gradient py-3.5 text-sm font-semibold text-brand-dark shadow-md transition hover:brightness-105 disabled:opacity-60 md:w-auto md:px-10"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold-gradient py-3.5 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:-translate-y-0.5 disabled:opacity-60 md:w-auto md:px-10"
       >
         {isSubmitting ? (
           <>

@@ -9,6 +9,9 @@ const options: sanitizeHtml.IOptions = {
     "h4",
     "span",
     "div",
+    "blockquote",
+    "figure",
+    "figcaption",
   ]),
   allowedAttributes: {
     ...sanitizeHtml.defaults.allowedAttributes,

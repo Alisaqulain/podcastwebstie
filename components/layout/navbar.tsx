@@ -15,6 +15,7 @@ const links = [
   { href: "/podcast", label: "Podcast" },
   { href: "/blog", label: "Blog" },
   { href: "/testimonials", label: "Testimonials" },
+  { href: "/book", label: "Book" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -26,7 +27,7 @@ export function Navbar() {
   const closeMenu = useCallback(() => setOpen(false), []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -68,7 +69,7 @@ export function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             aria-label="Close menu"
-            className="fixed inset-0 z-40 bg-brand-dark/35 backdrop-blur-[3px] lg:hidden"
+            className="fixed inset-0 z-40 bg-luxury-heading/25 backdrop-blur-sm lg:hidden"
             onClick={closeMenu}
           />
         ) : null}
@@ -76,21 +77,24 @@ export function Navbar() {
 
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-          "pt-[env(safe-area-inset-top,0px)]",
-          scrolled
-            ? "bg-brand-cream/90 py-2.5 shadow-glass backdrop-blur-xl sm:py-3"
-            : "bg-brand-cream/80 py-3 backdrop-blur-md sm:bg-transparent sm:py-5 sm:backdrop-blur-none"
+          "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-luxury-section/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300",
+          scrolled ? "py-2 shadow-soft-xl" : "py-3 sm:py-4"
         )}
       >
         <Container className="flex items-center justify-between gap-2 sm:gap-4">
           <div className="min-w-0 flex-1">
             <Link
               href="/"
-              className="group inline-flex max-w-full items-center transition-transform active:scale-[0.98] sm:hover:scale-[1.02]"
+              className="group inline-flex max-w-full items-center gap-3 transition-transform active:scale-[0.98] sm:hover:scale-[1.02]"
               onClick={closeMenu}
             >
-              <SiteLogo variant="nav" priority={pathname === "/"} />
+              <span className="flex shrink-0 items-center justify-center rounded-full bg-white p-2 shadow-soft-xl ring-1 ring-luxury-border sm:p-2.5">
+                <SiteLogo
+                  variant="nav"
+                  priority={pathname === "/"}
+                  className="!h-9 sm:!h-10 md:!h-11"
+                />
+              </span>
             </Link>
           </div>
 
@@ -105,16 +109,16 @@ export function Navbar() {
                   key={l.href}
                   href={l.href}
                   className={cn(
-                    "relative rounded-xl px-2.5 py-2.5 text-sm font-medium transition-colors xl:px-3",
+                    "relative rounded-full px-3 py-2.5 text-sm font-medium transition-colors xl:px-3.5",
                     active
-                      ? "text-brand-dark"
-                      : "text-brand-dark/65 hover:text-brand-dark"
+                      ? "text-luxury-heading"
+                      : "text-luxury-body hover:text-luxury-heading"
                   )}
                 >
                   {active ? (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 -z-10 rounded-xl bg-white/50 shadow-sm"
+                      className="absolute inset-0 -z-10 rounded-full bg-brand-gold/12 ring-1 ring-brand-gold/35"
                       transition={{
                         type: "spring",
                         stiffness: 400,
@@ -130,8 +134,8 @@ export function Navbar() {
 
           <div className="hidden shrink-0 lg:block">
             <Link
-              href="/contact"
-              className="rounded-2xl bg-gold-gradient px-4 py-2.5 text-sm font-semibold text-brand-dark shadow-md transition hover:shadow-gold-glow xl:px-5"
+              href="/book"
+              className="inline-flex rounded-full bg-gold-gradient px-6 py-2.5 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:shadow-gold-glow-lg hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.98]"
             >
               Book a Session
             </Link>
@@ -139,11 +143,7 @@ export function Navbar() {
 
           <button
             type="button"
-            className={cn(
-              "inline-flex shrink-0 touch-manipulation items-center justify-center",
-              "min-h-11 min-w-11 rounded-xl border border-brand-gold/30 bg-white/60 p-2.5",
-              "text-brand-dark shadow-sm backdrop-blur transition active:scale-95 lg:hidden"
-            )}
+            className="inline-flex min-h-11 min-w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-luxury-border bg-luxury-bg p-2.5 text-luxury-heading shadow-sm transition hover:border-brand-gold/40 hover:bg-white active:scale-95 lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-navigation"
@@ -163,7 +163,7 @@ export function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              className="overflow-hidden border-t border-brand-gold/15 bg-brand-cream/98 shadow-lg backdrop-blur-xl lg:hidden"
+              className="overflow-hidden border-t border-luxury-border bg-luxury-section shadow-soft-xl lg:hidden"
             >
               <Container className="max-h-[min(70vh,calc(100dvh-5.5rem))] overflow-y-auto overscroll-y-contain py-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
                 <ul className="flex flex-col gap-0.5">
@@ -174,10 +174,10 @@ export function Navbar() {
                         <Link
                           href={l.href}
                           className={cn(
-                            "flex min-h-12 items-center rounded-xl px-4 py-3.5 text-base font-medium transition-colors active:bg-white/50",
+                            "flex min-h-12 items-center rounded-xl px-4 py-3.5 text-base font-medium transition-colors",
                             active
-                              ? "bg-white/70 text-brand-dark shadow-sm"
-                              : "text-brand-dark/80"
+                              ? "bg-brand-gold/12 text-luxury-heading ring-1 ring-brand-gold/40"
+                              : "text-luxury-body hover:bg-luxury-bg hover:text-luxury-heading"
                           )}
                           onClick={closeMenu}
                         >
@@ -188,8 +188,8 @@ export function Navbar() {
                   })}
                 </ul>
                 <Link
-                  href="/contact"
-                  className="mt-3 flex min-h-12 items-center justify-center rounded-2xl bg-gold-gradient px-4 py-3.5 text-center text-base font-semibold text-brand-dark shadow-md active:brightness-95"
+                  href="/book"
+                  className="mt-3 flex min-h-12 items-center justify-center rounded-full bg-gold-gradient px-4 py-3.5 text-center text-base font-semibold text-[#1A1A1A] shadow-gold-glow active:brightness-95"
                   onClick={closeMenu}
                 >
                   Book a Session

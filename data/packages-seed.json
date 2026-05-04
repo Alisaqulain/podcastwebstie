@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Discovery Session (30 min)",
+    "description": "A focused call to clarify your goals, ask questions, and see if ongoing coaching is the right fit—ideal if you are new to Namrata’s work.",
+    "price": 299900,
+    "discountPrice": null,
+    "features": [
+      "30-minute private Zoom session",
+      "Summary notes after the call",
+      "Optional resource recommendations"
+    ],
+    "badge": "",
+    "active": true,
+    "sortOrder": 5
+  },
+  {
+    "title": "Signature 1:1 Intensive",
+    "description": "A deep-dive session for voice, self-image, and next-step clarity—ideal before launches, interviews, or camera work.",
+    "price": 499900,
+    "discountPrice": null,
+    "features": [
+      "75-minute private session",
+      "Pre-session reflection prompts",
+      "One personalized action plan"
+    ],
+    "badge": "Most Popular",
+    "active": true,
+    "sortOrder": 10
+  },
+  {
+    "title": "Expression Studio (3-pack)",
+    "description": "Three sessions to build sustainable presence—perfect for women ready to compound their confidence over time.",
+    "price": 1299900,
+    "discountPrice": 1099900,
+    "features": [
+      "Three 60-minute sessions",
+      "WhatsApp voice-note support between calls",
+      "Resource library access"
+    ],
+    "badge": "Best Value",
+    "active": true,
+    "sortOrder": 20
+  }
+]

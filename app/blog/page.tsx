@@ -31,7 +31,7 @@ export default async function BlogPage() {
 
   return (
     <div className="pb-24">
-      <section className="border-b border-brand-gold/10 bg-white/30 py-14 backdrop-blur-sm md:py-20">
+      <section className="border-b border-luxury-border bg-luxury-section py-14 md:py-20">
         <Container>
           <SectionHeading
             align="left"
@@ -45,11 +45,11 @@ export default async function BlogPage() {
 
       <Container className="mt-14">
         {cards.length === 0 ? (
-          <div className="glass-panel rounded-3xl p-12 text-center text-brand-dark/70">
+          <div className="glass-panel rounded-3xl p-12 text-center text-luxury-body">
             Fresh articles are being prepared. Meanwhile, catch the latest on the{" "}
             <a
               href={SITE.social.youtube}
-              className="font-semibold text-brand-gold-deep underline"
+              className="font-semibold text-brand-gold-deep underline hover:text-brand-gold"
             >
               podcast
             </a>

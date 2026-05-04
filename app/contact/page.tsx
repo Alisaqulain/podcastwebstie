@@ -8,6 +8,7 @@ import {
 import { Container } from "@/components/ui/container";
 import { ContactForm } from "@/components/contact/contact-form";
 import { SITE } from "@/lib/site";
+import { Mail } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -29,15 +30,15 @@ const social = [
 export default function ContactPage() {
   return (
     <div className="pb-24">
-      <section className="border-b border-brand-gold/10 bg-white/30 py-14 backdrop-blur-sm md:py-20">
+      <section className="border-b border-luxury-border bg-luxury-section py-14 md:py-20">
         <Container>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-gold-deep">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
             Contact
           </p>
-          <h1 className="mt-4 max-w-2xl font-display text-4xl font-semibold text-brand-dark md:text-5xl">
+          <h1 className="mt-4 max-w-2xl font-display text-4xl font-semibold text-luxury-heading md:text-5xl">
             Let’s design your next level of expression
           </h1>
-          <p className="mt-6 max-w-2xl text-brand-dark/75">
+          <p className="mt-6 max-w-2xl text-luxury-body">
             Coaching inquiries, podcast collaborations, and speaking requests are
             welcome. Share a few details and the right conversation will follow.
           </p>
@@ -48,18 +49,34 @@ export default function ContactPage() {
         <ContactForm />
 
         <div className="space-y-8">
-          <div className="rounded-3xl border border-brand-gold/20 bg-brand-dark p-8 text-brand-cream shadow-xl">
-            <p className="text-xs font-semibold uppercase tracking-widest text-brand-gold">
+          <div className="glass-panel rounded-3xl p-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-brand-gold-deep">
+              Email
+            </p>
+            <p className="mt-3 text-sm text-luxury-muted">
+              For coaching, collaborations, and payment questions.
+            </p>
+            <a
+              href={`mailto:${SITE.contactEmail}`}
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-gold-deep hover:text-brand-gold"
+            >
+              <Mail className="h-4 w-4 shrink-0" aria-hidden />
+              {SITE.contactEmail}
+            </a>
+          </div>
+
+          <div className="surface-form rounded-3xl p-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-brand-gold-deep">
               WhatsApp
             </p>
-            <p className="mt-3 text-sm text-brand-cream/75">
+            <p className="mt-3 text-sm text-luxury-muted">
               Prefer a quick hello? Message Namrata directly.
             </p>
             <a
               href={SITE.social.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-gold-gradient py-3 text-sm font-semibold text-brand-dark"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-gold-gradient py-3 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:-translate-y-0.5"
             >
               Chat on WhatsApp
             </a>
@@ -77,7 +94,7 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-brand-gold/20 bg-white/60 text-brand-dark transition hover:border-brand-gold hover:bg-brand-gold/10"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-luxury-border bg-luxury-bg text-luxury-body shadow-sm transition hover:border-brand-gold/45 hover:bg-brand-gold/10 hover:text-brand-gold-deep"
                 >
                   <Icon className="h-5 w-5" />
                 </a>

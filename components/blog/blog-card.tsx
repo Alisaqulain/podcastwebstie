@@ -19,15 +19,16 @@ export function BlogCard({ blog, index }: { blog: BlogCardData; index: number })
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
+      whileHover={{ y: -3 }}
       transition={{ duration: 0.45, delay: index * 0.05 }}
-      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-brand-gold/12 bg-white/60 shadow-sm backdrop-blur"
+      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-luxury-border glass-panel shadow-luxury-card"
     >
       <Link href={`/blog/${blog.slug}`} className="relative block p-2">
         <ImageCard
           type="blog"
           src={blog.coverImage}
           alt={`Cover image for article: ${blog.title}`}
-          className="shadow-none ring-1 ring-brand-gold/10"
+          className="shadow-none ring-1 ring-luxury-border"
           sizes="(max-width:768px) 100vw, 33vw"
         />
       </Link>
@@ -41,17 +42,17 @@ export function BlogCard({ blog, index }: { blog: BlogCardData; index: number })
               })
             : "Journal"}
         </p>
-        <h2 className="mt-2 font-display text-xl font-semibold text-brand-dark group-hover:text-brand-gold-deep">
+        <h2 className="mt-2 font-display text-xl font-semibold text-luxury-heading transition-colors group-hover:text-brand-gold-deep">
           <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
         </h2>
         {blog.seoDescription ? (
-          <p className="mt-3 line-clamp-3 text-sm text-brand-dark/65">
+          <p className="mt-3 line-clamp-3 text-sm text-luxury-muted">
             {blog.seoDescription}
           </p>
         ) : null}
         <Link
           href={`/blog/${blog.slug}`}
-          className="mt-auto pt-6 text-sm font-semibold text-brand-gold-deep hover:underline"
+          className="mt-auto pt-6 text-sm font-semibold text-brand-gold-deep hover:text-brand-gold hover:underline"
         >
           Read article
         </Link>

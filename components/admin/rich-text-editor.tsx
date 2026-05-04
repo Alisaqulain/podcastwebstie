@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import {
   Bold,
@@ -13,6 +14,8 @@ import {
   Heading2,
   Heading3,
   Link as LinkIcon,
+  ImageIcon,
+  Quote,
 } from "lucide-react";
 
 type Props = {
@@ -27,8 +30,9 @@ export function RichTextEditor({ value, onChange }: Props) {
         heading: { levels: [2, 3, 4] },
       }),
       Link.configure({ openOnClick: false, autolink: true }),
+      Image.configure({ inline: false }),
       Placeholder.configure({
-        placeholder: "Write headings, paragraphs, and lists…",
+        placeholder: "Headings, paragraphs, quotes, images, links…",
       }),
     ],
     content: value || "",
@@ -136,6 +140,26 @@ export function RichTextEditor({ value, onChange }: Props) {
           aria-label="Link"
         >
           <LinkIcon className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          className={btn}
+          onClick={() => {
+            const url = window.prompt("Image URL (https://)", "https://");
+            if (!url?.trim()) return;
+            editor.chain().focus().setImage({ src: url.trim() }).run();
+          }}
+          aria-label="Image"
+        >
+          <ImageIcon className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          className={btn}
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          aria-label="Quote"
+        >
+          <Quote className="h-4 w-4" />
         </button>
       </div>
       <EditorContent editor={editor} />

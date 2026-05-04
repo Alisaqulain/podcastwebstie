@@ -1,4 +1,4 @@
-/* Subtle scrollbars (WebKit / Chromium) */
+/* Scrollbars — warm light UI */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -10,5 +10,5 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(26, 26, 26, 0.04);
+  background: rgba(241, 234, 224, 0.8);
 }

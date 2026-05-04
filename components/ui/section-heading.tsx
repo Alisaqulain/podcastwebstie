@@ -6,12 +6,15 @@ export function SectionHeading({
   subtitle,
   align = "center",
   className,
+  id,
 }: {
   eyebrow?: string;
   title: string;
   subtitle?: string;
   align?: "center" | "left";
   className?: string;
+  /** Optional id on the section h2 (landmarks / aria-labelledby). */
+  id?: string;
 }) {
   return (
     <div
@@ -22,15 +25,20 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold-deep">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="font-display text-3xl font-semibold text-brand-dark sm:text-4xl md:text-[2.75rem] leading-tight">
+      <h2
+        id={id}
+        className="font-display text-3xl font-semibold text-luxury-heading sm:text-4xl md:text-[2.75rem] leading-tight"
+      >
         {title}
       </h2>
       {subtitle ? (
-        <p className="mt-4 text-base text-brand-dark/70 md:text-lg">{subtitle}</p>
+        <p className="mt-4 text-base text-luxury-body md:text-lg leading-relaxed">
+          {subtitle}
+        </p>
       ) : null}
     </div>
   );

@@ -11,11 +11,12 @@ const schema = z.object({
   name: z.string().min(1),
   message: z.string().min(1),
   image: z.string().optional(),
+  rating: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-type Row = FormValues & { _id: string };
+type Row = FormValues & { _id: string; rating?: number };
 
 export function TestimonialsAdmin() {
   const [items, setItems] = useState<Row[]>([]);
@@ -31,7 +32,7 @@ export function TestimonialsAdmin() {
     formState: { isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", message: "", image: "" },
+    defaultValues: { name: "", message: "", image: "", rating: "" },
   });
 
   const image = watch("image");
@@ -50,7 +51,7 @@ export function TestimonialsAdmin() {
 
   function startCreate() {
     setEditingId(null);
-    reset({ name: "", message: "", image: "" });
+    reset({ name: "", message: "", image: "", rating: "" });
   }
 
   function startEdit(r: Row) {
@@ -59,22 +60,40 @@ export function TestimonialsAdmin() {
       name: r.name,
       message: r.message,
       image: r.image || "",
+      rating: r.rating != null ? String(r.rating) : "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   async function onSubmit(values: FormValues) {
+    const ratingVal = values.rating?.trim();
+    const payload: {
+      name: string;
+      message: string;
+      image?: string;
+      rating?: number | null;
+    } = {
+      name: values.name,
+      message: values.message,
+      image: values.image,
+    };
+    if (ratingVal) {
+      const r = Number(ratingVal);
+      if (r >= 1 && r <= 5) payload.rating = r;
+    } else if (editingId) {
+      payload.rating = null;
+    }
     if (editingId) {
       await fetch(`/api/testimonials/${editingId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
     } else {
       await fetch("/api/testimonials", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
     }
     await refresh();
@@ -122,6 +141,20 @@ export function TestimonialsAdmin() {
             <input
               className="mt-2 w-full rounded-2xl border border-brand-gold/20 bg-white px-4 py-2.5 text-sm outline-none ring-brand-gold/30 focus:ring-2"
               {...register("name")}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-brand-dark">
+              Rating (1–5, optional)
+            </label>
+            <input
+              type="number"
+              min={1}
+              max={5}
+              step={1}
+              placeholder="5"
+              className="mt-2 w-full rounded-2xl border border-brand-gold/20 bg-white px-4 py-2.5 text-sm outline-none ring-brand-gold/30 focus:ring-2"
+              {...register("rating")}
             />
           </div>
           <div className="md:col-span-2">

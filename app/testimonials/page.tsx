@@ -30,7 +30,7 @@ export default async function TestimonialsPage() {
 
   return (
     <div className="pb-24">
-      <section className="border-b border-brand-gold/10 bg-white/30 py-14 backdrop-blur-sm md:py-20">
+      <section className="border-b border-luxury-border bg-luxury-section py-14 md:py-20">
         <Container>
           <SectionHeading
             eyebrow="Love letters"
@@ -42,9 +42,9 @@ export default async function TestimonialsPage() {
 
       <Container className="mt-14">
         {items.length === 0 ? (
-          <div className="glass-panel rounded-3xl p-12 text-center text-brand-dark/70">
+          <div className="glass-panel rounded-3xl p-12 text-center text-luxury-body">
             Testimonials will appear here as they are shared.{" "}
-            <a href="/contact" className="font-semibold text-brand-gold-deep underline">
+            <a href="/contact" className="font-semibold text-brand-gold-deep underline hover:text-brand-gold">
               Tell Namrata about your transformation
             </a>
             .

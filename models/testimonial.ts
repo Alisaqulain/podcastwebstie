@@ -5,6 +5,10 @@ export interface Testimonial {
   name: string;
   image: string;
   message: string;
+  /** Optional 1–5 display rating */
+  rating?: number;
 }
 
-export type TestimonialInput = Omit<Testimonial, "_id">;
+export type TestimonialInput = Omit<Testimonial, "_id"> & {
+  rating?: number | null;
+};

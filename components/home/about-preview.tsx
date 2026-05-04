@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
 
 export function AboutPreview() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="border-t border-luxury-border bg-luxury-section py-20 md:py-28">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <motion.div
@@ -17,18 +17,18 @@ export function AboutPreview() {
             transition={{ duration: 0.55 }}
             className="glass-panel rounded-4xl p-10 md:p-12"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold-deep">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
               About Namrata
             </p>
-            <h2 className="mt-4 font-display text-3xl font-semibold text-brand-dark md:text-4xl">
+            <h2 className="mt-4 font-display text-3xl font-semibold text-luxury-heading md:text-4xl">
               A coach for the woman who is done playing small
             </h2>
-            <p className="mt-6 text-brand-dark/75 leading-relaxed">
+            <p className="mt-6 leading-relaxed text-luxury-body">
               {SITE.description} Namrata blends executive presence with feminine
               warmth—helping you refine how you see yourself, how you speak, and
               how you show up in rooms that matter.
             </p>
-            <p className="mt-4 text-brand-dark/75 leading-relaxed">
+            <p className="mt-4 leading-relaxed text-luxury-body">
               Whether you are rebuilding after a pivot, preparing for a big
               stage, or simply tired of doubting your reflection, this space is
               built to help you return to your power—gracefully, boldly, and
@@ -48,39 +48,39 @@ export function AboutPreview() {
             transition={{ duration: 0.55 }}
             className="relative"
           >
-            <div className="rounded-4xl border border-brand-gold/20 bg-gradient-to-br from-white via-brand-cream to-brand-gold/15 p-10 shadow-card">
-              <ul className="space-y-6 text-brand-dark/80">
+            <div className="glass-panel rounded-4xl border border-luxury-border p-10 shadow-luxury-card">
+              <ul className="space-y-6 text-luxury-body">
                 <li className="flex gap-4">
-                  <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold" />
+                  <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold-deep" />
                   <div>
-                    <p className="font-semibold text-brand-dark">
+                    <p className="font-semibold text-luxury-heading">
                       Self-image coaching
                     </p>
-                    <p className="text-sm text-brand-dark/65">
+                    <p className="text-sm text-luxury-muted">
                       Align your inner identity with the life you are building
                       outwardly.
                     </p>
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold" />
+                  <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold-deep" />
                   <div>
-                    <p className="font-semibold text-brand-dark">
-                      Voice & presence
+                    <p className="font-semibold text-luxury-heading">
+                      Voice &amp; presence
                     </p>
-                    <p className="text-sm text-brand-dark/65">
+                    <p className="text-sm text-luxury-muted">
                       Speak with clarity on podcasts, panels, and everyday
                       leadership moments.
                     </p>
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold" />
+                  <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold-deep" />
                   <div>
-                    <p className="font-semibold text-brand-dark">
+                    <p className="font-semibold text-luxury-heading">
                       The BHAW Namrata Podcast
                     </p>
-                    <p className="text-sm text-brand-dark/65">
+                    <p className="text-sm text-luxury-muted">
                       Honest stories and frameworks you can apply between
                       episodes.
                     </p>

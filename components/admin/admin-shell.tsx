@@ -10,11 +10,15 @@ import {
   Heart,
   Inbox,
   LogOut,
+  PackageOpen,
+  CalendarRange,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
+  { href: "/admin/packages", label: "Packages", icon: PackageOpen },
+  { href: "/admin/bookings", label: "Bookings", icon: CalendarRange },
   { href: "/admin/podcasts", label: "Podcasts", icon: Mic2 },
   { href: "/admin/blogs", label: "Blogs", icon: FileText },
   { href: "/admin/testimonials", label: "Testimonials", icon: Heart },
