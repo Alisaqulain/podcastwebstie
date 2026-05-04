@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
+import { ImageCard } from "@/components/ui/image-card";
 
 export type FeaturedPodcastItem = {
   id?: string;
@@ -28,24 +28,20 @@ export function FeaturedPodcastCard({
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="group flex flex-col overflow-hidden rounded-3xl border border-brand-gold/15 bg-white/60 shadow-card backdrop-blur"
     >
-      <Link
-        href="/podcast"
-        className="relative aspect-video overflow-hidden bg-brand-dark/5"
-      >
-        {item.thumbnail ? (
-          <Image
-            src={item.thumbnail}
-            alt={item.title}
-            fill
-            className="object-cover transition duration-500 group-hover:scale-105"
-            sizes="(max-width:768px) 100vw, 33vw"
-          />
-        ) : null}
-        <span className="absolute inset-0 flex items-center justify-center bg-brand-dark/25 opacity-0 transition group-hover:opacity-100">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-brand-dark shadow-lg">
-            <Play className="h-6 w-6 fill-current" />
+      <Link href="/podcast" className="relative block p-2">
+        <ImageCard
+          type="podcast"
+          src={item.thumbnail}
+          alt={`Podcast episode: ${item.title}`}
+          className="shadow-none ring-1 ring-brand-gold/10"
+          sizes="(max-width:768px) 100vw, 33vw"
+        >
+          <span className="absolute inset-0 flex items-center justify-center bg-brand-dark/20 opacity-0 transition group-hover/image:opacity-100">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-brand-dark shadow-lg">
+              <Play className="h-6 w-6 fill-current" />
+            </span>
           </span>
-        </span>
+        </ImageCard>
       </Link>
       <div className="flex flex-1 flex-col p-6">
         <h3 className="font-display text-xl font-semibold text-brand-dark">

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { motion } from "framer-motion";
@@ -8,6 +7,7 @@ import { Search } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getYoutubeEmbedUrl } from "@/lib/youtube";
+import { ImageCard } from "@/components/ui/image-card";
 
 export type PodcastApi = {
   _id: string;
@@ -145,15 +145,13 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                     </p>
                     <div className="mt-6 flex flex-wrap items-center gap-4">
                       {p.thumbnail ? (
-                        <div className="relative h-16 w-28 overflow-hidden rounded-xl border border-brand-gold/15">
-                          <Image
-                            src={p.thumbnail}
-                            alt=""
-                            fill
-                            className="object-cover"
-                            sizes="112px"
-                          />
-                        </div>
+                        <ImageCard
+                          type="podcast"
+                          src={p.thumbnail}
+                          alt={`Thumbnail: ${p.title}`}
+                          className="w-28 shrink-0 shadow-sm ring-1 ring-brand-gold/15"
+                          sizes="112px"
+                        />
                       ) : null}
                       <a
                         href={p.youtubeLink}

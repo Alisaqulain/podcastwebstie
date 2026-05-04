@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import type { TestimonialItem } from "./testimonial-slider";
+import { ImageCard } from "@/components/ui/image-card";
 
 export function TestimonialGridCard({
   item,
@@ -20,17 +20,18 @@ export function TestimonialGridCard({
       className="rounded-3xl border border-brand-gold/15 bg-white/55 p-6 shadow-sm backdrop-blur"
     >
       <div className="flex items-center gap-3">
-        <div className="relative h-12 w-12 overflow-hidden rounded-xl border border-brand-gold/15 bg-brand-cream">
+        <div className="relative h-12 w-12 shrink-0">
           {item.image ? (
-            <Image
+            <ImageCard
+              type="testimonial"
+              testimonialShape="square"
               src={item.image}
-              alt={item.name}
-              fill
-              className="object-cover"
+              alt={`${item.name} — testimonial photo`}
+              className="h-12 w-12 shadow-sm ring-1 ring-brand-gold/15"
               sizes="48px"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-sm font-display text-brand-gold-deep">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-brand-gold/15 bg-brand-cream text-sm font-display text-brand-gold-deep shadow-sm">
               {item.name.charAt(0)}
             </div>
           )}

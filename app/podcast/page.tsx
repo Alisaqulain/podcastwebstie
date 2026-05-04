@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PodcastDirectory } from "@/components/podcast/podcast-directory";
+import { getSeedPodcastApiRows } from "@/lib/podcasts-seed";
 import { getDb } from "@/lib/mongodb";
 import { SITE } from "@/lib/site";
 import type { PodcastApi } from "@/components/podcast/podcast-directory";
@@ -19,7 +20,7 @@ export const dynamic = "force-dynamic";
 
 async function getInitial(): Promise<PodcastApi[]> {
   const db = await getDb();
-  if (!db) return [];
+  if (!db) return getSeedPodcastApiRows();
   const docs = await db
     .collection("podcasts")
     .find({})

@@ -38,6 +38,14 @@ export async function POST(req: NextRequest) {
         {
           folder: "bhawnamrata",
           resource_type: "image",
+          /** Cap dimensions, auto quality & format for smaller originals on CDN */
+          transformation: {
+            width: 2400,
+            height: 1350,
+            crop: "limit",
+            quality: "auto:good",
+            fetch_format: "auto",
+          },
           format: mime.includes("png") ? "png" : undefined,
         },
         (err, result) => {

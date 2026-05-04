@@ -1,10 +1,22 @@
 import { ObjectId } from "mongodb";
 import { getDb } from "./mongodb";
+import { getSeedPodcastApiRows } from "./podcasts-seed";
 import { serializeDocument, serializeDocuments } from "./serialize";
 
 export async function listPodcasts(limit?: number) {
   const db = await getDb();
-  if (!db) return [];
+  if (!db) {
+    const rows = getSeedPodcastApiRows();
+    const sliced = typeof limit === "number" && limit > 0 ? rows.slice(0, limit) : rows;
+    return sliced.map((p) => ({
+      id: p._id,
+      title: p.title,
+      description: p.description,
+      youtubeLink: p.youtubeLink,
+      thumbnail: p.thumbnail,
+      createdAt: p.createdAt,
+    }));
+  }
   const cur = db
     .collection("podcasts")
     .find({})

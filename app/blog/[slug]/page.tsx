@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
+import { ImageCard } from "@/components/ui/image-card";
 import { getBlogBySlug } from "@/lib/data";
 import { sanitizeBlogHtml } from "@/lib/sanitize-html";
 import { SITE } from "@/lib/site";
+import { cloudinaryOptimizeSrc } from "@/lib/cloudinary-url";
 
 type Props = { params: { slug: string } };
 
@@ -46,6 +47,10 @@ export default async function BlogPostPage({ params }: Props) {
   const html = sanitizeBlogHtml(String(post.content));
   const cover = post.coverImage ? String(post.coverImage) : null;
 
+  const coverAlt = cover
+    ? `Cover image for article: ${String(post.title)}`
+    : undefined;
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -55,7 +60,17 @@ export default async function BlogPostPage({ params }: Props) {
       ? new Date(post.createdAt as Date).toISOString()
       : undefined,
     author: { "@type": "Person", name: "Namrata Tiwary Singh" },
-    image: cover ? [cover] : undefined,
+    image: cover
+      ? [
+          {
+            "@type": "ImageObject",
+            url: cloudinaryOptimizeSrc(cover, { width: 1600 }),
+            caption: String(post.title),
+            description: String(post.seoDescription || "").slice(0, 300),
+            representativeOfPage: true,
+          },
+        ]
+      : undefined,
     mainEntityOfPage: `${SITE.url}/blog/${params.slug}`,
   };
 
@@ -89,16 +104,15 @@ export default async function BlogPostPage({ params }: Props) {
 
       {cover ? (
         <Container className="mt-10 max-w-4xl">
-          <div className="relative aspect-[21/9] overflow-hidden rounded-4xl border border-brand-gold/15 shadow-card">
-            <Image
-              src={cover}
-              alt=""
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width:1024px) 100vw, 896px"
-            />
-          </div>
+          <ImageCard
+            type="blog"
+            src={cover}
+            alt={coverAlt ?? "Article cover image"}
+            textSafeOverlay
+            priority
+            className="ring-1 ring-brand-gold/15"
+            sizes="(max-width:1024px) 100vw, 896px"
+          />
         </Container>
       ) : null}
 

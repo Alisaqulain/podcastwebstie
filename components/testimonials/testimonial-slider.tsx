@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ImageCard } from "@/components/ui/image-card";
 
 export type TestimonialItem = {
   id?: string;
@@ -39,17 +39,18 @@ export function TestimonialSlider({ items }: { items: TestimonialItem[] }) {
         >
           <Quote className="absolute right-6 top-6 h-10 w-10 text-brand-gold/25" />
           <div className="flex flex-col items-center text-center md:flex-row md:items-start md:gap-8 md:text-left">
-            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-brand-gold/20 bg-brand-cream shadow-inner">
+            <div className="relative h-20 w-20 shrink-0">
               {current.image ? (
-                <Image
+                <ImageCard
+                  type="testimonial"
+                  testimonialShape="circle"
                   src={current.image}
-                  alt={current.name}
-                  fill
-                  className="object-cover"
+                  alt={`${current.name} — testimonial photo`}
+                  className="h-20 w-20 shadow-md ring-2 ring-brand-gold/20"
                   sizes="80px"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center font-display text-xl text-brand-gold-deep">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full border border-brand-gold/20 bg-brand-cream font-display text-xl text-brand-gold-deep shadow-inner">
                   {current.name.charAt(0)}
                 </div>
               )}

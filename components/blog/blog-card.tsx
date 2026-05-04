@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { SiteLogo } from "@/components/brand/site-logo";
+import { ImageCard } from "@/components/ui/image-card";
 
 export type BlogCardData = {
   id?: string;
@@ -23,20 +22,14 @@ export function BlogCard({ blog, index }: { blog: BlogCardData; index: number })
       transition={{ duration: 0.45, delay: index * 0.05 }}
       className="group flex h-full flex-col overflow-hidden rounded-3xl border border-brand-gold/12 bg-white/60 shadow-sm backdrop-blur"
     >
-      <Link href={`/blog/${blog.slug}`} className="relative aspect-[16/10] bg-brand-cream">
-        {blog.coverImage ? (
-          <Image
-            src={blog.coverImage}
-            alt=""
-            fill
-            className="object-cover transition duration-500 group-hover:scale-105"
-            sizes="(max-width:768px) 100vw, 33vw"
-          />
-        ) : (
-          <div className="relative flex min-h-[12rem] w-full items-center justify-center bg-brand-dark">
-            <SiteLogo fill className="!p-6 sm:!p-8" />
-          </div>
-        )}
+      <Link href={`/blog/${blog.slug}`} className="relative block p-2">
+        <ImageCard
+          type="blog"
+          src={blog.coverImage}
+          alt={`Cover image for article: ${blog.title}`}
+          className="shadow-none ring-1 ring-brand-gold/10"
+          sizes="(max-width:768px) 100vw, 33vw"
+        />
       </Link>
       <div className="flex flex-1 flex-col p-6">
         <p className="text-xs font-medium uppercase tracking-widest text-brand-gold-deep">
