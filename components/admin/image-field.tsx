@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Loader2, Upload } from "lucide-react";
-import { cloudinaryOptimizeSrc } from "@/lib/cloudinary-url";
+import { optimizeMediaSrc } from "@/lib/media-url";
 
 type Props = {
   label: string;
@@ -63,14 +63,14 @@ export function ImageField({ label, value, onChange }: Props) {
       {value.trim() ? (
         <div className="mt-4 space-y-2">
           <p className="text-xs text-brand-dark/50">
-            Preview before publish — images are resized on upload and served as WebP/AVIF when
-            supported.
+            Preview before publish — images are optimized on upload and stored on this server
+            under /uploads (VPS-friendly WebP).
           </p>
           <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-2xl border border-brand-gold/20 shadow-card">
             {/* Admin-only preview: any HTTPS URL may be pasted; avoid next/image remote allowlist issues */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={cloudinaryOptimizeSrc(value.trim(), { width: 960 })}
+              src={optimizeMediaSrc(value.trim())}
               alt={`Preview: ${label}`}
               className="absolute inset-0 h-full w-full object-cover"
             />

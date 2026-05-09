@@ -8,8 +8,10 @@ import {
   type TestimonialItem,
 } from "@/components/testimonials/testimonial-slider";
 import { TestimonialGridCard } from "@/components/testimonials/testimonial-grid-card";
+import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
+import type { AmbientClip } from "@/lib/youtube-ambient";
 
-export async function TestimonialsSection() {
+export async function TestimonialsSection({ clips }: { clips: AmbientClip[] }) {
   const raw = await listTestimonials();
   const items: TestimonialItem[] = raw.map((t) => ({
     id: t.id,
@@ -25,7 +27,12 @@ export async function TestimonialsSection() {
   const preview = items.slice(0, 6);
 
   return (
-    <section className="border-t border-luxury-border bg-luxury-section py-20 md:py-28">
+    <AmbientSectionShell
+      clips={clips}
+      variant="floating-orbs"
+      startOffset={5}
+      className="border-t border-luxury-border py-20 md:py-28"
+    >
       <Container>
         <SectionHeading
           eyebrow="Proof"
@@ -61,6 +68,6 @@ export async function TestimonialsSection() {
           </GoldButton>
         </div>
       </Container>
-    </section>
+    </AmbientSectionShell>
   );
 }

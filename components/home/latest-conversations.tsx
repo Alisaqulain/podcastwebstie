@@ -2,16 +2,21 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { GoldButton } from "@/components/ui/gold-button";
 import { LatestConversationsGrid } from "@/components/podcast/latest-conversations-grid";
+import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
 import {
   getLatestPodcastEpisodesForHome,
   podcastEpisodesVideoObjectJsonLd,
 } from "@/lib/podcast-episodes";
 import { SITE } from "@/lib/site";
 
-const HOME_EPISODE_COUNT = 6;
+const HOME_EPISODE_COUNT = 12;
 
-export async function LatestConversations() {
-  const episodes = await getLatestPodcastEpisodesForHome(HOME_EPISODE_COUNT);
+export async function LatestConversations(props?: {
+  episodes?: PodcastEpisodeCard[];
+}) {
+  const episodes =
+    props?.episodes ??
+    (await getLatestPodcastEpisodesForHome(HOME_EPISODE_COUNT));
   const siteUrl = SITE.url.replace(/\/$/, "");
   const jsonLd =
     episodes.length > 0
@@ -32,8 +37,8 @@ export async function LatestConversations() {
       <Container>
         <SectionHeading
           id="latest-conversations-heading"
-          title="Latest Conversations"
-          subtitle="Real stories. Deep conversations. Powerful voices."
+          title="Latest from the channel"
+          subtitle="Auto-synced from YouTube—new uploads appear here without manual edits."
         />
         <LatestConversationsGrid episodes={episodes} />
         <div className="mt-12 flex justify-center">

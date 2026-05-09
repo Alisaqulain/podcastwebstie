@@ -115,7 +115,7 @@ export function TestimonialsAdmin() {
             Testimonials
           </h1>
           <p className="text-sm text-brand-dark/60">
-            Client photos can be uploaded to Cloudinary.
+            Client photos can be uploaded to the server (stored under /uploads).
           </p>
         </div>
         <button

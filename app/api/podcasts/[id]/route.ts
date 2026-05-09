@@ -48,6 +48,10 @@ export async function PATCH(req: NextRequest, context: Ctx) {
   if (body.thumbnail !== undefined) {
     update.thumbnail = String(body.thumbnail).trim();
   }
+  if (body.localPreviewUrl !== undefined) {
+    const p = String(body.localPreviewUrl).trim();
+    update.localPreviewUrl = p || "";
+  }
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: "No fields to update" }, { status: 400 });

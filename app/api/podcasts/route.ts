@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
     description,
     youtubeLink,
     thumbnail: thumbIn,
+    localPreviewUrl: previewIn,
   } = body;
 
   if (!title?.trim() || !description?.trim() || !youtubeLink?.trim()) {
@@ -73,6 +74,9 @@ export async function POST(req: NextRequest) {
     description: description.trim(),
     youtubeLink: youtubeLink.trim(),
     thumbnail,
+    ...(previewIn?.trim()
+      ? { localPreviewUrl: previewIn.trim() }
+      : {}),
     createdAt: new Date(),
   };
 

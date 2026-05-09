@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +13,7 @@ const schema = z.object({
   description: z.string().min(1),
   youtubeLink: z.string().min(1),
   thumbnail: z.string().optional(),
+  localPreviewUrl: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -21,6 +22,8 @@ export function PodcastsAdmin() {
   const [items, setItems] = useState<PodcastApi[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [uploadingPreview, setUploadingPreview] = useState(false);
+  const previewFileRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -36,6 +39,7 @@ export function PodcastsAdmin() {
       description: "",
       youtubeLink: "",
       thumbnail: "",
+      localPreviewUrl: "",
     },
   });
 
@@ -60,6 +64,7 @@ export function PodcastsAdmin() {
       description: "",
       youtubeLink: "",
       thumbnail: "",
+      localPreviewUrl: "",
     });
   }
 
@@ -70,6 +75,7 @@ export function PodcastsAdmin() {
       description: p.description,
       youtubeLink: p.youtubeLink,
       thumbnail: p.thumbnail || "",
+      localPreviewUrl: p.localPreviewUrl || "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -90,6 +96,34 @@ export function PodcastsAdmin() {
     }
     await refresh();
     startCreate();
+  }
+
+  async function onPreviewVideoPick(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setUploadingPreview(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload/video", {
+        method: "POST",
+        body: fd,
+      });
+      const data = (await res.json()) as {
+        previewUrl?: string;
+        url?: string;
+        error?: string;
+      };
+      if (!res.ok) {
+        alert(data.error || "Upload failed");
+        return;
+      }
+      const url = data.previewUrl || data.url;
+      if (url) setValue("localPreviewUrl", url);
+    } finally {
+      setUploadingPreview(false);
+    }
   }
 
   async function remove(id: string) {
@@ -160,6 +194,39 @@ export function PodcastsAdmin() {
               value={thumb || ""}
               onChange={(url) => setValue("thumbnail", url)}
             />
+          </div>
+          <div className="md:col-span-2">
+            <label className="text-sm font-medium text-brand-dark">
+              Local preview MP4 (optional)
+            </label>
+            <p className="mt-1 text-xs text-brand-dark/55">
+              Stored on the VPS under{" "}
+              <code className="rounded bg-brand-gold/10 px-1">/uploads</code>.
+              Upload generates a 30s mute clip when ffmpeg is installed; must match
+              the same YouTube episode URL above to attach when using API sync.
+            </p>
+            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
+              <input
+                className="w-full flex-1 rounded-2xl border border-brand-gold/20 bg-white px-4 py-2.5 text-sm outline-none ring-brand-gold/30 focus:ring-2"
+                placeholder="/uploads/podcasts/previews/…"
+                {...register("localPreviewUrl")}
+              />
+              <input
+                ref={previewFileRef}
+                type="file"
+                accept="video/*"
+                className="hidden"
+                onChange={onPreviewVideoPick}
+              />
+              <button
+                type="button"
+                disabled={uploadingPreview}
+                onClick={() => previewFileRef.current?.click()}
+                className="inline-flex shrink-0 items-center justify-center rounded-2xl border border-brand-gold/25 bg-white px-4 py-2.5 text-sm font-medium text-brand-dark disabled:opacity-60"
+              >
+                {uploadingPreview ? "Uploading…" : "Upload video"}
+              </button>
+            </div>
           </div>
         </div>
         <button

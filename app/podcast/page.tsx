@@ -32,6 +32,7 @@ async function getInitial(): Promise<PodcastApi[]> {
     description: d.description as string,
     youtubeLink: d.youtubeLink as string,
     thumbnail: (d.thumbnail as string) || "",
+    localPreviewUrl: (d as { localPreviewUrl?: string }).localPreviewUrl?.trim(),
     createdAt: d.createdAt ? new Date(d.createdAt as Date).toISOString() : undefined,
   }));
 }

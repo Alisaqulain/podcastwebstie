@@ -1,23 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminSession } from "@/lib/api-auth";
-import { cloudinary, configureCloudinary } from "@/lib/cloudinary";
+import { getMaxUploadBytes } from "@/lib/media-paths";
+import { saveOptimizedWebpImage } from "@/lib/process-local-image";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
+/**
+ * Admin image upload → `public/uploads/images/{YYYY}/{MM}/{id}.webp`
+ * Served statically at `/uploads/...` — optimized for VPS (Sharp, no CDN).
+ */
 export async function POST(req: NextRequest) {
   const unauthorized = await requireAdminSession();
   if (unauthorized) return unauthorized;
-
-  if (
-    !process.env.CLOUDINARY_CLOUD_NAME ||
-    !process.env.CLOUDINARY_API_KEY ||
-    !process.env.CLOUDINARY_API_SECRET
-  ) {
-    return NextResponse.json(
-      { error: "Cloudinary is not configured" },
-      { status: 503 }
-    );
-  }
 
   const form = await req.formData();
   const file = form.get("file");
@@ -26,40 +21,33 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No file" }, { status: 400 });
   }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  const mime = file.type || "image/jpeg";
+  const max = getMaxUploadBytes();
+  if (file.size > max) {
+    return NextResponse.json(
+      {
+        error: `File too large (max ${Math.round(max / 1024 / 1024)} MB). Set UPLOAD_MAX_MB if needed.`,
+      },
+      { status: 400 }
+    );
+  }
 
-  configureCloudinary();
+  const mime = file.type || "";
+  if (!mime.startsWith("image/")) {
+    return NextResponse.json(
+      { error: "Only image uploads are supported on this endpoint" },
+      { status: 400 }
+    );
+  }
 
   try {
-    const url = await new Promise<string>((resolve, reject) => {
-      const upload = cloudinary.uploader.upload_stream(
-        {
-          folder: "bhawnamrata",
-          resource_type: "image",
-          /** Cap dimensions, auto quality & format for smaller originals on CDN */
-          transformation: {
-            width: 2400,
-            height: 1350,
-            crop: "limit",
-            quality: "auto:good",
-            fetch_format: "auto",
-          },
-          format: mime.includes("png") ? "png" : undefined,
-        },
-        (err, result) => {
-          if (err) reject(err);
-          else if (result?.secure_url) resolve(result.secure_url);
-          else reject(new Error("Upload failed"));
-        }
-      );
-      upload.end(buffer);
-    });
-
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const { url } = await saveOptimizedWebpImage(buffer);
     return NextResponse.json({ url });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    console.error("[upload]", e);
+    return NextResponse.json(
+      { error: "Image processing failed" },
+      { status: 500 }
+    );
   }
 }

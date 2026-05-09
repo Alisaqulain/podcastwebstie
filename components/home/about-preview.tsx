@@ -4,10 +4,17 @@ import { motion } from "framer-motion";
 import { GoldButton } from "@/components/ui/gold-button";
 import { Container } from "@/components/ui/container";
 import { SITE } from "@/lib/site";
+import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
+import type { AmbientClip } from "@/lib/youtube-ambient";
 
-export function AboutPreview() {
+export function AboutPreview({ clips }: { clips: AmbientClip[] }) {
   return (
-    <section className="border-t border-luxury-border bg-luxury-section py-20 md:py-28">
+    <AmbientSectionShell
+      clips={clips}
+      variant="split-left"
+      startOffset={2}
+      className="border-t border-luxury-border py-20 md:py-28"
+    >
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <motion.div
@@ -18,7 +25,7 @@ export function AboutPreview() {
             className="glass-panel rounded-4xl p-10 md:p-12"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-              About Namrata
+              About BhawnaMrata
             </p>
             <h2 className="mt-4 font-display text-3xl font-semibold text-luxury-heading md:text-4xl">
               A coach for the woman who is done playing small
@@ -78,7 +85,7 @@ export function AboutPreview() {
                   <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold-deep" />
                   <div>
                     <p className="font-semibold text-luxury-heading">
-                      The BHAW Namrata Podcast
+                      The BhawnaMrata Podcast
                     </p>
                     <p className="text-sm text-luxury-muted">
                       Honest stories and frameworks you can apply between
@@ -91,6 +98,6 @@ export function AboutPreview() {
           </motion.div>
         </div>
       </Container>
-    </section>
+    </AmbientSectionShell>
   );
 }

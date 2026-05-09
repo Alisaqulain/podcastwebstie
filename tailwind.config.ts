@@ -13,17 +13,18 @@ const config: Config = {
           gold: "#C9A14A",
           "gold-light": "#F5D27A",
           "gold-deep": "#A67C2E",
+          red: "#E11D48",
           dark: "#1A1A1A",
           cream: "#F5F1EB",
         },
-        /** Premium white luxury — main #F9F7F4, sections #FFFFFF */
+        /** Light premium luxury — cinematic, creator-focused */
         luxury: {
-          bg: "#F9F7F4",
-          section: "#FFFFFF",
-          heading: "#1A1A1A",
-          body: "#4B5563",
-          muted: "#9CA3AF",
-          border: "#F1EAE0",
+          bg: "#faf8f5",
+          section: "#ffffff",
+          heading: "#0f0f0f",
+          body: "#4b5563",
+          muted: "#9ca3af",
+          border: "#ebe4db",
         },
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -37,18 +38,21 @@ const config: Config = {
           "linear-gradient(135deg, #C9A14A 0%, #E8D5A3 42%, #F5D27A 100%)",
         "gold-shine":
           "linear-gradient(120deg, rgba(201,161,74,0.35) 0%, rgba(245,210,122,0.95) 50%, rgba(201,161,74,0.9) 100%)",
+        "cream-mesh":
+          "radial-gradient(1200px 600px at 10% 0%, rgba(201,161,74,0.12), transparent 55%), radial-gradient(900px 500px at 90% 20%, rgba(225,29,72,0.06), transparent 50%), linear-gradient(180deg, #ffffff 0%, #faf8f5 100%)",
       },
       boxShadow: {
-        glass: "0 8px 32px rgba(26, 26, 26, 0.06)",
+        glass:
+          "0 8px 32px rgba(26, 26, 26, 0.06), 0 2px 8px rgba(26, 26, 26, 0.04)",
         "soft-xl":
-          "0 22px 44px -12px rgba(26, 26, 26, 0.07), 0 10px 24px -10px rgba(201, 161, 74, 0.05)",
+          "0 22px 44px -12px rgba(26, 26, 26, 0.08), 0 10px 24px -10px rgba(201, 161, 74, 0.07)",
         "gold-glow":
           "0 10px 32px -8px rgba(201, 161, 74, 0.35), 0 4px 12px rgba(201, 161, 74, 0.15)",
         "gold-glow-lg":
           "0 16px 44px -10px rgba(201, 161, 74, 0.32), 0 8px 20px rgba(201, 161, 74, 0.12)",
         card: "0 16px 40px -12px rgba(26, 26, 26, 0.08)",
         "luxury-card":
-          "0 22px 44px -12px rgba(26, 26, 26, 0.07), 0 10px 24px -10px rgba(201, 161, 74, 0.05)",
+          "0 22px 44px -12px rgba(26, 26, 26, 0.07), 0 10px 24px -10px rgba(201, 161, 74, 0.06)",
       },
       borderRadius: {
         "4xl": "2rem",

@@ -5,7 +5,7 @@ import { ImageCard } from "@/components/ui/image-card";
 import { getBlogBySlug } from "@/lib/data";
 import { sanitizeBlogHtml } from "@/lib/sanitize-html";
 import { SITE } from "@/lib/site";
-import { cloudinaryOptimizeSrc } from "@/lib/cloudinary-url";
+import { optimizeMediaSrc } from "@/lib/media-url";
 
 type Props = { params: { slug: string } };
 
@@ -64,7 +64,7 @@ export default async function BlogPostPage({ params }: Props) {
       ? [
           {
             "@type": "ImageObject",
-            url: cloudinaryOptimizeSrc(cover, { width: 1600 }),
+            url: optimizeMediaSrc(cover),
             caption: String(post.title),
             description: String(post.seoDescription || "").slice(0, 300),
             representativeOfPage: true,

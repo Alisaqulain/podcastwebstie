@@ -8,6 +8,8 @@ import { Container } from "@/components/ui/container";
 import { PaymentTrustBadges } from "@/components/payment/payment-trust-badges";
 import type { PackagePublic } from "@/components/booking/booking-experience";
 import { cn } from "@/lib/utils";
+import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
+import type { AmbientClip } from "@/lib/youtube-ambient";
 
 function formatInrPaise(paise: number) {
   return new Intl.NumberFormat("en-IN", {
@@ -27,7 +29,11 @@ function payablePaise(pkg: PackagePublic) {
   return base;
 }
 
-export function PricingSection() {
+export function PricingSection({
+  ambientClips,
+}: {
+  ambientClips?: AmbientClip[];
+}) {
   const [packages, setPackages] = useState<PackagePublic[]>([]);
 
   useEffect(() => {
@@ -38,11 +44,8 @@ export function PricingSection() {
     })();
   }, []);
 
-  return (
-    <section
-      id="pricing"
-      className="scroll-mt-28 border-t border-luxury-border bg-luxury-section py-20 md:py-28"
-    >
+  const inner = (
+    <>
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -52,14 +55,15 @@ export function PricingSection() {
           className="mx-auto max-w-3xl text-center"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-            Services &amp; pricing
+            Booking &amp; packages
           </p>
           <h2 className="mt-4 font-display text-3xl font-semibold text-luxury-heading md:text-4xl">
-            Coaching packages designed to be felt—not just followed
+            A premium pathway to becoming a featured guest—with calm checkout
           </h2>
           <p className="mt-4 text-base text-luxury-body">
-            Live pricing from our studio CMS. Select a package on the booking
-            page to choose your date and complete payment.{" "}
+            Packages update live from our studio CMS. Booking a slot means
+            professionally featuring your story through cinematic podcast
+            production and promotion.{" "}
             <Link
               href="/refund-policy"
               className="font-medium text-brand-gold-deep underline underline-offset-4 hover:text-brand-gold"
@@ -75,6 +79,24 @@ export function PricingSection() {
             </Link>
             .
           </p>
+          <ul className="mx-auto mt-8 grid max-w-3xl gap-3 text-left text-sm text-luxury-body sm:grid-cols-2">
+            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
+              <span className="text-brand-gold-deep">✦</span>
+              Personal branding lift—story-led positioning on camera
+            </li>
+            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
+              <span className="text-brand-gold-deep">✦</span>
+              Audience exposure through publishing &amp; promo assets
+            </li>
+            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
+              <span className="text-brand-gold-deep">✦</span>
+              Production credibility—sound, edit, and cinematic finish
+            </li>
+            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
+              <span className="text-brand-gold-deep">✦</span>
+              Limited monthly guest slots—quality over volume
+            </li>
+          </ul>
         </motion.div>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
@@ -173,6 +195,29 @@ export function PricingSection() {
           <PaymentTrustBadges />
         </div>
       </Container>
+    </>
+  );
+
+  if (ambientClips?.length) {
+    return (
+      <AmbientSectionShell
+        clips={ambientClips}
+        variant="masked-blob"
+        startOffset={3}
+        id="pricing"
+        className="scroll-mt-28 border-t border-luxury-border py-20 md:py-28"
+      >
+        {inner}
+      </AmbientSectionShell>
+    );
+  }
+
+  return (
+    <section
+      id="pricing"
+      className="scroll-mt-28 border-t border-luxury-border bg-luxury-section py-20 md:py-28"
+    >
+      {inner}
     </section>
   );
 }

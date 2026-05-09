@@ -1,4 +1,4 @@
-import { HeroPremium } from "@/components/home/hero-premium";
+import { HeroCinematic } from "@/components/home/hero-cinematic";
 import { LatestConversations } from "@/components/home/latest-conversations";
 import { AboutPreview } from "@/components/home/about-preview";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
@@ -6,18 +6,33 @@ import { SocialProof } from "@/components/home/social-proof";
 import { PricingSection } from "@/components/home/pricing-section";
 import { CtaSection } from "@/components/home/cta-section";
 import { NewsletterCta } from "@/components/home/newsletter-cta";
+import { WhyBookSection } from "@/components/home/why-book-section";
+import { CinematicStripDivider } from "@/components/cinematic/cinematic-strip-divider";
+import { CinematicExperienceShell } from "@/components/cinematic/cinematic-experience-shell";
+import { getLatestPodcastEpisodesForHome } from "@/lib/podcast-episodes";
+import { fetchYouTubeChannelStats } from "@/lib/youtube-data-api";
+import { clipsFromEpisodes } from "@/lib/youtube-ambient";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const episodes = await getLatestPodcastEpisodesForHome(12);
+  const clips = clipsFromEpisodes(episodes);
+  const apiKey = process.env.YOUTUBE_API_KEY?.trim();
+  const handle = process.env.YOUTUBE_CHANNEL_HANDLE?.trim() || "bhawnamrata";
+  const channel =
+    apiKey ? await fetchYouTubeChannelStats(apiKey, handle) : null;
+
   return (
-    <>
-      <HeroPremium />
-      <LatestConversations />
-      <AboutPreview />
-      <TestimonialsSection />
+    <CinematicExperienceShell episodes={episodes}>
+      <HeroCinematic episodes={episodes} channel={channel} clips={clips} />
+      <LatestConversations episodes={episodes} />
+      <CinematicStripDivider clips={clips} startOffset={1} />
+      <WhyBookSection />
+      <AboutPreview clips={clips} />
+      <TestimonialsSection clips={clips} />
       <SocialProof />
-      <PricingSection />
+      <PricingSection ambientClips={clips} />
       <CtaSection />
       <NewsletterCta />
-    </>
+    </CinematicExperienceShell>
   );
 }

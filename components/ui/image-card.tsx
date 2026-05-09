@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { cloudinaryOptimizeSrc } from "@/lib/cloudinary-url";
+import { optimizeMediaSrc } from "@/lib/media-url";
 
 export type ImageCardType = "podcast" | "blog" | "testimonial";
 
@@ -85,11 +85,7 @@ export function ImageCard({
   const isCircle = type === "testimonial" && testimonialShape === "circle";
   const showPlaceholder = status === "empty" || status === "error";
   const optimized =
-    trimmed && !showPlaceholder
-      ? cloudinaryOptimizeSrc(trimmed, {
-          width: type === "testimonial" ? 640 : 1920,
-        })
-      : "";
+    trimmed && !showPlaceholder ? optimizeMediaSrc(trimmed) : "";
 
   const defaultSizes = defaultSizesByType(type, testimonialShape);
 

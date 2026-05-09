@@ -5,15 +5,18 @@ import { getDb } from "@/lib/mongodb";
 import { BookingExperience, type PackagePublic } from "@/components/booking/booking-experience";
 import { getSeedPackagesPublic } from "@/lib/packages-seed";
 import Link from "next/link";
+import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
+import { getLatestPodcastEpisodesForHome } from "@/lib/podcast-episodes";
+import { clipsFromEpisodes } from "@/lib/youtube-ambient";
 
 export const metadata: Metadata = {
-  title: "Book Coaching",
+  title: "Book a Guest Slot",
   description:
-    "Choose a package, pick a Wednesday or Friday slot, and complete secure payment with Razorpay.",
+    "Book a cinematic podcast guest appearance—packages, availability, Razorpay checkout, and optional Calendly scheduling.",
   openGraph: {
-    title: `Book Coaching | ${SITE.name}`,
+    title: `Book a Guest Slot | ${SITE.name}`,
     description:
-      "Premium coaching packages with transparent pricing and Razorpay checkout.",
+      "Premium podcast booking: packages, live availability, secure payment, and a calm guest experience.",
   },
   robots: { index: true, follow: true },
 };
@@ -46,22 +49,35 @@ async function loadPackages(): Promise<PackagePublic[]> {
 
 export default async function BookPage() {
   const initialPackages = await loadPackages();
+  const ambientClips = clipsFromEpisodes(
+    await getLatestPodcastEpisodesForHome(6)
+  );
 
   return (
     <div className="pb-24">
-      <section className="relative overflow-hidden border-b border-luxury-border bg-luxury-section py-16 md:py-20">
-        <div className="pointer-events-none absolute -right-24 top-0 h-72 w-72 rounded-full bg-brand-gold/12 blur-3xl" />
+      <AmbientSectionShell
+        clips={ambientClips}
+        variant="section-soft"
+        startOffset={4}
+        className="relative overflow-hidden border-b border-luxury-border py-16 md:py-20"
+      >
+        <div className="pointer-events-none absolute -right-24 top-0 z-10 h-72 w-72 rounded-full bg-brand-gold/12 blur-3xl" />
         <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-            Book coaching
+            Book a slot
           </p>
           <h1 className="mt-5 max-w-3xl font-display text-4xl font-semibold leading-tight text-luxury-heading md:text-5xl">
-            Reserve your session with intention
+            Reserve your feature—with intention and polish
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-luxury-body">
-            Select a package, share a few details, and choose a{" "}
-            <strong className="text-luxury-heading">Wednesday or Friday</strong>{" "}
-            slot. Checkout is powered by Razorpay—built for a calm, trustworthy
+            Booking a slot means professionally featuring your story,
+            business, or expertise to a wider audience through cinematic podcast
+            production and strategic promotion. Select a package, share a few
+            details, and choose a{" "}
+            <strong className="text-luxury-heading">
+              Wednesday or Friday
+            </strong>{" "}
+            slot. Checkout is powered by Razorpay for a calm, trustworthy
             experience.
           </p>
           <ul className="mt-8 flex flex-wrap gap-3 text-sm text-luxury-body">
@@ -84,7 +100,7 @@ export default async function BookPage() {
             </li>
           </ul>
         </Container>
-      </section>
+      </AmbientSectionShell>
 
       {initialPackages[0]?._id.startsWith("demo-package") ? (
         <Container className="mt-6">
@@ -104,6 +120,29 @@ export default async function BookPage() {
       <div className="mt-14 md:mt-20">
         <BookingExperience initialPackages={initialPackages} />
       </div>
+
+      {SITE.calendlyUrl ? (
+        <Container className="mt-16 md:mt-20">
+          <div className="glass-panel overflow-hidden rounded-[2rem] shadow-luxury-card ring-1 ring-black/[0.05]">
+            <div className="border-b border-luxury-border bg-white/85 px-6 py-6 md:px-10">
+              <h2 className="font-display text-2xl font-semibold text-luxury-heading md:text-3xl">
+                Prefer Calendly? Schedule a discovery call
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-luxury-body md:text-base">
+                Use the calendar below for a quick alignment conversation before
+                you lock your guest episode. Same premium experience—just a softer
+                first step if you&apos;re exploring dates.
+              </p>
+            </div>
+            <iframe
+              title="Schedule with Calendly"
+              src={SITE.calendlyUrl}
+              className="min-h-[720px] w-full bg-white"
+              loading="lazy"
+            />
+          </div>
+        </Container>
+      ) : null}
 
       <Container className="mt-16">
         <div className="glass-panel rounded-4xl p-8 md:p-11">

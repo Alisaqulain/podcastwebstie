@@ -88,11 +88,11 @@ export function Navbar() {
               className="group inline-flex max-w-full items-center gap-3 transition-transform active:scale-[0.98] sm:hover:scale-[1.02]"
               onClick={closeMenu}
             >
-              <span className="flex shrink-0 items-center justify-center rounded-full bg-white p-2 shadow-soft-xl ring-1 ring-luxury-border sm:p-2.5">
+              <span className="flex shrink-0 items-center justify-center rounded-full bg-white p-2.5 shadow-soft-xl ring-1 ring-luxury-border sm:p-3">
                 <SiteLogo
                   variant="nav"
                   priority={pathname === "/"}
-                  className="!h-9 sm:!h-10 md:!h-11"
+                  className="!h-11 sm:!h-12 md:!h-[3.35rem] lg:!h-[3.75rem]"
                 />
               </span>
             </Link>

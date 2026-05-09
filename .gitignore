@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local VPS uploads (keep directory placeholders only)
+/public/uploads/**
+!/public/uploads/.gitkeep
+/storage/podcasts/**
+!/storage/podcasts/.gitkeep

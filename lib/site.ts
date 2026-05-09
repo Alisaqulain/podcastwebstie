@@ -1,8 +1,8 @@
 export const SITE = {
-  name: "BHAW Namrata",
-  tagline: "Expression is Power",
+  name: "BhawnaMrata",
+  tagline: "Stories That Inspire Millions",
   description:
-    "Founder and Host of the BHAW Namrata Podcast, where real conversations inspire women to build confidence, clarity, and self-belief.",
+    "A premium podcast & media platform for cinematic interviews—helping founders, creators, and leaders build trust, authority, and reach through conversations that move people.",
   url: process.env.NEXTAUTH_URL || "http://localhost:3000",
   /** Optional full-screen hero video (mp4 URL or path like /hero.mp4). Leave empty for gradient-only hero. */
   heroVideoUrl: (process.env.NEXT_PUBLIC_HERO_VIDEO_URL || "").trim(),
@@ -10,6 +10,8 @@ export const SITE = {
   heroPosterUrl: (process.env.NEXT_PUBLIC_HERO_POSTER_URL || "").trim() || "/logo.png",
   /** Public inquiries; replace with your live inbox if different */
   contactEmail: "hello@bhawnamrata.com",
+  /** Optional Calendly embed URL, e.g. https://calendly.com/your-handle/discovery-call */
+  calendlyUrl: (process.env.NEXT_PUBLIC_CALENDLY_URL || "").trim(),
   social: {
     youtube: "https://youtube.com/@bhawnamrata",
     linkedin:

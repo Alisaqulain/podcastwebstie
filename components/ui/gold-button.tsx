@@ -26,7 +26,7 @@ export function GoldButton({
     outline:
       "border-2 border-luxury-heading bg-transparent text-luxury-heading hover:bg-luxury-heading hover:text-white active:scale-[0.98]",
     ghost:
-      "text-luxury-body hover:bg-luxury-border/50 hover:text-luxury-heading",
+      "text-luxury-body hover:bg-black/[0.04] hover:text-luxury-heading",
   };
 
   if ("href" in rest && rest.href) {

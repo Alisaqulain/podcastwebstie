@@ -15,6 +15,8 @@ export type PodcastApi = {
   description: string;
   youtubeLink: string;
   thumbnail: string;
+  /** Optional local MP4 preview; merged onto YouTube-synced cards when video IDs match. */
+  localPreviewUrl?: string;
   createdAt?: string;
 };
 

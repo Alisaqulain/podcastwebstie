@@ -6,6 +6,8 @@ export interface Podcast {
   description: string;
   youtubeLink: string;
   thumbnail: string;
+  /** VPS-hosted mute preview clip (e.g. `/uploads/podcasts/previews/..._30s.mp4`). */
+  localPreviewUrl?: string;
   createdAt: Date;
 }
 

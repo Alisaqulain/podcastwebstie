@@ -1,24 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useId, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
 import { GoldButton } from "@/components/ui/gold-button";
 import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
-
-function formatPublished(iso: string) {
-  try {
-    return new Date(iso).toLocaleDateString("en-IN", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  } catch {
-    return "";
-  }
-}
+import { PodcastPreviewCard } from "@/components/podcast/podcast-preview-card";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export function LatestConversationsGrid({
   episodes,
@@ -49,11 +41,15 @@ export function LatestConversationsGrid({
     return (
       <div className="glass-panel mx-auto max-w-2xl rounded-3xl p-10 text-center">
         <p className="text-luxury-body">
-          Episodes are loading from the channel. Subscribe on YouTube so you never
-          miss a conversation.
+          Connect{" "}
+          <code className="rounded bg-luxury-bg px-1.5 py-0.5 text-xs">
+            YOUTUBE_API_KEY
+          </code>{" "}
+          for live sync from the BhawnaMrata channel—or episodes will load from
+          the archive seed.
         </p>
         <div className="mt-6 flex justify-center">
-          <GoldButton href="https://www.youtube.com/@BHAWNamrata">
+          <GoldButton href="https://www.youtube.com/@bhawnamrata">
             Subscribe on YouTube
           </GoldButton>
         </div>
@@ -61,60 +57,71 @@ export function LatestConversationsGrid({
     );
   }
 
+  const [featured, ...rest] = episodes;
+
   return (
     <>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {episodes.map((ep, i) => (
-          <motion.article
-            key={ep.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.45, delay: Math.min(i * 0.06, 0.24) }}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-luxury-border bg-luxury-section shadow-md transition-shadow hover:shadow-lg"
-          >
+      <div className="space-y-12">
+        {featured ? (
+          <PodcastPreviewCard
+            episode={featured}
+            featured
+            priorityImage
+            viewportPreview
+          />
+        ) : null}
+
+        {rest.length > 0 ? (
+          <>
+            <div className="hidden gap-8 lg:grid lg:grid-cols-3">
+              {rest.map((ep, i) => (
+                <PodcastPreviewCard
+                  key={ep.id}
+                  episode={ep}
+                  priorityImage={i < 2}
+                />
+              ))}
+            </div>
+
+            <div className="lg:hidden">
+              <Swiper
+                modules={[Pagination]}
+                spaceBetween={16}
+                slidesPerView={1.08}
+                centeredSlides={false}
+                pagination={{ clickable: true }}
+                className="!pb-12 podcast-carousel"
+              >
+                {rest.map((ep) => (
+                  <SwiperSlide key={ep.id}>
+                    <PodcastPreviewCard episode={ep} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </>
+        ) : null}
+
+        <div className="flex flex-wrap justify-center gap-4">
+          {episodes.slice(0, 6).map((ep) => (
             <button
+              key={`quick-${ep.id}`}
               type="button"
               onClick={() => setOpenId(ep.id)}
-              className="w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
-              aria-haspopup="dialog"
-              aria-expanded={openId === ep.id}
+              className="group relative flex h-14 w-24 shrink-0 overflow-hidden rounded-xl border border-luxury-border bg-luxury-bg shadow-sm ring-1 ring-black/[0.04] transition hover:border-brand-gold/40 hover:shadow-md"
             >
-              <div className="relative aspect-video overflow-hidden bg-luxury-bg">
-                <Image
-                  src={ep.thumbnailUrl}
-                  alt={`YouTube thumbnail: ${ep.title}`}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                  sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
-                  loading={i < 3 ? "eager" : "lazy"}
-                />
-                <span
-                  className="absolute inset-0 flex items-center justify-center bg-luxury-heading/25 opacity-0 transition duration-300 group-hover:opacity-100"
-                  aria-hidden
-                >
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold-gradient text-[#1A1A1A] shadow-gold-glow ring-2 ring-white/80">
-                    <Play className="h-6 w-6 fill-current" aria-hidden />
-                  </span>
-                </span>
-              </div>
-              <div className="flex flex-1 flex-col p-5">
-                <time
-                  dateTime={ep.publishedAt}
-                  className="text-xs font-medium uppercase tracking-wider text-brand-gold-deep"
-                >
-                  {formatPublished(ep.publishedAt)}
-                </time>
-                <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-luxury-heading group-hover:text-brand-gold-deep">
-                  {ep.title}
-                </h3>
-                <p className="mt-2 line-clamp-2 text-sm text-luxury-muted">
-                  {ep.description}
-                </p>
-              </div>
+              <span
+                className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105"
+                style={{
+                  backgroundImage: `url(${ep.thumbnailUrl})`,
+                }}
+              />
+              <span className="absolute inset-0 flex items-center justify-center bg-black/35 opacity-0 transition group-hover:opacity-100">
+                <Play className="h-7 w-7 text-white drop-shadow" />
+              </span>
             </button>
-          </motion.article>
-        ))}
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
@@ -127,7 +134,7 @@ export function LatestConversationsGrid({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-luxury-heading/50 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-luxury-heading/45 p-4 backdrop-blur-md"
             onClick={close}
           >
             <motion.div
@@ -139,7 +146,10 @@ export function LatestConversationsGrid({
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-start justify-between gap-4 border-b border-luxury-border px-5 py-4">
-                <h2 id={titleId} className="font-display text-lg font-semibold text-luxury-heading md:text-xl">
+                <h2
+                  id={titleId}
+                  className="font-display text-lg font-semibold text-luxury-heading md:text-xl"
+                >
                   {active.title}
                 </h2>
                 <button
@@ -158,7 +168,7 @@ export function LatestConversationsGrid({
                   className="h-full w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  loading="lazy"
+                  loading="eager"
                 />
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-luxury-border px-5 py-4">
@@ -173,18 +183,15 @@ export function LatestConversationsGrid({
                     Open on YouTube
                   </Link>
                 </p>
-                <button
-                  type="button"
-                  onClick={close}
-                  className="text-sm font-medium text-luxury-body hover:text-luxury-heading"
-                >
-                  Close
-                </button>
+                <GoldButton href="/book" variant="outline">
+                  Book your slot
+                </GoldButton>
               </div>
             </motion.div>
           </motion.div>
         ) : null}
       </AnimatePresence>
+
     </>
   );
 }
