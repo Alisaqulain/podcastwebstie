@@ -12,10 +12,10 @@ import {
   CINEMATIC_ROTATE_MS,
   useCinematicVideo,
 } from "./cinematic-video-context";
+import { VIDEO_CROSSFADE_MS } from "./video-transition-system";
 import { SITE } from "@/lib/site";
 
 export type AmbientVideoVariant =
-  | "hero"
   | "section-soft"
   | "split-left"
   | "masked-blob"
@@ -55,7 +55,7 @@ export function AmbientVideoBackdrop({
   );
   const [armedLocal, setArmedLocal] = useState(false);
   const [phaseLocal, setPhaseLocal] = useState<"a" | "b">("a");
-  const [inView, setInView] = useState(variant === "hero");
+  const [inView, setInView] = useState(false);
 
   const idx = synced ? (ctx!.index + startOffset) % Math.max(len, 1) : idxLocal;
   const phase = synced ? ctx!.phase : phaseLocal;
@@ -72,7 +72,6 @@ export function AmbientVideoBackdrop({
     len > 1 ? list[(idx + 1) % len] : null;
 
   const dualLayer =
-    variant === "hero" ||
     variant === "section-soft" ||
     variant === "split-left" ||
     variant === "strip" ||
@@ -85,7 +84,6 @@ export function AmbientVideoBackdrop({
   }, [synced]);
 
   useEffect(() => {
-    if (variant === "hero") return;
     const el = rootRef.current;
     if (!el || typeof IntersectionObserver === "undefined") {
       setInView(true);
@@ -135,9 +133,9 @@ export function AmbientVideoBackdrop({
     gsap.set(wrap, { scale: 1 });
     tweenRef.current?.kill();
     tweenRef.current = gsap.to(wrap, {
-      scale: 1.08,
-      duration: intervalMs / 1000,
-      ease: "none",
+      scale: 1.06,
+      duration: 50,
+      ease: "sine.inOut",
       repeat: -1,
       yoyo: true,
     });
@@ -146,15 +144,8 @@ export function AmbientVideoBackdrop({
       tweenRef.current?.kill();
       tweenRef.current = null;
     };
-  }, [
-    variant,
-    current,
-    reduceMotion,
-    inView,
-    intervalMs,
-    idx,
-    phase,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- zoom tied to clip id, not phase/index
+  }, [variant, current?.videoId, reduceMotion, inView]);
 
   const autoplay = armed && inView && !reduceMotion && Boolean(current);
 
@@ -168,7 +159,11 @@ export function AmbientVideoBackdrop({
     loading: "eager" | "lazy";
   }) {
     return (
-      <div className={cn("absolute inset-0", opacityClass)} aria-hidden>
+      <div
+        className={cn("absolute inset-0 transform-gpu transition-opacity", opacityClass)}
+        style={{ transitionDuration: `${VIDEO_CROSSFADE_MS}ms` }}
+        aria-hidden
+      >
         <iframe
           title=""
           src={youtubeAmbientEmbedSrc(clip.videoId, autoplay)}
@@ -203,8 +198,8 @@ export function AmbientVideoBackdrop({
           clip={primary}
           loading={eagerPrimary ? "eager" : "lazy"}
           opacityClass={cn(
-            "transition-opacity duration-[1100ms] ease-out",
-            aOn ? "opacity-100" : dualLayer ? "opacity-0" : "opacity-100"
+            "ease-out",
+            aOn ? "opacity-100" : dualLayer ? "opacity-[0.02]" : "opacity-100"
           )}
         />
         {secondary && dualLayer ? (
@@ -212,8 +207,8 @@ export function AmbientVideoBackdrop({
             clip={secondary}
             loading="eager"
             opacityClass={cn(
-              "transition-opacity duration-[1100ms] ease-out",
-              bOn ? "opacity-100" : "opacity-0"
+              "ease-out",
+              bOn ? "opacity-100" : "opacity-[0.02]"
             )}
           />
         ) : null}
@@ -263,37 +258,24 @@ export function AmbientVideoBackdrop({
     >
       {warmFallback}
 
-      {variant === "hero" ? (
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden opacity-[0.58] blur-[52px] sm:blur-3xl">
-            <ZoomedDual
-              eagerPrimary
-              primary={active}
-              secondary={next}
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-white/88 via-white/72 to-[#faf8f5]/96" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-brand-cream/35 via-transparent to-brand-gold/[0.12]" />
-          <div className="absolute inset-0 ring-1 ring-black/[0.04]" />
-        </div>
-      ) : null}
-
       {variant === "section-soft" ? (
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.38] blur-3xl">
-            <ZoomedDual primary={active} secondary={next} />
+          {/* Sharp embeds + light veil — motion stays readable (booking / latest podcasts) */}
+          <div className="absolute inset-0 opacity-[0.78] max-md:opacity-[0.68] md:blur-[1px]">
+            <ZoomedDual eagerPrimary primary={active} secondary={next} />
           </div>
-          <div className="absolute inset-0 bg-[#faf8f5]/92 backdrop-blur-[2px]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/78 via-transparent to-white/90" />
+          <div className="absolute inset-0 bg-[#faf8f5]/55 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/48 via-white/28 to-white/62" />
         </div>
       ) : null}
 
       {variant === "split-left" ? (
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-y-0 left-0 hidden w-[min(44%,520px)] overflow-hidden lg:block">
-            <div className="absolute inset-0 opacity-[0.52] blur-3xl">
+            <div className="absolute inset-0 opacity-[0.72] blur-[2px]">
               <ZoomedDual
                 className="scale-110"
+                eagerPrimary
                 primary={active}
                 secondary={next}
               />
@@ -310,9 +292,9 @@ export function AmbientVideoBackdrop({
       {variant === "masked-blob" ? (
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-[12%] top-10 hidden h-[min(420px,48vh)] w-[min(620px,92vw)] overflow-hidden rounded-[2.25rem] shadow-[0_24px_60px_-22px_rgba(26,26,26,0.12)] ring-1 ring-black/[0.06] md:block">
-            <div className="relative h-full w-full opacity-90">
-              <div className="absolute inset-0 blur-2xl">
-                <ZoomedDual primary={active} secondary={next} />
+            <div className="relative h-full w-full opacity-95">
+              <div className="absolute inset-0 blur-[3px]">
+                <ZoomedDual eagerPrimary primary={active} secondary={next} />
               </div>
               <div className="absolute inset-0 bg-gradient-to-tl from-white/92 via-white/40 to-transparent" />
             </div>
@@ -333,7 +315,7 @@ export function AmbientVideoBackdrop({
               className="absolute inset-0"
             >
               <motion.div
-                className="absolute -left-10 top-[-6%] h-56 w-56 overflow-hidden rounded-full opacity-[0.18] blur-3xl md:h-[18rem] md:w-[18rem]"
+                className="absolute -left-10 top-[-6%] h-56 w-56 overflow-hidden rounded-full opacity-[0.38] blur-md md:h-[18rem] md:w-[18rem]"
                 animate={
                   reduceMotion ? undefined : { y: [0, -10, 0], x: [0, 6, 0] }
                 }
@@ -357,7 +339,7 @@ export function AmbientVideoBackdrop({
               </motion.div>
               {len > 1 ? (
                 <motion.div
-                  className="absolute right-[2%] top-[18%] h-44 w-44 overflow-hidden rounded-full opacity-[0.14] blur-3xl md:h-52 md:w-52"
+                  className="absolute right-[2%] top-[18%] h-44 w-44 overflow-hidden rounded-full opacity-[0.32] blur-md md:h-52 md:w-52"
                   animate={
                     reduceMotion ? undefined : { y: [0, 12, 0], x: [0, -8, 0] }
                   }
@@ -382,14 +364,14 @@ export function AmbientVideoBackdrop({
               ) : null}
             </motion.div>
           </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-[#faf8f5]/93 to-white" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-[#faf8f5]/78 to-white/88" />
         </div>
       ) : null}
 
       {variant === "strip" ? (
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-x-[-6%] top-1/2 min-h-[6.75rem] w-[112%] -translate-y-1/2 opacity-40 blur-[40px] md:min-h-[8rem]">
-            <ZoomedDual primary={active} secondary={next} />
+          <div className="absolute inset-x-[-6%] top-1/2 min-h-[6.75rem] w-[112%] -translate-y-1/2 opacity-[0.62] blur-[8px] md:min-h-[8rem] md:blur-[6px]">
+            <ZoomedDual eagerPrimary primary={active} secondary={next} />
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-white via-[#fdfcfa]/95 to-white" />
         </div>

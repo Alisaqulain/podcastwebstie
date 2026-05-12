@@ -18,6 +18,12 @@ const nextConfig = {
         hostname: "i.ytimg.com",
         pathname: "/**",
       },
+      // Atom/RSS thumbnails often use CDN shards (i1–i4, etc.)
+      ...["i1", "i2", "i3", "i4", "i9"].map((sub) => ({
+        protocol: "https",
+        hostname: `${sub}.ytimg.com`,
+        pathname: "/**",
+      })),
     ],
   },
 };

@@ -14,7 +14,8 @@ import { useReducedMotion } from "framer-motion";
 import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
 import { clipsFromEpisodes, type AmbientClip } from "@/lib/youtube-ambient";
 
-export const CINEMATIC_ROTATE_MS = 30_000;
+/** Time each clip stays primary before crossfading — longer = smoother, less “stutter”. */
+export const CINEMATIC_ROTATE_MS = 90_000;
 
 type CinematicVideoContextValue = {
   episodes: PodcastEpisodeCard[];

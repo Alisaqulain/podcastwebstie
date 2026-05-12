@@ -11,6 +11,7 @@ import {
 } from "@/lib/youtube";
 import { cn } from "@/lib/utils";
 import { GoldButton } from "@/components/ui/gold-button";
+import { usePodcastPreviewPlayback } from "@/components/podcast/podcast-preview-playback";
 
 function formatPublished(iso: string) {
   try {
@@ -37,7 +38,7 @@ type Props = {
   episode: PodcastEpisodeCard;
   featured?: boolean;
   priorityImage?: boolean;
-  /** If true, preview can start when card enters viewport (only used on featured). */
+  /** If true, preview can start once when the card enters the viewport (exclusive group). */
   viewportPreview?: boolean;
 };
 
@@ -47,6 +48,7 @@ export function PodcastPreviewCard({
   priorityImage,
   viewportPreview,
 }: Props) {
+  const playback = usePodcastPreviewPlayback();
   const [previewOn, setPreviewOn] = useState(false);
   const hoverRef = useRef(false);
   const viewportTriggered = useRef(false);
@@ -56,20 +58,23 @@ export function PodcastPreviewCard({
 
   const stopPreview = useCallback(() => {
     setPreviewOn(false);
+    playback?.release(episode.id);
     if (timerRef.current) {
       window.clearTimeout(timerRef.current);
       timerRef.current = null;
     }
-  }, []);
+  }, [episode.id, playback]);
 
   const startPreview = useCallback(() => {
+    playback?.request(episode.id);
     setPreviewOn(true);
     if (timerRef.current) window.clearTimeout(timerRef.current);
     timerRef.current = window.setTimeout(() => {
       setPreviewOn(false);
+      playback?.release(episode.id);
       timerRef.current = null;
     }, YOUTUBE_PREVIEW_CLIP_SECONDS * 1000);
-  }, []);
+  }, [episode.id, playback]);
 
   useEffect(() => {
     return () => {
@@ -88,6 +93,17 @@ export function PodcastPreviewCard({
     v.currentTime = 0;
     void v.play().catch(() => {});
   }, [previewOn, episode.localPreviewUrl]);
+
+  useEffect(() => {
+    if (!playback || !previewOn) return;
+    if (playback.activeId !== episode.id) {
+      setPreviewOn(false);
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    }
+  }, [playback, playback?.activeId, episode.id, previewOn]);
 
   useEffect(() => {
     if (!viewportPreview) return;
@@ -110,6 +126,9 @@ export function PodcastPreviewCard({
     io.observe(el);
     return () => io.disconnect();
   }, [startPreview, viewportPreview]);
+
+  const previewAllowed =
+    previewOn && (!playback || playback.activeId === episode.id);
 
   return (
     <motion.article
@@ -140,13 +159,13 @@ export function PodcastPreviewCard({
         <motion.div
           className="absolute inset-0"
           animate={
-            previewOn
+            previewAllowed
               ? { scale: 1 }
               : { scale: 1.06 }
           }
           transition={{
             duration: previewOn ? 0.45 : 14,
-            repeat: previewOn ? 0 : Infinity,
+            repeat: previewAllowed ? 0 : Infinity,
             repeatType: "reverse",
             ease: "easeInOut",
           }}
@@ -157,7 +176,7 @@ export function PodcastPreviewCard({
             fill
             className={cn(
               "object-cover transition duration-700",
-              previewOn ? "opacity-0" : "opacity-100"
+              previewAllowed ? "opacity-0" : "opacity-100"
             )}
             sizes={
               featured
@@ -168,7 +187,7 @@ export function PodcastPreviewCard({
           />
         </motion.div>
 
-        {previewOn && episode.localPreviewUrl ? (
+        {previewAllowed && episode.localPreviewUrl ? (
           <video
             ref={videoRef}
             src={episode.localPreviewUrl}
@@ -178,7 +197,7 @@ export function PodcastPreviewCard({
             preload="metadata"
             aria-hidden
           />
-        ) : previewOn ? (
+        ) : previewAllowed ? (
           <iframe
             title=""
             src={youtubeShortPreviewEmbedSrc(episode.videoId, true)}
@@ -204,7 +223,7 @@ export function PodcastPreviewCard({
           </span>
         </div>
 
-        {!previewOn ? (
+        {!previewAllowed ? (
           <span className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
             <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold-gradient text-[#1A1A1A] shadow-gold-glow ring-2 ring-white/90">
               <Play className="h-6 w-6 fill-current" aria-hidden />

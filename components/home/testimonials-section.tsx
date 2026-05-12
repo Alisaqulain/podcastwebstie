@@ -10,6 +10,7 @@ import {
 import { TestimonialGridCard } from "@/components/testimonials/testimonial-grid-card";
 import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
 import type { AmbientClip } from "@/lib/youtube-ambient";
+import { CinematicTestimonialReel } from "@/components/home/cinematic-testimonial-reel";
 
 export async function TestimonialsSection({ clips }: { clips: AmbientClip[] }) {
   const raw = await listTestimonials();
@@ -39,6 +40,8 @@ export async function TestimonialsSection({ clips }: { clips: AmbientClip[] }) {
           title="Women who felt the shift"
           subtitle="Real words from clients and listeners who chose expression over hesitation."
         />
+
+        <CinematicTestimonialReel clips={clips} />
 
         {items.length === 0 ? (
           <div className="glass-panel mx-auto max-w-xl rounded-3xl p-10 text-center text-luxury-body">

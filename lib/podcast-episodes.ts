@@ -1,7 +1,14 @@
 import { getDb } from "@/lib/mongodb";
 import { getSeedPodcastApiRows } from "@/lib/podcasts-seed";
 import { getYoutubeVideoId } from "@/lib/youtube";
-import { fetchLatestYouTubeUploads } from "@/lib/youtube-data-api";
+import {
+  enrichEpisodeCardsWithViewCounts,
+  fetchLatestYouTubeUploads,
+} from "@/lib/youtube-data-api";
+import {
+  fetchLatestUploadsFromRss,
+  resolveChannelIdFromEnvOrHandle,
+} from "@/lib/youtube-rss";
 import { serializeDocuments } from "@/lib/serialize";
 import type { PodcastApi } from "@/components/podcast/podcast-directory";
 import type { Podcast } from "@/models/podcast";
@@ -40,6 +47,20 @@ function fromYouTubeApi(
     publishedAt: r.publishedAt,
     watchUrl: r.watchUrl,
     viewCount: r.viewCount,
+  }));
+}
+
+function fromRss(
+  rows: Awaited<ReturnType<typeof fetchLatestUploadsFromRss>>
+): PodcastEpisodeCard[] {
+  return rows.map((r) => ({
+    id: `yt-${r.videoId}`,
+    videoId: r.videoId,
+    title: r.title,
+    description: truncateDescription(r.description),
+    thumbnailUrl: r.thumbnailUrl,
+    publishedAt: r.publishedAt,
+    watchUrl: r.watchUrl,
   }));
 }
 
@@ -133,11 +154,26 @@ function fromSeed(limit: number): PodcastEpisodeCard[] {
 }
 
 /**
- * Latest episodes for marketing surfaces: YouTube API → MongoDB → in-repo seed.
+ * Latest episodes: YouTube public RSS (no API) → optional Data API for view counts →
+ * MongoDB → in-repo seed.
  */
 export async function getLatestPodcastEpisodesForHome(
   limit = 6
 ): Promise<PodcastEpisodeCard[]> {
+  const channelId = await resolveChannelIdFromEnvOrHandle(DEFAULT_HANDLE);
+  if (channelId) {
+    const rssRows = await fetchLatestUploadsFromRss(channelId, limit);
+    if (rssRows.length > 0) {
+      let out = fromRss(rssRows);
+      out = await mergeLocalPreviewsFromDb(out);
+      const apiKey = process.env.YOUTUBE_API_KEY?.trim();
+      if (apiKey) {
+        out = await enrichEpisodeCardsWithViewCounts(apiKey, out);
+      }
+      return out;
+    }
+  }
+
   const apiKey = process.env.YOUTUBE_API_KEY?.trim();
   if (apiKey) {
     const apiRows = await fetchLatestYouTubeUploads(

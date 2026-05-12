@@ -9,6 +9,7 @@ type Props = {
   startOffset?: number;
   className?: string;
   id?: string;
+  "aria-labelledby"?: string;
   /** Content sits above ambient layer */
   children: ReactNode;
 };
@@ -19,10 +20,15 @@ export function AmbientSectionShell({
   startOffset,
   className,
   id,
+  "aria-labelledby": ariaLabelledBy,
   children,
 }: Props) {
   return (
-    <section id={id} className={cn("relative isolate overflow-hidden", className)}>
+    <section
+      id={id}
+      aria-labelledby={ariaLabelledBy}
+      className={cn("relative isolate overflow-hidden", className)}
+    >
       <AmbientVideoBackdrop
         clips={clips}
         variant={variant}

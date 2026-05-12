@@ -8,6 +8,16 @@ export const SITE = {
   heroVideoUrl: (process.env.NEXT_PUBLIC_HERO_VIDEO_URL || "").trim(),
   /** Poster shown before video loads or if video errors */
   heroPosterUrl: (process.env.NEXT_PUBLIC_HERO_POSTER_URL || "").trim() || "/logo.png",
+  /**
+   * Extra zoom on hero YouTube embed so the frame **covers** the viewport (true landscape crop).
+   * Vertical / Shorts uploads letterbox inside YouTube’s player — bump this (e.g. 1.28–1.45) to crop edges.
+   */
+  heroVideoCoverScale: (() => {
+    const raw = process.env.NEXT_PUBLIC_HERO_VIDEO_COVER_SCALE?.trim();
+    const n = raw ? Number.parseFloat(raw) : 1.24;
+    const v = Number.isFinite(n) ? n : 1.24;
+    return Math.min(1.65, Math.max(1, v));
+  })(),
   /** Public inquiries; replace with your live inbox if different */
   contactEmail: "hello@bhawnamrata.com",
   /** Optional Calendly embed URL, e.g. https://calendly.com/your-handle/discovery-call */

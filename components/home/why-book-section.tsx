@@ -66,14 +66,24 @@ const steps = [
   { title: "Launch", desc: "YouTube + social assets aligned to your launch." },
 ];
 
-const stats = [
-  { label: "Total views (channel)", value: "Growing weekly" },
-  { label: "Episodes published", value: "Consistency-first" },
-  { label: "Guest trust", value: "Verified social proof" },
-  { label: "Engagement", value: "Story-led formats" },
-];
-
-export function WhyBookSection() {
+export function WhyBookSection({
+  syncedEpisodeCount,
+}: {
+  /** Latest episodes synced into the marketing rail (RSS/API/DB). */
+  syncedEpisodeCount?: number;
+}) {
+  const stats = [
+    {
+      label: "Episodes surfaced live",
+      value:
+        typeof syncedEpisodeCount === "number" && syncedEpisodeCount > 0
+          ? `${syncedEpisodeCount}+ synced`
+          : "Auto-updating",
+    },
+    { label: "Production posture", value: "Documentary-grade" },
+    { label: "Guest outcomes", value: "Authority + clarity" },
+    { label: "Distribution", value: "Social-ready assets" },
+  ];
   return (
     <section
       id="why-book"

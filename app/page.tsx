@@ -7,11 +7,15 @@ import { PricingSection } from "@/components/home/pricing-section";
 import { CtaSection } from "@/components/home/cta-section";
 import { NewsletterCta } from "@/components/home/newsletter-cta";
 import { WhyBookSection } from "@/components/home/why-book-section";
+import { MediaJournalSpotlight } from "@/components/home/media-journal-spotlight";
 import { CinematicStripDivider } from "@/components/cinematic/cinematic-strip-divider";
 import { CinematicExperienceShell } from "@/components/cinematic/cinematic-experience-shell";
 import { getLatestPodcastEpisodesForHome } from "@/lib/podcast-episodes";
 import { fetchYouTubeChannelStats } from "@/lib/youtube-data-api";
 import { clipsFromEpisodes } from "@/lib/youtube-ambient";
+
+/** Aligns with YouTube RSS/API fetch revalidation — fresh uploads surface without redeploys. */
+export const revalidate = 300;
 
 export default async function HomePage() {
   const episodes = await getLatestPodcastEpisodesForHome(12);
@@ -26,9 +30,10 @@ export default async function HomePage() {
       <HeroCinematic episodes={episodes} channel={channel} clips={clips} />
       <LatestConversations episodes={episodes} />
       <CinematicStripDivider clips={clips} startOffset={1} />
-      <WhyBookSection />
+      <WhyBookSection syncedEpisodeCount={episodes.length} />
       <AboutPreview clips={clips} />
       <TestimonialsSection clips={clips} />
+      <MediaJournalSpotlight />
       <SocialProof />
       <PricingSection ambientClips={clips} />
       <CtaSection />

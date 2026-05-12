@@ -1,5 +1,6 @@
 export { AmbientVideoBackdrop } from "./ambient-video-backdrop";
 export type { AmbientVideoVariant } from "./ambient-video-backdrop";
+export { BackgroundVideo } from "./background-video";
 export { AmbientSectionShell } from "./ambient-section-shell";
 export { CinematicStripDivider } from "./cinematic-strip-divider";
 export {

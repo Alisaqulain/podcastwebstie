@@ -51,6 +51,35 @@ function toNumber(value: unknown): number | undefined {
   return Number.isFinite(n) ? n : undefined;
 }
 
+export async function enrichEpisodeCardsWithViewCounts<
+  T extends {
+    videoId: string;
+    title: string;
+    description: string;
+    thumbnailUrl: string;
+    publishedAt: string;
+    watchUrl: string;
+    viewCount?: number;
+  },
+>(apiKey: string, episodes: T[]): Promise<T[]> {
+  if (!apiKey.trim() || episodes.length === 0) return episodes;
+  const asApi: YouTubeApiVideo[] = episodes.map((e) => ({
+    videoId: e.videoId,
+    title: e.title,
+    description: e.description,
+    thumbnailUrl: e.thumbnailUrl,
+    publishedAt: e.publishedAt,
+    watchUrl: e.watchUrl,
+    viewCount: e.viewCount,
+  }));
+  await enrichViewCounts(apiKey, asApi);
+  const byId = new Map(asApi.map((v) => [v.videoId, v.viewCount]));
+  return episodes.map((e) => ({
+    ...e,
+    viewCount: byId.get(e.videoId) ?? e.viewCount,
+  }));
+}
+
 async function enrichViewCounts(
   apiKey: string,
   videos: YouTubeApiVideo[]

@@ -1,7 +1,7 @@
 "use client";
 
-/** Shared timing for crossfade + ambient rotation */
-export const VIDEO_CROSSFADE_MS = 1100;
+/** Crossfade length — match BackgroundVideo / ambient layers (~2s feels seamless). */
+export const VIDEO_CROSSFADE_MS = 2200;
 
 export function phaseVisible(
   phase: "a" | "b",

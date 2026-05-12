@@ -7,6 +7,7 @@ import { Play, X } from "lucide-react";
 import { GoldButton } from "@/components/ui/gold-button";
 import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
 import { PodcastPreviewCard } from "@/components/podcast/podcast-preview-card";
+import { PodcastPreviewPlaybackProvider } from "@/components/podcast/podcast-preview-playback";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -41,12 +42,9 @@ export function LatestConversationsGrid({
     return (
       <div className="glass-panel mx-auto max-w-2xl rounded-3xl p-10 text-center">
         <p className="text-luxury-body">
-          Connect{" "}
-          <code className="rounded bg-luxury-bg px-1.5 py-0.5 text-xs">
-            YOUTUBE_API_KEY
-          </code>{" "}
-          for live sync from the BhawnaMrata channel—or episodes will load from
-          the archive seed.
+          Latest uploads load automatically from the public YouTube channel feed.
+          If the feed is unavailable momentarily, browse the archive—or open the
+          channel directly on YouTube.
         </p>
         <div className="mt-6 flex justify-center">
           <GoldButton href="https://www.youtube.com/@bhawnamrata">
@@ -60,7 +58,7 @@ export function LatestConversationsGrid({
   const [featured, ...rest] = episodes;
 
   return (
-    <>
+    <PodcastPreviewPlaybackProvider>
       <div className="space-y-12">
         {featured ? (
           <PodcastPreviewCard
@@ -79,6 +77,7 @@ export function LatestConversationsGrid({
                   key={ep.id}
                   episode={ep}
                   priorityImage={i < 2}
+                  viewportPreview
                 />
               ))}
             </div>
@@ -94,7 +93,7 @@ export function LatestConversationsGrid({
               >
                 {rest.map((ep) => (
                   <SwiperSlide key={ep.id}>
-                    <PodcastPreviewCard episode={ep} />
+                    <PodcastPreviewCard episode={ep} viewportPreview />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -191,7 +190,6 @@ export function LatestConversationsGrid({
           </motion.div>
         ) : null}
       </AnimatePresence>
-
-    </>
+    </PodcastPreviewPlaybackProvider>
   );
 }

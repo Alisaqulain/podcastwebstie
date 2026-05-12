@@ -8,7 +8,7 @@ import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
 import type { YouTubeChannelStats } from "@/lib/youtube-data-api";
 import { cn } from "@/lib/utils";
 import { clipsFromEpisodes, type AmbientClip } from "@/lib/youtube-ambient";
-import { AmbientVideoBackdrop } from "@/components/cinematic/ambient-video-backdrop";
+import { BackgroundVideo } from "@/components/cinematic/background-video";
 
 function formatCompact(n: number) {
   try {
@@ -40,9 +40,9 @@ export function HeroCinematic({
   const [headlineIx, setHeadlineIx] = useState(0);
   const headlines = useMemo(
     () => [
-      "Every Story Deserves to Be Heard",
-      "Conversations That Inspire Growth",
-      "Where Powerful Voices Meet Real Impact",
+      "Every Conversation Creates Impact",
+      "Stories That Inspire Millions",
+      "Where Powerful Voices Are Heard",
     ],
     []
   );
@@ -69,9 +69,8 @@ export function HeroCinematic({
 
   return (
     <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-20 pt-[max(5.75rem,env(safe-area-inset-top)+4.5rem)] md:pb-28">
-      <AmbientVideoBackdrop
+      <BackgroundVideo
         clips={ambientClips}
-        variant="hero"
         startOffset={0}
         className="absolute inset-0 z-0"
       />
@@ -273,8 +272,9 @@ export function HeroCinematic({
                       Fresh episodes loading
                     </p>
                     <p className="mt-3 text-sm text-luxury-body">
-                      We pull the latest uploads dynamically. If the API is
-                      quiet, browse the full library anytime.
+                      We sync the latest uploads automatically from the public
+                      channel feed. If you&apos;re offline momentarily, browse the
+                      full library anytime.
                     </p>
                     <div className="mt-6 flex flex-wrap gap-3">
                       <Link
