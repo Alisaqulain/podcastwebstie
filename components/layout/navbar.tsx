@@ -78,7 +78,9 @@ export function Navbar() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-luxury-section/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300",
-          scrolled ? "py-2 shadow-soft-xl" : "py-3 sm:py-4"
+          scrolled
+            ? "py-1.5 shadow-soft-xl sm:py-2"
+            : "py-2 sm:py-3 lg:py-4"
         )}
       >
         <Container className="flex items-center justify-between gap-2 sm:gap-4">
@@ -88,11 +90,11 @@ export function Navbar() {
               className="group inline-flex max-w-full items-center gap-3 transition-transform active:scale-[0.98] sm:hover:scale-[1.02]"
               onClick={closeMenu}
             >
-              <span className="flex shrink-0 items-center justify-center rounded-full bg-white p-2.5 shadow-soft-xl ring-1 ring-luxury-border sm:p-3">
+              <span className="flex shrink-0 items-center justify-center rounded-full bg-white p-2 shadow-soft-xl ring-1 ring-luxury-border sm:p-2.5 md:p-3">
                 <SiteLogo
                   variant="nav"
                   priority={pathname === "/"}
-                  className="!h-11 sm:!h-12 md:!h-[3.35rem] lg:!h-[3.75rem]"
+                  className="!h-9 sm:!h-11 md:!h-[3.35rem] lg:!h-[3.75rem]"
                 />
               </span>
             </Link>

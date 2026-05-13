@@ -1,5 +1,6 @@
 "use client";
 
+/** Episode rail + mobile Swiper carousel for latest long-form conversations. */
 import { useCallback, useEffect, useId, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -85,8 +86,8 @@ export function LatestConversationsGrid({
             <div className="lg:hidden">
               <Swiper
                 modules={[Pagination]}
-                spaceBetween={16}
-                slidesPerView={1.08}
+                spaceBetween={12}
+                slidesPerView={1.02}
                 centeredSlides={false}
                 pagination={{ clickable: true }}
                 className="!pb-12 podcast-carousel"

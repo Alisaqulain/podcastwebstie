@@ -1,4 +1,5 @@
 import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
+import { filterLongFormLandscapeEpisodes } from "@/lib/youtube-episode-eligibility";
 
 export type AmbientClip = {
   videoId: string;
@@ -25,7 +26,8 @@ export function youtubeAmbientEmbedSrc(videoId: string, autoplay: boolean) {
 export function clipsFromEpisodes(
   episodes: PodcastEpisodeCard[]
 ): AmbientClip[] {
-  return episodes
-    .filter((e) => Boolean(e?.videoId))
-    .map((e) => ({ videoId: e.videoId, title: e.title }));
+  return filterLongFormLandscapeEpisodes(episodes.filter(Boolean)).map((e) => ({
+    videoId: e.videoId,
+    title: e.title,
+  }));
 }

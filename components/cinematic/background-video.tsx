@@ -111,8 +111,8 @@ function BackgroundVideoInner({
     gsap.set(wrap, { scale: 1 });
     tweenRef.current?.kill();
     tweenRef.current = gsap.to(wrap, {
-      scale: 1.035,
-      duration: 52,
+      scale: 1.02,
+      duration: 56,
       ease: "sine.inOut",
       repeat: -1,
       yoyo: true,
@@ -146,16 +146,18 @@ function BackgroundVideoInner({
         className={cn("pointer-events-none overflow-hidden", className)}
         aria-hidden
       >
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${poster})` }}
+        <img
+          src={poster}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/35 to-[#faf8f5]/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/38 via-white/26 to-[#faf8f5]/42" />
       </div>
     );
   }
 
-  /** Full-viewport landscape cover (16:9 box) + zoom to crop Shorts / pillarboxing inside the player. */
+  /** Full-viewport landscape cover (16:9 box) centered on subjects; long-form uploads only upstream. */
   function CoverIframe({
     clip,
     loading,
@@ -239,19 +241,19 @@ function BackgroundVideoInner({
       </motion.div>
 
       <div
-        className="absolute inset-0 z-[4] bg-gradient-to-b from-white/[0.44] via-white/[0.34] to-[#f3ebe3]/[0.52]"
+        className="absolute inset-0 z-[4] bg-gradient-to-b from-white/[0.22] via-white/[0.14] to-[#f3ebe3]/[0.28]"
         aria-hidden
       />
       <div
-        className="absolute inset-0 z-[4] bg-gradient-to-tr from-amber-50/25 via-transparent to-rose-950/[0.07]"
+        className="absolute inset-0 z-[4] bg-gradient-to-tr from-amber-50/12 via-transparent to-rose-950/[0.045]"
         aria-hidden
       />
       <div
-        className="absolute inset-0 z-[4] shadow-[inset_0_0_160px_rgba(255,255,255,0.45)]"
+        className="absolute inset-0 z-[4] shadow-[inset_0_0_100px_rgba(255,255,255,0.18)]"
         aria-hidden
       />
       <div
-        className="absolute inset-0 z-[4] shadow-[inset_0_0_220px_rgba(26,26,26,0.06)]"
+        className="absolute inset-0 z-[4] shadow-[inset_0_0_160px_rgba(26,26,26,0.035)]"
         aria-hidden
       />
     </div>

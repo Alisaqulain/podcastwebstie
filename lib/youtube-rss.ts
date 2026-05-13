@@ -12,6 +12,11 @@ export type RssVideoRow = {
   thumbnailUrl: string;
   publishedAt: string;
   watchUrl: string;
+  /** From `media:content` when present */
+  durationSeconds?: number;
+  /** From `media:thumbnail` (largest) — used to drop portrait uploads */
+  mediaWidth?: number;
+  mediaHeight?: number;
 };
 
 function rssFetchInit(): RequestInit {
@@ -47,6 +52,58 @@ function decodeBasicEntities(input: string): string {
 function stripCDATA(raw: string): string {
   const m = raw.match(/<!\[CDATA\[([\s\S]*?)\]\]>/);
   return (m?.[1] ?? raw).trim();
+}
+
+/** Atom `link rel="alternate"` — Shorts entries point at `/shorts/`. */
+function entryAlternateHref(entry: string): string | null {
+  const a =
+    entry.match(/<link[^>]+rel="alternate"[^>]+href="([^"]+)"/i) ||
+    entry.match(/<link[^>]+href="([^"]+)"[^>]+rel="alternate"/i);
+  return a?.[1]?.trim() ?? null;
+}
+
+function isShortsAlternateLink(href: string | null): boolean {
+  if (!href) return false;
+  return /youtube\.com\/shorts\//i.test(href);
+}
+
+function parseMediaGroupMeta(entry: string): {
+  durationSeconds?: number;
+  mediaWidth?: number;
+  mediaHeight?: number;
+} {
+  let durationSeconds: number | undefined;
+  for (const m of Array.from(entry.matchAll(/<media:content([^>]*)\/?>/gi))) {
+    const attrs = m[1];
+    const d = attrs.match(/\bduration="(\d+)"/i)?.[1];
+    if (d) {
+      const sec = parseInt(d, 10);
+      if (Number.isFinite(sec) && sec > (durationSeconds ?? 0)) {
+        durationSeconds = sec;
+      }
+    }
+  }
+
+  let bestArea = 0;
+  let mediaWidth: number | undefined;
+  let mediaHeight: number | undefined;
+  for (const m of Array.from(entry.matchAll(/<media:thumbnail([^>]*)\/?>/gi))) {
+    const attrs = m[1];
+    const w = attrs.match(/\bwidth="(\d+)"/i)?.[1];
+    const h = attrs.match(/\bheight="(\d+)"/i)?.[1];
+    if (!w || !h) continue;
+    const wi = parseInt(w, 10);
+    const hi = parseInt(h, 10);
+    if (!Number.isFinite(wi) || !Number.isFinite(hi)) continue;
+    const area = wi * hi;
+    if (area > bestArea) {
+      bestArea = area;
+      mediaWidth = wi;
+      mediaHeight = hi;
+    }
+  }
+
+  return { durationSeconds, mediaWidth, mediaHeight };
 }
 
 /**
@@ -122,6 +179,13 @@ function parseAtomEntries(xml: string, maxResults: number): RssVideoRow[] {
       entry.match(/url="(https:\/\/i\.ytimg\.com\/[^"]+)"/i);
     if (thumbUrlMatch?.[1]) thumbnailUrl = thumbUrlMatch[1];
 
+    if (isShortsAlternateLink(entryAlternateHref(entry))) {
+      continue;
+    }
+
+    const { durationSeconds, mediaWidth, mediaHeight } =
+      parseMediaGroupMeta(entry);
+
     out.push({
       videoId,
       title,
@@ -129,6 +193,10 @@ function parseAtomEntries(xml: string, maxResults: number): RssVideoRow[] {
       thumbnailUrl,
       publishedAt: published,
       watchUrl: `https://www.youtube.com/watch?v=${videoId}`,
+      ...(typeof durationSeconds === "number" ? { durationSeconds } : {}),
+      ...(typeof mediaWidth === "number" && typeof mediaHeight === "number"
+        ? { mediaWidth, mediaHeight }
+        : {}),
     });
     if (out.length >= maxResults) break;
   }

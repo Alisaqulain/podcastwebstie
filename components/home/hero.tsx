@@ -9,7 +9,7 @@ import { SiteLogo } from "@/components/brand/site-logo";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-20 pt-6 md:pb-28">
+    <section className="relative overflow-hidden pb-16 pt-4 sm:pb-20 sm:pt-5 md:pb-28 md:pt-6">
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-brand-gold/20 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-brand-gold-deep/15 blur-3xl" />
 

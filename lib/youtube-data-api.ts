@@ -13,6 +13,9 @@ export type YouTubeApiVideo = {
   publishedAt: string;
   watchUrl: string;
   viewCount?: number;
+  durationSeconds?: number;
+  mediaWidth?: number;
+  mediaHeight?: number;
 };
 
 export type YouTubeChannelStats = {
@@ -51,6 +54,106 @@ function toNumber(value: unknown): number | undefined {
   return Number.isFinite(n) ? n : undefined;
 }
 
+function parseIso8601Duration(iso: string | undefined): number | undefined {
+  if (!iso || typeof iso !== "string" || !iso.startsWith("PT")) return undefined;
+  const m = iso.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);
+  if (!m) return undefined;
+  const h = parseInt(m[1] || "0", 10);
+  const min = parseInt(m[2] || "0", 10);
+  const s = parseInt(m[3] || "0", 10);
+  const total = h * 3600 + min * 60 + s;
+  return Number.isFinite(total) ? total : undefined;
+}
+
+function pickLargestThumbnailDimensions(snippet: {
+  thumbnails?: Record<string, { width?: number; height?: number }>;
+}): { w?: number; h?: number } {
+  const t = snippet.thumbnails;
+  if (!t) return {};
+  let best = 0;
+  let w: number | undefined;
+  let h: number | undefined;
+  for (const key of [
+    "maxres",
+    "standard",
+    "high",
+    "medium",
+    "default",
+  ] as const) {
+    const thumb = t[key];
+    const tw = thumb?.width;
+    const th = thumb?.height;
+    if (typeof tw === "number" && typeof th === "number" && tw > 0 && th > 0) {
+      const area = tw * th;
+      if (area > best) {
+        best = area;
+        w = tw;
+        h = th;
+      }
+    }
+  }
+  return { w, h };
+}
+
+export async function enrichEpisodeCardsWithYouTubeVideoMetadata<
+  T extends {
+    videoId: string;
+    title: string;
+    description: string;
+    thumbnailUrl: string;
+    publishedAt: string;
+    watchUrl: string;
+    viewCount?: number;
+    durationSeconds?: number;
+    mediaWidth?: number;
+    mediaHeight?: number;
+  },
+>(apiKey: string, episodes: T[]): Promise<T[]> {
+  if (!apiKey.trim() || episodes.length === 0) return episodes;
+
+  const byId = new Map<string, T>();
+  for (const e of episodes) {
+    byId.set(e.videoId, { ...e });
+  }
+
+  const idsList = Array.from(byId.keys());
+  for (let i = 0; i < idsList.length; i += 50) {
+    const chunk = idsList.slice(i, i + 50);
+    const statsUrl = `${API_BASE}/videos?part=snippet,statistics,contentDetails&id=${encodeURIComponent(
+      chunk.join(",")
+    )}&key=${encodeURIComponent(apiKey)}`;
+    const statsRes = await fetch(statsUrl, fetchNext());
+    if (!statsRes.ok) continue;
+    const statsJson = (await statsRes.json()) as {
+      items?: Array<{
+        id?: string;
+        statistics?: { viewCount?: string };
+        contentDetails?: { duration?: string };
+        snippet?: {
+          thumbnails?: Record<string, { width?: number; height?: number }>;
+        };
+      }>;
+    };
+    for (const it of statsJson.items ?? []) {
+      const id = it.id;
+      if (!id) continue;
+      const row = byId.get(id);
+      if (!row) continue;
+      const views = toNumber(it.statistics?.viewCount);
+      if (typeof views === "number") row.viewCount = views;
+      const dur = parseIso8601Duration(it.contentDetails?.duration);
+      if (typeof dur === "number") row.durationSeconds = dur;
+      const dims = pickLargestThumbnailDimensions(it.snippet ?? {});
+      if (typeof dims.w === "number" && typeof dims.h === "number") {
+        row.mediaWidth = dims.w;
+        row.mediaHeight = dims.h;
+      }
+    }
+  }
+
+  return episodes.map((e) => byId.get(e.videoId) ?? e);
+}
+
 export async function enrichEpisodeCardsWithViewCounts<
   T extends {
     videoId: string;
@@ -60,50 +163,12 @@ export async function enrichEpisodeCardsWithViewCounts<
     publishedAt: string;
     watchUrl: string;
     viewCount?: number;
+    durationSeconds?: number;
+    mediaWidth?: number;
+    mediaHeight?: number;
   },
 >(apiKey: string, episodes: T[]): Promise<T[]> {
-  if (!apiKey.trim() || episodes.length === 0) return episodes;
-  const asApi: YouTubeApiVideo[] = episodes.map((e) => ({
-    videoId: e.videoId,
-    title: e.title,
-    description: e.description,
-    thumbnailUrl: e.thumbnailUrl,
-    publishedAt: e.publishedAt,
-    watchUrl: e.watchUrl,
-    viewCount: e.viewCount,
-  }));
-  await enrichViewCounts(apiKey, asApi);
-  const byId = new Map(asApi.map((v) => [v.videoId, v.viewCount]));
-  return episodes.map((e) => ({
-    ...e,
-    viewCount: byId.get(e.videoId) ?? e.viewCount,
-  }));
-}
-
-async function enrichViewCounts(
-  apiKey: string,
-  videos: YouTubeApiVideo[]
-): Promise<void> {
-  if (videos.length === 0) return;
-  const ids = videos.map((v) => v.videoId).join(",");
-  const statsUrl = `${API_BASE}/videos?part=statistics&id=${encodeURIComponent(
-    ids
-  )}&key=${encodeURIComponent(apiKey)}`;
-  const statsRes = await fetch(statsUrl, fetchNext());
-  if (!statsRes.ok) return;
-  const statsJson = (await statsRes.json()) as {
-    items?: Array<{ id?: string; statistics?: { viewCount?: string } }>;
-  };
-  const byId = new Map<string, number>();
-  for (const it of statsJson.items ?? []) {
-    const id = it.id;
-    const views = toNumber(it.statistics?.viewCount);
-    if (id && typeof views === "number") byId.set(id, views);
-  }
-  for (const v of videos) {
-    const views = byId.get(v.videoId);
-    if (typeof views === "number") v.viewCount = views;
-  }
+  return enrichEpisodeCardsWithYouTubeVideoMetadata(apiKey, episodes);
 }
 
 async function playlistItemsFromUploadsId(
@@ -147,7 +212,6 @@ async function playlistItemsFromUploadsId(
     });
   }
 
-  await enrichViewCounts(apiKey, out);
   return out;
 }
 

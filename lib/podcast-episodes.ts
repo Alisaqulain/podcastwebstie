@@ -2,9 +2,10 @@ import { getDb } from "@/lib/mongodb";
 import { getSeedPodcastApiRows } from "@/lib/podcasts-seed";
 import { getYoutubeVideoId } from "@/lib/youtube";
 import {
-  enrichEpisodeCardsWithViewCounts,
+  enrichEpisodeCardsWithYouTubeVideoMetadata,
   fetchLatestYouTubeUploads,
 } from "@/lib/youtube-data-api";
+import { filterLongFormLandscapeEpisodes } from "@/lib/youtube-episode-eligibility";
 import {
   fetchLatestUploadsFromRss,
   resolveChannelIdFromEnvOrHandle,
@@ -22,6 +23,11 @@ export type PodcastEpisodeCard = {
   publishedAt: string;
   watchUrl: string;
   viewCount?: number;
+  /** Length in seconds — RSS `media:content` or Data API `contentDetails.duration`. */
+  durationSeconds?: number;
+  /** Frame / thumbnail width for orientation checks (RSS or API). */
+  mediaWidth?: number;
+  mediaHeight?: number;
   /** Local ffmpeg-generated preview (preferred over YouTube iframe when set). */
   localPreviewUrl?: string;
 };
@@ -61,6 +67,12 @@ function fromRss(
     thumbnailUrl: r.thumbnailUrl,
     publishedAt: r.publishedAt,
     watchUrl: r.watchUrl,
+    ...(typeof r.durationSeconds === "number"
+      ? { durationSeconds: r.durationSeconds }
+      : {}),
+    ...(typeof r.mediaWidth === "number" && typeof r.mediaHeight === "number"
+      ? { mediaWidth: r.mediaWidth, mediaHeight: r.mediaHeight }
+      : {}),
   }));
 }
 
@@ -153,43 +165,95 @@ function fromSeed(limit: number): PodcastEpisodeCard[] {
   return fromPodcastApiRows(getSeedPodcastApiRows().slice(0, limit));
 }
 
+function mergeEpisodesByVideoId(
+  primary: PodcastEpisodeCard[],
+  secondary: PodcastEpisodeCard[]
+): PodcastEpisodeCard[] {
+  const map = new Map<string, PodcastEpisodeCard>();
+  for (const e of primary) {
+    map.set(e.videoId, e);
+  }
+  for (const e of secondary) {
+    const prev = map.get(e.videoId);
+    if (!prev) {
+      map.set(e.videoId, e);
+      continue;
+    }
+    map.set(e.videoId, {
+      ...prev,
+      ...e,
+      durationSeconds: e.durationSeconds ?? prev.durationSeconds,
+      mediaWidth: e.mediaWidth ?? prev.mediaWidth,
+      mediaHeight: e.mediaHeight ?? prev.mediaHeight,
+      viewCount: e.viewCount ?? prev.viewCount,
+    });
+  }
+  return Array.from(map.values()).sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+}
+
 /**
- * Latest episodes: YouTube public RSS (no API) → optional Data API for view counts →
- * MongoDB → in-repo seed.
+ * Latest episodes: YouTube RSS + optional Data API merge → metadata enrichment →
+ * long-form landscape filter → MongoDB → in-repo seed.
  */
 export async function getLatestPodcastEpisodesForHome(
   limit = 6
 ): Promise<PodcastEpisodeCard[]> {
+  const apiKey = process.env.YOUTUBE_API_KEY?.trim();
   const channelId = await resolveChannelIdFromEnvOrHandle(DEFAULT_HANDLE);
+  const fetchCap = Math.min(50, Math.max(limit * 4, 24));
+
+  let rssCards: PodcastEpisodeCard[] = [];
   if (channelId) {
-    const rssRows = await fetchLatestUploadsFromRss(channelId, limit);
-    if (rssRows.length > 0) {
-      let out = fromRss(rssRows);
-      out = await mergeLocalPreviewsFromDb(out);
-      const apiKey = process.env.YOUTUBE_API_KEY?.trim();
-      if (apiKey) {
-        out = await enrichEpisodeCardsWithViewCounts(apiKey, out);
-      }
-      return out;
-    }
+    const rssRows = await fetchLatestUploadsFromRss(channelId, fetchCap);
+    if (rssRows.length > 0) rssCards = fromRss(rssRows);
   }
 
-  const apiKey = process.env.YOUTUBE_API_KEY?.trim();
+  let apiCards: PodcastEpisodeCard[] = [];
   if (apiKey) {
     const apiRows = await fetchLatestYouTubeUploads(
       apiKey,
       DEFAULT_HANDLE,
-      limit
+      fetchCap
     );
-    if (apiRows.length > 0) {
-      return mergeLocalPreviewsFromDb(fromYouTubeApi(apiRows));
+    if (apiRows.length > 0) apiCards = fromYouTubeApi(apiRows);
+  }
+
+  let candidates = mergeEpisodesByVideoId(rssCards, apiCards);
+
+  if (candidates.length === 0) {
+    if (apiKey) {
+      const apiRows = await fetchLatestYouTubeUploads(
+        apiKey,
+        DEFAULT_HANDLE,
+        fetchCap
+      );
+      if (apiRows.length > 0) {
+        candidates = fromYouTubeApi(apiRows);
+      }
     }
   }
 
-  const dbRows = await fromDatabase(limit);
-  if (dbRows.length > 0) return dbRows;
+  if (candidates.length === 0) {
+    const dbRows = await fromDatabase(fetchCap);
+    if (dbRows.length > 0) {
+      candidates = dbRows;
+    } else {
+      candidates = fromSeed(fetchCap);
+    }
+  }
 
-  return fromSeed(limit);
+  candidates = await mergeLocalPreviewsFromDb(candidates);
+  if (apiKey) {
+    candidates = await enrichEpisodeCardsWithYouTubeVideoMetadata(
+      apiKey,
+      candidates
+    );
+  }
+  candidates = filterLongFormLandscapeEpisodes(candidates);
+  return candidates.slice(0, limit);
 }
 
 export function podcastEpisodesVideoObjectJsonLd(
