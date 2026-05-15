@@ -145,7 +145,7 @@ export function Navbar() {
 
           <button
             type="button"
-            className="inline-flex min-h-11 min-w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-luxury-border bg-luxury-bg p-2.5 text-luxury-heading shadow-sm transition hover:border-brand-gold/40 hover:bg-white active:scale-95 lg:hidden"
+            className="inline-flex min-h-11 min-w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-luxury-border bg-luxury-section p-2.5 text-luxury-heading shadow-sm transition hover:border-brand-gold/40 hover:bg-luxury-bg active:scale-95 lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-navigation"

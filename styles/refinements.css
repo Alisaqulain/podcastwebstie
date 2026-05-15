@@ -1,3 +1,18 @@
+/* Mobile podcast carousel — visible pagination dots */
+@media (max-width: 639px) {
+  .podcast-carousel .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    opacity: 0.45;
+    background: var(--luxury-heading);
+  }
+
+  .podcast-carousel .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #c9a14a;
+  }
+}
+
 /* Scrollbars — light premium UI */
 ::-webkit-scrollbar {
   width: 8px;

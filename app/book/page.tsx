@@ -59,18 +59,18 @@ export default async function BookPage() {
         clips={ambientClips}
         variant="section-soft"
         startOffset={4}
-        className="relative overflow-hidden border-b border-luxury-border py-16 md:py-20"
+        className="relative overflow-hidden border-b border-luxury-border py-10 sm:py-14 md:py-20"
       >
         <div className="pointer-events-none absolute -right-24 top-0 z-10 h-72 w-72 rounded-full bg-brand-gold/12 blur-3xl" />
         <Container>
-          <div className="readable-content-panel max-w-3xl rounded-[1.75rem] px-5 py-7 sm:px-8 sm:py-9">
+          <div className="readable-content-panel w-full max-w-3xl rounded-[1.35rem] px-4 py-5 sm:rounded-[1.75rem] sm:px-8 sm:py-9">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
               Book a slot
             </p>
-            <h1 className="mt-4 max-w-3xl font-display text-[clamp(2rem,5.5vw,3.25rem)] font-semibold leading-tight text-luxury-heading">
+            <h1 className="mt-3 max-w-3xl text-balance font-display text-[clamp(1.65rem,6.5vw,3.25rem)] font-semibold leading-[1.1] text-luxury-heading sm:mt-4">
               Reserve your feature—with intention and polish
             </h1>
-            <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-luxury-heading/90 sm:text-lg">
+            <p className="mt-4 max-w-2xl text-pretty text-[0.9375rem] leading-relaxed text-luxury-heading sm:mt-5 sm:text-base sm:text-luxury-heading/95 md:text-lg">
               Booking a slot means professionally featuring your story,
               business, or expertise to a wider audience through cinematic podcast
               production and strategic promotion. Select a package, share a few

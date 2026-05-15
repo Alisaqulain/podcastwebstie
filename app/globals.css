@@ -48,9 +48,11 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: max(
-    5.5rem,
-    calc(4.5rem + env(safe-area-inset-top, 0px))
+    4.75rem,
+    calc(3.75rem + env(safe-area-inset-top, 0px))
   );
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -124,6 +126,46 @@ body {
 
   .section-alt {
     background-color: var(--luxury-section);
+  }
+
+  /** Theme-aware pills — readable in light and dark on mobile */
+  .luxury-chip {
+    @apply inline-flex items-center rounded-full border border-luxury-border px-3 py-1.5 text-xs font-medium;
+    background: color-mix(in srgb, var(--luxury-section) 88%, transparent);
+    color: var(--luxury-heading);
+  }
+
+  .mobile-cta {
+    @apply inline-flex min-h-12 w-full max-w-full items-center justify-center rounded-full px-5 text-sm font-semibold touch-manipulation sm:min-h-[3.25rem] sm:w-auto sm:px-6;
+  }
+}
+
+/* ——— Mobile-first readability (≤639px) ——— */
+@media (max-width: 639px) {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --ambient-scrim-top: rgba(255, 255, 255, 0.68);
+    --ambient-scrim-mid: rgba(255, 255, 255, 0.5);
+    --ambient-scrim-bottom: rgba(255, 255, 255, 0.74);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --glass-bg: rgba(28, 26, 24, 0.94);
+      --ambient-scrim-top: rgba(18, 17, 16, 0.82);
+      --ambient-scrim-mid: rgba(18, 17, 16, 0.7);
+      --ambient-scrim-bottom: rgba(18, 17, 16, 0.86);
+    }
+  }
+
+  .readable-content-panel,
+  .glass-panel {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .readable-content-panel {
+    border-radius: 1.25rem;
   }
 }
 

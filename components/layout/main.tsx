@@ -12,7 +12,7 @@ export function Main({ children }: { children: React.ReactNode }) {
       className={cn(
         "pb-[env(safe-area-inset-bottom,0px)]",
         !isAdmin &&
-          "pt-[max(5.25rem,calc(4.5rem+env(safe-area-inset-top,0px)))] sm:pt-24"
+          "pt-[max(4.25rem,calc(3.5rem+env(safe-area-inset-top,0px)))] sm:pt-[max(4.75rem,calc(4rem+env(safe-area-inset-top,0px)))] lg:pt-24"
       )}
     >
       {children}

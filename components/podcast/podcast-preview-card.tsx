@@ -153,7 +153,7 @@ export function PodcastPreviewCard({
       <div
         className={cn(
           "relative overflow-hidden bg-luxury-bg",
-          featured ? "aspect-[21/9] sm:aspect-[2.4/1]" : "aspect-video"
+          featured ? "aspect-video sm:aspect-[2.4/1] lg:aspect-[21/9]" : "aspect-video"
         )}
       >
         <div className="absolute inset-0">
@@ -200,12 +200,12 @@ export function PodcastPreviewCard({
         />
 
         <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-luxury-heading shadow-sm backdrop-blur-sm">
-            <Calendar className="h-3 w-3 text-brand-gold-deep" />
+          <span className="luxury-chip gap-1.5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider shadow-sm">
+            <Calendar className="h-3 w-3 shrink-0 text-brand-gold-deep" />
             {formatPublished(episode.publishedAt)}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-luxury-heading shadow-sm backdrop-blur-sm">
-            <Eye className="h-3 w-3 text-brand-gold-deep" />
+          <span className="luxury-chip gap-1.5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider shadow-sm">
+            <Eye className="h-3 w-3 shrink-0 text-brand-gold-deep" />
             {formatViews(episode.viewCount)} views
           </span>
         </div>
@@ -219,31 +219,31 @@ export function PodcastPreviewCard({
         ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col p-5 md:p-6">
+      <div className="flex flex-1 flex-col p-4 sm:p-5 md:p-6">
         {featured ? (
           <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-brand-gold-deep">
             Latest episode
           </p>
         ) : null}
-        <h3 className="mt-1 font-display text-lg font-semibold leading-snug text-luxury-heading md:text-xl">
+        <h3 className="mt-1 text-balance font-display text-base font-semibold leading-snug text-luxury-heading sm:text-lg md:text-xl">
           {episode.title}
         </h3>
         <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-luxury-body">
           {episode.description}
         </p>
-        <div className="mt-5 flex flex-wrap gap-3">
+        <div className="mt-4 flex flex-col gap-2.5 sm:mt-5 sm:flex-row sm:flex-wrap sm:gap-3">
           <GoldButton
             href={episode.watchUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="min-h-11 flex-1 justify-center sm:flex-none"
+            className="min-h-12 w-full justify-center sm:min-h-11 sm:flex-1 sm:w-auto"
           >
             Watch full episode
           </GoldButton>
           <GoldButton
             href="/book"
             variant="outline"
-            className="min-h-11 flex-1 justify-center sm:flex-none"
+            className="min-h-12 w-full justify-center sm:min-h-11 sm:flex-1 sm:w-auto"
           >
             Book your slot
           </GoldButton>

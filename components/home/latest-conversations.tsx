@@ -36,7 +36,7 @@ export async function LatestConversations(props?: {
         />
       ) : null}
       <Container>
-        <div className="readable-content-panel mb-10 rounded-[1.5rem] px-5 py-6 sm:mb-12 sm:px-7 sm:py-7 md:mx-auto md:max-w-3xl">
+        <div className="readable-content-panel mb-8 w-full rounded-[1.25rem] px-4 py-5 sm:mb-12 sm:rounded-[1.5rem] sm:px-7 sm:py-7 md:mx-auto md:max-w-3xl">
           <SectionHeading
             id="latest-conversations-heading"
             eyebrow="Now streaming"
@@ -46,8 +46,12 @@ export async function LatestConversations(props?: {
           />
         </div>
         <LatestConversationsGrid episodes={episodes} />
-        <div className="mt-12 flex justify-center">
-          <GoldButton href="/podcast" variant="outline">
+        <div className="mt-8 flex justify-center sm:mt-12">
+          <GoldButton
+            href="/podcast"
+            variant="outline"
+            className="w-full max-w-sm sm:w-auto"
+          >
             View all episodes
           </GoldButton>
         </div>
@@ -62,7 +66,7 @@ export async function LatestConversations(props?: {
         clips={ambientClips}
         variant="section-soft"
         startOffset={1}
-        className="scroll-mt-28 border-t border-luxury-border py-20 md:py-28"
+        className="scroll-mt-24 border-t border-luxury-border py-12 sm:py-16 md:py-28"
         aria-labelledby="latest-conversations-heading"
       >
         {inner}

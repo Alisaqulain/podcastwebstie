@@ -31,12 +31,12 @@ export function SectionHeading({
       ) : null}
       <h2
         id={id}
-        className="font-display text-3xl font-semibold text-luxury-heading sm:text-4xl md:text-[2.75rem] leading-tight"
+        className="text-balance font-display text-[1.65rem] font-semibold leading-[1.12] text-luxury-heading sm:text-4xl md:text-[2.75rem]"
       >
         {title}
       </h2>
       {subtitle ? (
-        <p className="mt-4 text-base text-luxury-body md:text-lg leading-relaxed">
+        <p className="mt-3 text-pretty text-[0.9375rem] leading-relaxed text-luxury-body sm:mt-4 sm:text-base md:text-lg">
           {subtitle}
         </p>
       ) : null}

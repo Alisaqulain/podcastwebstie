@@ -68,7 +68,7 @@ export function HeroCinematic({
   }, [second?.thumbnailUrl]);
 
   return (
-    <section className="relative isolate flex min-h-[100svh] items-start overflow-hidden pb-14 pt-[max(4rem,calc(env(safe-area-inset-top)+2.75rem))] sm:pb-20 sm:pt-[max(4.35rem,calc(env(safe-area-inset-top)+3.1rem))] md:items-center md:pb-28 md:pt-[max(5.5rem,calc(env(safe-area-inset-top)+3.75rem))] lg:pt-[max(5.75rem,calc(env(safe-area-inset-top)+4.25rem))]">
+    <section className="relative isolate flex min-h-0 flex-col overflow-hidden pb-10 pt-3 sm:pb-16 sm:pt-5 md:min-h-[100svh] md:items-center md:justify-center md:pb-28 md:pt-6">
       <BackgroundVideo
         clips={ambientClips}
         startOffset={0}
@@ -84,20 +84,20 @@ export function HeroCinematic({
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-end lg:gap-12">
-          <div className="readable-content-panel rounded-[1.75rem] px-5 py-6 sm:px-7 sm:py-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-3 sm:px-6">
+        <div className="grid gap-6 lg:grid-cols-[1.12fr_0.88fr] lg:items-end lg:gap-12">
+          <div className="readable-content-panel rounded-[1.35rem] px-4 py-5 sm:rounded-[1.75rem] sm:px-7 sm:py-8">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
-              className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep shadow-sm backdrop-blur-md"
+              className="luxury-chip max-w-full gap-1.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-gold-deep sm:gap-2 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.28em]"
             >
-              <Sparkles className="h-3.5 w-3.5 text-brand-gold" aria-hidden />
-              BhawnaMrata · cinematic podcast &amp; media
+              <Sparkles className="h-3 w-3 shrink-0 text-brand-gold sm:h-3.5 sm:w-3.5" aria-hidden />
+              <span className="truncate">BhawnaMrata · podcast &amp; media</span>
             </motion.div>
 
-            <div className="relative mt-6 min-h-[1.15em] sm:mt-8">
+            <div className="relative mt-4 min-h-[2.6em] sm:mt-8">
               <AnimatePresence mode="wait">
                 <motion.h1
                   key={headlines[headlineIx]}
@@ -105,7 +105,7 @@ export function HeroCinematic({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="font-display text-[clamp(2.3rem,5.5vw,5.05rem)] font-semibold leading-[1.04] tracking-tight text-luxury-heading"
+                  className="text-balance font-display text-[clamp(1.75rem,7.8vw,5.05rem)] font-semibold leading-[1.08] tracking-tight text-luxury-heading"
                 >
                   {headlines[headlineIx]}
                 </motion.h1>
@@ -114,7 +114,7 @@ export function HeroCinematic({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.35, duration: 0.6 }}
-                className="mt-4 max-w-xl text-pretty text-base leading-relaxed text-luxury-heading/88 sm:mt-5 sm:text-lg"
+                className="mt-3 max-w-xl text-pretty text-[0.9375rem] leading-relaxed text-luxury-heading sm:mt-5 sm:text-base sm:text-luxury-heading/90 md:text-lg"
               >
                 Meaningful podcasts, sharp interviews, and story-led media that
                 strengthens your personal brand—without losing the warmth that
@@ -126,11 +126,11 @@ export function HeroCinematic({
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.12 }}
-              className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4"
+              className="mt-6 flex flex-col gap-2.5 sm:mt-10 sm:flex-row sm:items-stretch sm:gap-4"
             >
               <Link
                 href="/book"
-                className="group inline-flex min-h-[54px] items-center justify-center gap-2 rounded-full bg-gold-gradient px-10 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:shadow-gold-glow-lg hover:-translate-y-0.5 active:scale-[0.98]"
+                className="mobile-cta group gap-2 bg-gold-gradient text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 active:scale-[0.98] sm:hover:shadow-gold-glow-lg"
               >
                 Book your slot
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
@@ -138,7 +138,7 @@ export function HeroCinematic({
               <Link
                 href={current?.watchUrl ?? "/podcast"}
                 className={cn(
-                  "inline-flex min-h-[54px] items-center justify-center rounded-full border border-black/[0.08] bg-white/70 px-10 text-sm font-semibold text-luxury-heading backdrop-blur-md transition hover:border-brand-gold/40 hover:bg-white"
+                  "mobile-cta border border-luxury-border bg-luxury-section/90 text-luxury-heading backdrop-blur-md transition hover:border-brand-gold/40 active:scale-[0.98]"
                 )}
               >
                 <Play className="mr-2 h-4 w-4 fill-current" aria-hidden />
@@ -150,14 +150,14 @@ export function HeroCinematic({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45, duration: 0.55 }}
-              className="mt-6 flex flex-wrap gap-2.5 text-sm text-luxury-heading/75 sm:mt-10 sm:gap-3"
+              className="mt-4 hidden flex-wrap gap-2 sm:mt-10 sm:flex sm:gap-3"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/75 px-4 py-2 backdrop-blur-md">
-                <span className="h-2 w-2 rounded-full bg-brand-gold shadow-[0_0_16px_rgba(201,161,74,0.45)]" />
-                Studio-grade production · calm direction
+              <span className="luxury-chip gap-2 px-3 py-2 text-xs">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-brand-gold shadow-[0_0_16px_rgba(201,161,74,0.45)]" />
+                Studio-grade production
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/75 px-4 py-2 backdrop-blur-md">
-                Limited monthly guest slots
+              <span className="luxury-chip px-3 py-2 text-xs">
+                Limited guest slots
               </span>
             </motion.div>
 
@@ -168,17 +168,17 @@ export function HeroCinematic({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55, duration: 0.5 }}
-                className="mt-5 flex flex-wrap gap-2.5 sm:mt-6 sm:gap-3"
+                className="mt-4 flex flex-wrap gap-2 sm:mt-6 sm:gap-3"
               >
                 {typeof channel.subscriberCount === "number" ? (
-                  <span className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-luxury-heading/80 backdrop-blur-md">
+                  <span className="luxury-chip gap-2 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">
                     <span className="h-1.5 w-1.5 rounded-full bg-brand-gold" />
                     {formatCompact(channel.subscriberCount)} subscribers
                   </span>
                 ) : null}
                 {typeof channel.viewCount === "number" ? (
-                  <span className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-luxury-heading/80 backdrop-blur-md">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand-red" />
+                  <span className="luxury-chip gap-2 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.22em]">
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red" />
                     {formatCompact(channel.viewCount)} channel views
                   </span>
                 ) : null}
@@ -186,7 +186,7 @@ export function HeroCinematic({
             ) : null}
           </div>
 
-          <div className="lg:justify-self-end">
+          <div className="hidden lg:block lg:justify-self-end">
             <motion.div
               initial={{ opacity: 0, y: 20, rotate: reduceMotion ? 0 : -0.4 }}
               animate={{ opacity: 1, y: 0, rotate: 0 }}

@@ -60,7 +60,7 @@ export function LatestConversationsGrid({
 
   return (
     <PodcastPreviewPlaybackProvider>
-      <div className="space-y-12">
+      <div className="space-y-8 sm:space-y-12">
         {featured ? (
           <PodcastPreviewCard
             episode={featured}
@@ -87,7 +87,7 @@ export function LatestConversationsGrid({
               <Swiper
                 modules={[Pagination]}
                 spaceBetween={12}
-                slidesPerView={1.02}
+                slidesPerView={1}
                 centeredSlides={false}
                 pagination={{ clickable: true }}
                 className="!pb-12 podcast-carousel"
@@ -102,7 +102,7 @@ export function LatestConversationsGrid({
           </>
         ) : null}
 
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="hidden flex-wrap justify-center gap-4 sm:flex">
           {episodes.slice(0, 6).map((ep) => (
             <button
               key={`quick-${ep.id}`}
