@@ -43,7 +43,7 @@ export function SiteLogo({
       height={240}
       priority={priority}
       className={cn(
-        "object-contain object-left",
+        "object-contain object-left [forced-color-adjust:none]",
         variantClass[variant],
         className
       )}

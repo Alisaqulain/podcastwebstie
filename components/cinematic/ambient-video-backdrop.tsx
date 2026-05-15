@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import gsap from "gsap";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
@@ -63,8 +62,6 @@ export function AmbientVideoBackdrop({
   const reduceMotion = synced ? ctx!.reduceMotion : Boolean(reduceMotionFramer);
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const zoomWrapRef = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
   const timerRef = useRef<number | null>(null);
 
   const current = len ? list[idx % len] : null;
@@ -115,38 +112,6 @@ export function AmbientVideoBackdrop({
     };
   }, [synced, len, reduceMotion, inView, intervalMs]);
 
-  useEffect(() => {
-    const wrap = zoomWrapRef.current;
-    const animateZoom =
-      inView &&
-      !reduceMotion &&
-      Boolean(current) &&
-      variant !== "strip" &&
-      variant !== "floating-orbs";
-
-    if (!wrap || !animateZoom) {
-      tweenRef.current?.kill();
-      tweenRef.current = null;
-      return;
-    }
-
-    gsap.set(wrap, { scale: 1 });
-    tweenRef.current?.kill();
-    tweenRef.current = gsap.to(wrap, {
-      scale: 1.06,
-      duration: 50,
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-    });
-
-    return () => {
-      tweenRef.current?.kill();
-      tweenRef.current = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- zoom tied to clip id, not phase/index
-  }, [variant, current?.videoId, reduceMotion, inView]);
-
   const autoplay = armed && inView && !reduceMotion && Boolean(current);
 
   function Layer({
@@ -191,7 +156,6 @@ export function AmbientVideoBackdrop({
     const bOn = dualLayer ? phase === "b" : false;
     return (
       <div
-        ref={zoomWrapRef}
         className={cn("absolute inset-0 origin-center", wrapClass)}
       >
         <Layer
@@ -261,11 +225,10 @@ export function AmbientVideoBackdrop({
       {variant === "section-soft" ? (
         <div className="absolute inset-0 overflow-hidden">
           {/* Sharp embeds + light veil — motion stays readable (booking / latest podcasts) */}
-          <div className="absolute inset-0 opacity-[0.78] max-md:opacity-[0.68] md:blur-[1px]">
+          <div className="absolute inset-0 opacity-[0.72] max-md:opacity-[0.62] md:blur-[1px]">
             <ZoomedDual eagerPrimary primary={active} secondary={next} />
           </div>
-          <div className="absolute inset-0 bg-[#faf8f5]/55 backdrop-blur-[1px]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/48 via-white/28 to-white/62" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-[color:var(--ambient-scrim-bottom)]" />
         </div>
       ) : null}
 

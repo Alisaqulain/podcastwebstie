@@ -86,7 +86,7 @@ export function HeroCinematic({
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-end lg:gap-12">
-          <div className="rounded-[1.75rem] border border-white/50 bg-white/[0.76] px-5 py-6 shadow-[0_28px_90px_-28px_rgba(26,26,26,0.2)] ring-1 ring-black/[0.045] backdrop-blur-2xl backdrop-saturate-150 sm:px-7 sm:py-8">
+          <div className="readable-content-panel rounded-[1.75rem] px-5 py-6 sm:px-7 sm:py-8">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

@@ -5,10 +5,44 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
   --background: #faf8f5;
   --foreground: #4b5563;
   --gold: #c9a14a;
   --gold-soft: rgba(201, 161, 74, 0.15);
+  --luxury-bg: #faf8f5;
+  --luxury-section: #ffffff;
+  --luxury-heading: #0f0f0f;
+  --luxury-body: #4b5563;
+  --luxury-muted: #6b7280;
+  --luxury-border: #ebe4db;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(26, 26, 26, 0.07);
+  --glass-shadow: 0 22px 44px -12px rgba(26, 26, 26, 0.08);
+  --ambient-scrim-top: rgba(255, 255, 255, 0.52);
+  --ambient-scrim-mid: rgba(255, 255, 255, 0.34);
+  --ambient-scrim-bottom: rgba(255, 255, 255, 0.62);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --background: #121110;
+    --foreground: #c4bdb4;
+    --gold-soft: rgba(201, 161, 74, 0.22);
+    --luxury-bg: #121110;
+    --luxury-section: #1c1a18;
+    --luxury-heading: #f5f2ed;
+    --luxury-body: #c4bdb4;
+    --luxury-muted: #9a9288;
+    --luxury-border: #2e2b28;
+    --glass-bg: rgba(28, 26, 24, 0.88);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 22px 44px -12px rgba(0, 0, 0, 0.45);
+    --ambient-scrim-top: rgba(18, 17, 16, 0.72);
+    --ambient-scrim-mid: rgba(18, 17, 16, 0.58);
+    --ambient-scrim-bottom: rgba(18, 17, 16, 0.78);
+  }
 }
 
 html {
@@ -32,20 +66,42 @@ body {
     text-wrap: balance;
   }
 
-  /** Light frosted glass — logo-friendly white surfaces */
+  /** Frosted glass — readable over video in light and dark mode */
   .glass-panel {
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(26, 26, 26, 0.06);
-    box-shadow:
-      0 22px 44px -12px rgba(26, 26, 26, 0.07),
-      0 10px 24px -10px rgba(201, 161, 74, 0.05);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  /** Hero / booking copy over cinematic video */
+  .readable-content-panel {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(20px) saturate(1.15);
+    -webkit-backdrop-filter: blur(20px) saturate(1.15);
+  }
+
+  /** Keeps brand logo visible when the OS forces dark mode on pages */
+  .logo-pill {
+    background-color: #ffffff !important;
+    forced-color-adjust: none;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .logo-pill {
+      box-shadow:
+        0 8px 24px -8px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
   }
 
   .surface-form {
-    background: #ffffff;
-    border: 1px solid #ebe4db;
+    background: var(--luxury-section);
+    border: 1px solid var(--luxury-border);
     box-shadow:
       0 22px 44px -12px rgba(26, 26, 26, 0.07),
       0 10px 24px -10px rgba(201, 161, 74, 0.05);
@@ -53,13 +109,13 @@ body {
 
   .field-input {
     @apply w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-[#C9A14A] focus:ring-2 focus:ring-[#C9A14A]/30;
-    background-color: #faf8f5;
-    border-color: #e7e5e4;
-    color: #1a1a1a;
+    background-color: var(--luxury-bg);
+    border-color: var(--luxury-border);
+    color: var(--luxury-heading);
   }
 
   .field-input::placeholder {
-    color: #9ca3af;
+    color: var(--luxury-muted);
   }
 
   .gold-border-soft {
@@ -67,7 +123,20 @@ body {
   }
 
   .section-alt {
-    background-color: #ffffff;
+    background-color: var(--luxury-section);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-blog h1,
+  .prose-blog h2,
+  .prose-blog h3 {
+    color: var(--luxury-heading);
+  }
+  .prose-blog p,
+  .prose-blog ul,
+  .prose-blog ol {
+    color: var(--luxury-body);
   }
 }
 

@@ -24,7 +24,7 @@ export function GoldButton({
     primary:
       "bg-gold-gradient text-[#1A1A1A] shadow-gold-glow hover:brightness-110 hover:shadow-gold-glow-lg hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.98]",
     outline:
-      "border-2 border-luxury-heading bg-transparent text-luxury-heading hover:bg-luxury-heading hover:text-white active:scale-[0.98]",
+      "border-2 border-luxury-heading bg-luxury-section/80 text-luxury-heading backdrop-blur-sm hover:bg-luxury-heading hover:text-white dark:bg-luxury-section/60 active:scale-[0.98]",
     ghost:
       "text-luxury-body hover:bg-black/[0.04] hover:text-luxury-heading",
   };

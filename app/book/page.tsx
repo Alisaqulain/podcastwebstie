@@ -63,42 +63,44 @@ export default async function BookPage() {
       >
         <div className="pointer-events-none absolute -right-24 top-0 z-10 h-72 w-72 rounded-full bg-brand-gold/12 blur-3xl" />
         <Container>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-            Book a slot
-          </p>
-          <h1 className="mt-5 max-w-3xl font-display text-4xl font-semibold leading-tight text-luxury-heading md:text-5xl">
-            Reserve your feature—with intention and polish
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-luxury-body">
-            Booking a slot means professionally featuring your story,
-            business, or expertise to a wider audience through cinematic podcast
-            production and strategic promotion. Select a package, share a few
-            details, and choose a{" "}
-            <strong className="text-luxury-heading">
-              Wednesday or Friday
-            </strong>{" "}
-            slot. Checkout is powered by Razorpay for a calm, trustworthy
-            experience.
-          </p>
-          <ul className="mt-8 flex flex-wrap gap-3 text-sm text-luxury-body">
-            <li className="rounded-full border border-luxury-border bg-luxury-bg px-4 py-2">
-              Dynamic packages &amp; pricing
-            </li>
-            <li className="rounded-full border border-luxury-border bg-luxury-bg px-4 py-2">
-              Live calendar availability
-            </li>
-            <li className="rounded-full border border-luxury-border bg-luxury-bg px-4 py-2">
-              WhatsApp:{" "}
-              <a
-                href={SITE.social.whatsapp}
-                className="font-semibold text-brand-gold-deep underline underline-offset-2 hover:text-brand-gold"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                +91 92431 22115
-              </a>
-            </li>
-          </ul>
+          <div className="readable-content-panel max-w-3xl rounded-[1.75rem] px-5 py-7 sm:px-8 sm:py-9">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
+              Book a slot
+            </p>
+            <h1 className="mt-4 max-w-3xl font-display text-[clamp(2rem,5.5vw,3.25rem)] font-semibold leading-tight text-luxury-heading">
+              Reserve your feature—with intention and polish
+            </h1>
+            <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-luxury-heading/90 sm:text-lg">
+              Booking a slot means professionally featuring your story,
+              business, or expertise to a wider audience through cinematic podcast
+              production and strategic promotion. Select a package, share a few
+              details, and choose a{" "}
+              <strong className="font-semibold text-luxury-heading">
+                Wednesday or Friday
+              </strong>{" "}
+              slot. Checkout is powered by Razorpay for a calm, trustworthy
+              experience.
+            </p>
+            <ul className="mt-7 flex flex-wrap gap-2.5 text-sm text-luxury-heading/85 sm:gap-3">
+              <li className="rounded-full border border-luxury-border bg-luxury-section/80 px-4 py-2 backdrop-blur-sm">
+                Dynamic packages &amp; pricing
+              </li>
+              <li className="rounded-full border border-luxury-border bg-luxury-section/80 px-4 py-2 backdrop-blur-sm">
+                Live calendar availability
+              </li>
+              <li className="rounded-full border border-luxury-border bg-luxury-section/80 px-4 py-2 backdrop-blur-sm">
+                WhatsApp:{" "}
+                <a
+                  href={SITE.social.whatsapp}
+                  className="font-semibold text-brand-gold-deep underline underline-offset-2 hover:text-brand-gold"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  +91 92431 22115
+                </a>
+              </li>
+            </ul>
+          </div>
         </Container>
       </AmbientSectionShell>
 

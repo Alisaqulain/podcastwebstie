@@ -156,20 +156,7 @@ export function PodcastPreviewCard({
           featured ? "aspect-[21/9] sm:aspect-[2.4/1]" : "aspect-video"
         )}
       >
-        <motion.div
-          className="absolute inset-0"
-          animate={
-            previewAllowed
-              ? { scale: 1 }
-              : { scale: 1.06 }
-          }
-          transition={{
-            duration: previewOn ? 0.45 : 14,
-            repeat: previewAllowed ? 0 : Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut",
-          }}
-        >
+        <div className="absolute inset-0">
           <Image
             src={episode.thumbnailUrl}
             alt={episode.title}
@@ -185,7 +172,7 @@ export function PodcastPreviewCard({
             }
             priority={priorityImage}
           />
-        </motion.div>
+        </div>
 
         {previewAllowed && episode.localPreviewUrl ? (
           <video
@@ -241,7 +228,7 @@ export function PodcastPreviewCard({
         <h3 className="mt-1 font-display text-lg font-semibold leading-snug text-luxury-heading md:text-xl">
           {episode.title}
         </h3>
-        <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-luxury-muted">
+        <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-luxury-body">
           {episode.description}
         </p>
         <div className="mt-5 flex flex-wrap gap-3">

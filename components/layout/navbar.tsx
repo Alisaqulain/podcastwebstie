@@ -77,7 +77,7 @@ export function Navbar() {
 
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-luxury-section/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300",
+          "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-luxury-section/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300 dark:bg-luxury-section/98",
           scrolled
             ? "py-1.5 shadow-soft-xl sm:py-2"
             : "py-2 sm:py-3 lg:py-4"
@@ -90,7 +90,7 @@ export function Navbar() {
               className="group inline-flex max-w-full items-center gap-3 transition-transform active:scale-[0.98] sm:hover:scale-[1.02]"
               onClick={closeMenu}
             >
-              <span className="flex shrink-0 items-center justify-center rounded-full bg-white p-2 shadow-soft-xl ring-1 ring-luxury-border sm:p-2.5 md:p-3">
+              <span className="logo-pill flex shrink-0 items-center justify-center rounded-full p-2 shadow-soft-xl ring-1 ring-luxury-border sm:p-2.5 md:p-3">
                 <SiteLogo
                   variant="nav"
                   priority={pathname === "/"}

@@ -36,12 +36,15 @@ export async function LatestConversations(props?: {
         />
       ) : null}
       <Container>
-        <SectionHeading
-          id="latest-conversations-heading"
-          eyebrow="Now streaming"
-          title="Latest podcasts"
-          subtitle="A cinematic shelf of fresh uploads—hover any card for a 30-second muted preview, or jump straight into the full episode."
-        />
+        <div className="readable-content-panel mb-10 rounded-[1.5rem] px-5 py-6 sm:mb-12 sm:px-7 sm:py-7 md:mx-auto md:max-w-3xl">
+          <SectionHeading
+            id="latest-conversations-heading"
+            eyebrow="Now streaming"
+            title="Latest podcasts"
+            subtitle="A cinematic shelf of fresh uploads—hover any card for a 30-second muted preview, or jump straight into the full episode."
+            className="mb-0"
+          />
+        </div>
         <LatestConversationsGrid episodes={episodes} />
         <div className="mt-12 flex justify-center">
           <GoldButton href="/podcast" variant="outline">

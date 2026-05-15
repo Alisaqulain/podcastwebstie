@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "media",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -19,12 +20,12 @@ const config: Config = {
         },
         /** Light premium luxury — cinematic, creator-focused */
         luxury: {
-          bg: "#faf8f5",
-          section: "#ffffff",
-          heading: "#0f0f0f",
-          body: "#4b5563",
-          muted: "#9ca3af",
-          border: "#ebe4db",
+          bg: "var(--luxury-bg)",
+          section: "var(--luxury-section)",
+          heading: "var(--luxury-heading)",
+          body: "var(--luxury-body)",
+          muted: "var(--luxury-muted)",
+          border: "var(--luxury-border)",
         },
         background: "var(--background)",
         foreground: "var(--foreground)",

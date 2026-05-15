@@ -1,19 +1,17 @@
 "use client";
 
 /**
- * Netflix-style hero: fullscreen **landscape cover** YouTube embeds + light scrims.
- * Headline / UI updates must NOT remount iframes — wrapped in React.memo + stable motion props.
+ * Netflix-style hero: fullscreen **landscape cover** YouTube embeds + scrims.
+ * No zoom or drift — only smooth crossfades between clips.
  */
 
 import {
   useEffect,
   useMemo,
-  useRef,
   useState,
   memo,
 } from "react";
-import gsap from "gsap";
-import { motion, useReducedMotion, type Transition } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/lib/site";
 import type { AmbientClip } from "@/lib/youtube-ambient";
@@ -62,25 +60,8 @@ function BackgroundVideoInner({
   const armed = synced ? ctx!.armed : armedLocal;
   const reduceMotion = synced ? ctx!.reduceMotion : Boolean(reduceMotionFramer);
 
-  const zoomWrapRef = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
-
   const current = len ? list[idx % len] : null;
   const next = len > 1 ? list[(idx + 1) % len] : null;
-
-  /** Stable object identities — parent headline slider must not restart Framer animations. */
-  const driftAnimate = useMemo(
-    () => ({ x: [0, 5, -4, 0], y: [0, -4, 3, 0] }),
-    []
-  );
-  const driftTransition = useMemo(
-    (): Transition => ({
-      duration: 64,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }),
-    []
-  );
 
   const coverScale = SITE.heroVideoCoverScale;
 
@@ -99,39 +80,13 @@ function BackgroundVideoInner({
     return () => window.clearInterval(t);
   }, [synced, len, reduceMotion, intervalMs]);
 
-  /** Slow continuous zoom — only reset when the clip id changes. */
-  useEffect(() => {
-    const wrap = zoomWrapRef.current;
-    if (!wrap || reduceMotion || !current) {
-      tweenRef.current?.kill();
-      tweenRef.current = null;
-      return;
-    }
-
-    gsap.set(wrap, { scale: 1 });
-    tweenRef.current?.kill();
-    tweenRef.current = gsap.to(wrap, {
-      scale: 1.02,
-      duration: 56,
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-    });
-
-    return () => {
-      tweenRef.current?.kill();
-      tweenRef.current = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- zoom must not reset each crossfade
-  }, [current?.videoId, reduceMotion]);
-
   const autoplay = armed && !reduceMotion && Boolean(current);
 
   if (!len || !current) {
     return (
       <div
         className={cn(
-          "pointer-events-none bg-gradient-to-br from-[#f8f5f0] via-white to-[#efe8dc]",
+          "pointer-events-none bg-gradient-to-br from-[#f8f5f0] via-white to-[#efe8dc] dark:from-[#1a1816] dark:via-[#121110] dark:to-[#1c1a18]",
           className
         )}
         aria-hidden
@@ -152,12 +107,11 @@ function BackgroundVideoInner({
           className="absolute inset-0 h-full w-full object-cover object-center"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/38 via-white/26 to-[#faf8f5]/42" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/38 via-white/26 to-[#faf8f5]/42 dark:from-[#121110]/65 dark:via-[#121110]/50 dark:to-[#121110]/72" />
       </div>
     );
   }
 
-  /** Full-viewport landscape cover (16:9 box) centered on subjects; long-form uploads only upstream. */
   function CoverIframe({
     clip,
     loading,
@@ -216,44 +170,27 @@ function BackgroundVideoInner({
 
   return (
     <div className={cn("pointer-events-none select-none", className)} aria-hidden>
-      <motion.div
-        className="absolute inset-0 overflow-hidden will-change-transform"
-        animate={reduceMotion ? undefined : driftAnimate}
-        transition={driftTransition}
-      >
-        <div
-          ref={zoomWrapRef}
-          className="absolute inset-0 origin-center will-change-transform"
-        >
-          {next ? (
-            <>
-              <FilmLayer
-                clip={current}
-                visible={phase === "a"}
-                loading="eager"
-              />
-              <FilmLayer clip={next} visible={phase === "b"} loading="eager" />
-            </>
-          ) : (
-            <FilmLayer clip={current} visible loading="eager" />
-          )}
-        </div>
-      </motion.div>
+      <div className="absolute inset-0 overflow-hidden">
+        {next ? (
+          <>
+            <FilmLayer
+              clip={current}
+              visible={phase === "a"}
+              loading="eager"
+            />
+            <FilmLayer clip={next} visible={phase === "b"} loading="eager" />
+          </>
+        ) : (
+          <FilmLayer clip={current} visible loading="eager" />
+        )}
+      </div>
 
       <div
-        className="absolute inset-0 z-[4] bg-gradient-to-b from-white/[0.22] via-white/[0.14] to-[#f3ebe3]/[0.28]"
+        className="absolute inset-0 z-[4] bg-gradient-to-b from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-[color:var(--ambient-scrim-bottom)]"
         aria-hidden
       />
       <div
-        className="absolute inset-0 z-[4] bg-gradient-to-tr from-amber-50/12 via-transparent to-rose-950/[0.045]"
-        aria-hidden
-      />
-      <div
-        className="absolute inset-0 z-[4] shadow-[inset_0_0_100px_rgba(255,255,255,0.18)]"
-        aria-hidden
-      />
-      <div
-        className="absolute inset-0 z-[4] shadow-[inset_0_0_160px_rgba(26,26,26,0.035)]"
+        className="absolute inset-0 z-[4] bg-gradient-to-tr from-amber-50/10 via-transparent to-rose-950/[0.04] dark:from-black/20 dark:to-transparent"
         aria-hidden
       />
     </div>
