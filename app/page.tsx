@@ -1,6 +1,6 @@
 import { HeroCinematic } from "@/components/home/hero-cinematic";
 import { LatestConversations } from "@/components/home/latest-conversations";
-import { AboutPreview } from "@/components/home/about-preview";
+import { FounderSection } from "@/components/home/founder-section";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { SocialProof } from "@/components/home/social-proof";
 import { PricingSection } from "@/components/home/pricing-section";
@@ -31,7 +31,7 @@ export default async function HomePage() {
       <LatestConversations episodes={episodes} />
       <CinematicStripDivider clips={clips} startOffset={1} />
       <WhyBookSection syncedEpisodeCount={episodes.length} />
-      <AboutPreview clips={clips} />
+      <FounderSection clips={clips} />
       <TestimonialsSection clips={clips} />
       <MediaJournalSpotlight />
       <SocialProof />
