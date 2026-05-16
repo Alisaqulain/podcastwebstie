@@ -50,7 +50,7 @@
   --scrollbar-track: rgba(241, 245, 249, 0.9);
 
   --logo-pill-bg: #ffffff;
-  --logo-pill-ring: var(--border);
+  --logo-pill-ring: rgba(226, 232, 240, 0.95);
 
   --overlay-ring: rgba(15, 23, 42, 0.06);
   --surface-card: rgba(255, 255, 255, 0.85);
@@ -104,8 +104,8 @@
   --scrollbar-thumb: rgba(201, 161, 74, 0.55);
   --scrollbar-track: rgba(30, 41, 59, 0.95);
 
-  --logo-pill-bg: #1e293b;
-  --logo-pill-ring: var(--border);
+  --logo-pill-bg: #ffffff;
+  --logo-pill-ring: rgba(226, 232, 240, 0.95);
 
   --overlay-ring: rgba(248, 250, 252, 0.08);
   --surface-card: rgba(30, 41, 59, 0.88);
@@ -150,8 +150,8 @@
     --btn-secondary-hover-fg: #0f172a;
     --scrollbar-thumb: rgba(201, 161, 74, 0.55);
     --scrollbar-track: rgba(30, 41, 59, 0.95);
-    --logo-pill-bg: #1e293b;
-    --logo-pill-ring: var(--border);
+    --logo-pill-bg: #ffffff;
+    --logo-pill-ring: rgba(226, 232, 240, 0.95);
     --overlay-ring: rgba(248, 250, 252, 0.08);
     --surface-card: rgba(30, 41, 59, 0.88);
     --hero-card-shine: linear-gradient(
@@ -206,10 +206,10 @@ body {
   }
 
   .logo-pill {
-    background-color: var(--logo-pill-bg) !important;
+    background-color: #ffffff !important;
     forced-color-adjust: none;
-    box-shadow: var(--glass-shadow);
-    ring-color: var(--logo-pill-ring);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+    --tw-ring-color: rgba(226, 232, 240, 0.95);
   }
 
   .surface-form {

@@ -71,7 +71,7 @@ export function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             aria-label="Close menu"
-            className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-slate-900/25 backdrop-blur-sm lg:hidden"
             onClick={closeMenu}
           />
         ) : null}
@@ -79,7 +79,7 @@ export function Navbar() {
 
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-surface/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300",
+          "fixed inset-x-0 top-0 z-50 border-b border-slate-200/90 bg-white/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300 dark:border-slate-200/90 dark:bg-white/95",
           scrolled ? "py-1.5 shadow-soft-xl sm:py-2" : "py-2 sm:py-3 lg:py-4"
         )}
       >
@@ -93,7 +93,7 @@ export function Navbar() {
               className="group inline-flex max-w-full items-center gap-3"
               onClick={closeMenu}
             >
-              <span className="logo-pill flex shrink-0 items-center justify-center rounded-full p-2 ring-1 ring-luxury-border sm:p-2.5 md:p-3">
+              <span className="logo-pill flex shrink-0 items-center justify-center rounded-full bg-white p-2 ring-1 ring-slate-200/90 sm:p-2.5 md:p-3">
                 <SiteLogo
                   variant="nav"
                   priority={pathname === "/"}
@@ -116,8 +116,8 @@ export function Navbar() {
                   className={cn(
                     "relative rounded-full px-3 py-2.5 text-sm font-medium transition-colors xl:px-3.5",
                     active
-                      ? "text-luxury-heading"
-                      : "text-luxury-body hover:text-luxury-heading"
+                      ? "text-slate-900"
+                      : "text-slate-600 hover:text-slate-900"
                   )}
                 >
                   {active ? (
@@ -142,7 +142,7 @@ export function Navbar() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <ThemeToggle />
+            <ThemeToggle className="border-slate-200 bg-white text-slate-900 hover:bg-slate-50 hover:border-slate-300" />
             <Button href="/book" size="sm">
               Book a Session
             </Button>
