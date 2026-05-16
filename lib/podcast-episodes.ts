@@ -263,7 +263,7 @@ export function podcastEpisodesVideoObjectJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Latest Conversations — BhawnaMrata Podcast",
+    name: "Latest Conversations — BHAW Namrata Podcast",
     numberOfItems: episodes.length,
     itemListElement: episodes.map((e, i) => ({
       "@type": "ListItem",
@@ -278,7 +278,7 @@ export function podcastEpisodesVideoObjectJsonLd(
         contentUrl: e.watchUrl,
         publisher: {
           "@type": "Organization",
-          name: "BhawnaMrata",
+          name: "BHAW Namrata",
           url: siteUrl,
         },
       },

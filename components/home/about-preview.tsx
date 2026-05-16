@@ -25,7 +25,7 @@ export function AboutPreview({ clips }: { clips: AmbientClip[] }) {
             className="glass-panel rounded-4xl p-10 md:p-12"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-              About BhawnaMrata
+              About BHAW Namrata
             </p>
             <h2 className="mt-4 font-display text-3xl font-semibold text-luxury-heading md:text-4xl">
               A coach for the woman who is done playing small
@@ -85,7 +85,7 @@ export function AboutPreview({ clips }: { clips: AmbientClip[] }) {
                   <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-gold-deep" />
                   <div>
                     <p className="font-semibold text-luxury-heading">
-                      The BhawnaMrata Podcast
+                      The BHAW Namrata Podcast
                     </p>
                     <p className="text-sm text-luxury-muted">
                       Honest stories and frameworks you can apply between

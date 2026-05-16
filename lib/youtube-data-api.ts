@@ -240,7 +240,9 @@ async function resolveUploadsPlaylistId(
   const clean = handle.replace(/^@/, "").trim();
   const handlesToTry = Array.from(
     new Set(
-      [clean, "BhawnaMrata", "bhawnamrata", "BHAWNamrata"].filter(Boolean)
+      [clean, "BHAW Namrata", "BhawnaMrata", "bhawnamrata", "BHAWNamrata"].filter(
+        Boolean
+      )
     )
   );
 
@@ -302,7 +304,11 @@ export async function fetchYouTubeChannelStats(
 
   const clean = handle.replace(/^@/, "").trim();
   const handlesToTry = Array.from(
-    new Set([clean, "BhawnaMrata", "bhawnamrata", "BHAWNamrata"].filter(Boolean))
+    new Set(
+      [clean, "BHAW Namrata", "BhawnaMrata", "bhawnamrata", "BHAWNamrata"].filter(
+        Boolean
+      )
+    )
   );
 
   for (const h of handlesToTry) {

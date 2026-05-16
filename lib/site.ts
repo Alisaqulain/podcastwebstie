@@ -1,5 +1,7 @@
 export const SITE = {
-  name: "BhawnaMrata",
+  name: "BHAW Namrata",
+  /** Primary brand mark (navbar, footer, auth, payments). */
+  logoSrc: "/newlogo.jpeg",
   tagline: "Stories That Inspire Millions",
   description:
     "A premium podcast & media platform for cinematic interviews—helping founders, creators, and leaders build trust, authority, and reach through conversations that move people.",
@@ -7,7 +9,8 @@ export const SITE = {
   /** Optional full-screen hero video (mp4 URL or path like /hero.mp4). Leave empty for gradient-only hero. */
   heroVideoUrl: (process.env.NEXT_PUBLIC_HERO_VIDEO_URL || "").trim(),
   /** Poster shown before video loads or if video errors */
-  heroPosterUrl: (process.env.NEXT_PUBLIC_HERO_POSTER_URL || "").trim() || "/logo.png",
+  heroPosterUrl:
+    (process.env.NEXT_PUBLIC_HERO_POSTER_URL || "").trim() || "/newlogo.jpeg",
   /**
    * Extra zoom on hero YouTube embed so the frame **covers** the viewport (true landscape crop).
    * Long-form landscape uploads need less aggressive scale than Shorts — default ~1.1; override via env.

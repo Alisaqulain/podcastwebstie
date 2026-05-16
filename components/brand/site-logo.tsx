@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { SITE } from "@/lib/site";
 
 type SiteLogoProps = {
   className?: string;
@@ -10,10 +11,10 @@ type SiteLogoProps = {
 };
 
 const variantClass: Record<NonNullable<SiteLogoProps["variant"]>, string> = {
-  nav: "h-11 w-auto max-w-full sm:h-12 md:h-[3.35rem] lg:h-[3.75rem] lg:max-w-[420px]",
+  nav: "h-11 w-auto max-w-[4.75rem] sm:h-12 sm:max-w-[5.25rem] md:h-14 md:max-w-[6rem] lg:h-16 lg:max-w-[6.75rem]",
   footer:
-    "h-14 w-auto max-w-full sm:h-16 sm:max-w-[min(100%,320px)] md:h-[4.5rem] md:max-w-[400px] lg:h-20 lg:max-w-[440px]",
-  auth: "mx-auto h-16 w-auto max-w-[min(100%,320px)] sm:h-20 sm:max-w-[360px]",
+    "h-16 w-auto max-w-[6.5rem] sm:h-[4.5rem] sm:max-w-[7.5rem] md:h-20 md:max-w-[8.5rem]",
+  auth: "mx-auto h-20 w-auto max-w-[min(100%,220px)] sm:h-24 sm:max-w-[260px]",
 };
 
 export function SiteLogo({
@@ -25,8 +26,8 @@ export function SiteLogo({
   if (useFill) {
     return (
       <Image
-        src="/logo.png"
-        alt="BhawnaMrata — Premium podcast & media"
+        src={SITE.logoSrc}
+        alt={`${SITE.name} — Premium podcast & media`}
         fill
         sizes="(max-width: 768px) 100vw, 480px"
         priority={priority}
@@ -37,13 +38,13 @@ export function SiteLogo({
 
   return (
     <Image
-      src="/logo.png"
-      alt="BhawnaMrata — Premium podcast & media"
-      width={640}
-      height={240}
+      src={SITE.logoSrc}
+      alt={`${SITE.name} — Premium podcast & media`}
+      width={512}
+      height={512}
       priority={priority}
       className={cn(
-        "object-contain object-left [forced-color-adjust:none]",
+        "object-contain object-center [forced-color-adjust:none]",
         variantClass[variant],
         className
       )}

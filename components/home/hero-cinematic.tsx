@@ -94,7 +94,7 @@ export function HeroCinematic({
               className="luxury-chip max-w-full gap-1.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-gold-deep sm:gap-2 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.28em]"
             >
               <Sparkles className="h-3 w-3 shrink-0 text-brand-gold sm:h-3.5 sm:w-3.5" aria-hidden />
-              <span className="truncate">BhawnaMrata · podcast &amp; media</span>
+              <span className="truncate">BHAW Namrata · podcast &amp; media</span>
             </motion.div>
 
             <div className="relative mt-4 min-h-[2.6em] sm:mt-8">

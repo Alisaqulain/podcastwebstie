@@ -161,7 +161,7 @@ export function BookingExperience({
     };
   }, [dateStr]);
 
-  const logoUrl = `${SITE.url.replace(/\/$/, "")}/logo.png`;
+  const logoUrl = `${SITE.url.replace(/\/$/, "")}${SITE.logoSrc}`;
 
   const scrollToForm = useCallback(() => {
     document

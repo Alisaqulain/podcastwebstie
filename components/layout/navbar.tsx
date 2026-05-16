@@ -79,7 +79,7 @@ export function Navbar() {
 
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b border-slate-200/90 bg-white/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300 dark:border-slate-200/90 dark:bg-white/95",
+          "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-surface/95 pt-[env(safe-area-inset-top,0px)] text-luxury-heading shadow-sm backdrop-blur-md transition-all duration-300 dark:bg-luxury-bg/95",
           scrolled ? "py-1.5 shadow-soft-xl sm:py-2" : "py-2 sm:py-3 lg:py-4"
         )}
       >
@@ -97,7 +97,7 @@ export function Navbar() {
                 <SiteLogo
                   variant="nav"
                   priority={pathname === "/"}
-                  className="!h-9 sm:!h-11 md:!h-[3.35rem] lg:!h-[3.75rem]"
+                  className="!h-10 !max-w-[4.5rem] sm:!h-12 sm:!max-w-[5.25rem] md:!h-14 md:!max-w-[6rem]"
                 />
               </span>
             </Link>
@@ -116,8 +116,8 @@ export function Navbar() {
                   className={cn(
                     "relative rounded-full px-3 py-2.5 text-sm font-medium transition-colors xl:px-3.5",
                     active
-                      ? "text-slate-900"
-                      : "text-slate-600 hover:text-slate-900"
+                      ? "text-luxury-heading"
+                      : "text-luxury-body hover:text-luxury-heading"
                   )}
                 >
                   {active ? (
@@ -142,7 +142,7 @@ export function Navbar() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <ThemeToggle className="border-slate-200 bg-white text-slate-900 hover:bg-slate-50 hover:border-slate-300" />
+            <ThemeToggle />
             <Button href="/book" size="sm">
               Book a Session
             </Button>

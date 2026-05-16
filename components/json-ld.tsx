@@ -5,7 +5,7 @@ export function OrganizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Namrata Tiwary Singh",
-    alternateName: "BhawnaMrata",
+    alternateName: ["BhawnaMrata", "BHAW Namrata"],
     url: siteUrl,
     jobTitle: ["Podcaster", "Self Image Coach", "Speaker", "Founder"],
     sameAs: [
@@ -29,7 +29,7 @@ export function PodcastSeriesJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "PodcastSeries",
-    name: "BhawnaMrata Podcast",
+    name: "BHAW Namrata Podcast",
     url: `${siteUrl}/podcast`,
     author: {
       "@type": "Person",
