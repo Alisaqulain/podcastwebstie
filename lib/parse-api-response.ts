@@ -42,7 +42,7 @@ export async function parseApiJson<T>(
 
   if (looksJson) {
     try {
-      return { ok: true, status, data: JSON.parse(trimmed) as T };
+      return { ok: true, data: JSON.parse(trimmed) as T };
     } catch {
       /* fall through — mislabeled HTML or truncated body */
     }
