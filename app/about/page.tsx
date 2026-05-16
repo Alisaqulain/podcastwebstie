@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { AboutHero } from "@/components/about/about-hero";
 import { GoldButton } from "@/components/ui/gold-button";
 import { Container } from "@/components/ui/container";
+import { getLatestPodcastEpisodesForHome } from "@/lib/podcast-episodes";
 import { SITE } from "@/lib/site";
+import { clipsFromEpisodes } from "@/lib/youtube-ambient";
 
 export const metadata: Metadata = {
   title: "About Namrata",
@@ -15,21 +18,12 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
+  const episodes = await getLatestPodcastEpisodesForHome(8);
+  const clips = clipsFromEpisodes(episodes);
+
   return (
     <div className="pb-24">
-      <section className="border-b border-luxury-border bg-section-mesh py-16 md:py-24">
-        <Container>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-            About
-          </p>
-          <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold text-luxury-heading md:text-5xl">
-            The woman behind the microphone—and the mirror.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-luxury-body">
-            {SITE.description}
-          </p>
-        </Container>
-      </section>
+      <AboutHero clips={clips} />
 
       <Container className="mt-16 space-y-16 md:mt-24 md:space-y-24">
         <section className="grid gap-10 md:grid-cols-2 md:items-start">

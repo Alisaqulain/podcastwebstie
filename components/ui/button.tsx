@@ -4,11 +4,11 @@ import type { ComponentProps, ReactNode } from "react";
 
 const variants = {
   primary:
-    "bg-gold-gradient text-[var(--gold-foreground)] shadow-gold-glow hover:brightness-105 hover:shadow-gold-glow-lg active:brightness-95",
+    "bg-gold-gradient text-[var(--gold-foreground)] shadow-gold-glow ring-1 ring-inset ring-white/30 hover:brightness-110 hover:shadow-gold-glow-lg active:brightness-95",
   secondary:
     "border-2 border-accent bg-transparent text-accent hover:bg-[var(--btn-secondary-hover-bg)] hover:text-[var(--btn-secondary-hover-fg)] active:scale-[0.98]",
   outline:
-    "border border-luxury-border bg-surface/90 text-luxury-heading backdrop-blur-sm hover:border-brand-gold/40 hover:bg-muted active:scale-[0.98]",
+    "border-2 border-brand-gold-deep/60 bg-surface text-luxury-heading shadow-[0_4px_18px_rgba(201,161,74,0.16)] backdrop-blur-sm hover:border-brand-gold hover:bg-brand-gold/10 hover:text-brand-gold-deep hover:shadow-gold-glow active:scale-[0.98]",
   ghost:
     "text-luxury-body hover:bg-muted hover:text-luxury-heading active:scale-[0.98]",
 } as const;

@@ -9,7 +9,7 @@ type Props = Omit<ButtonProps, "variant"> & {
 
 const variantMap = {
   primary: "primary" as const,
-  outline: "secondary" as const,
+  outline: "outline" as const,
   ghost: "ghost" as const,
 };
 

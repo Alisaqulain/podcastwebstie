@@ -165,63 +165,66 @@ export function WhyBookSection({
           ))}
         </div>
 
-        <div className="mt-20 rounded-[2rem] border border-luxury-border bg-luxury-section/80 p-8 shadow-sm ring-1 ring-[color:var(--overlay-ring)] backdrop-blur-xl md:p-12">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-start">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-                Guest journey
-              </p>
-              <h3 className="mt-3 font-display text-2xl font-semibold text-luxury-heading md:text-3xl">
-                A calm, premium process—end to end
-              </h3>
-              <p className="mt-4 text-sm leading-relaxed text-luxury-body">
-                You bring the story—we handle the production craft, distribution
-                polish, and promo packaging so you leave with assets you’re proud
-                to share.
-              </p>
-              <ul className="mt-6 flex flex-wrap gap-3 text-xs text-luxury-muted">
-                <li className="rounded-full border border-luxury-border bg-luxury-bg px-3 py-1.5">
-                  Limited monthly guest slots
-                </li>
-                <li className="rounded-full border border-luxury-border bg-luxury-bg px-3 py-1.5">
-                  Brand-safe review &amp; approvals
-                </li>
-                <li className="rounded-full border border-luxury-border bg-luxury-bg px-3 py-1.5">
-                  Editorial direction included
-                </li>
-              </ul>
-            </div>
-            <ol className="relative space-y-0">
-              <div className="absolute left-3 top-3 bottom-3 w-px bg-gradient-to-b from-brand-gold/50 via-luxury-border to-transparent md:left-4" />
-              {steps.map((st, i) => (
-                <li key={st.title} className="relative grid grid-cols-[auto_1fr] gap-4 pb-10 last:pb-0 md:gap-5">
-                  <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold-gradient text-xs font-bold text-[#1a1a1a] shadow-gold-glow md:h-9 md:w-9">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <p className="font-display text-lg font-semibold text-luxury-heading">
-                      {st.title}
-                    </p>
-                    <p className="mt-1 text-sm text-luxury-body">{st.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-luxury-border pt-8">
-            <p className="max-w-xl text-sm text-luxury-muted">
+        <div className="mt-20 rounded-[2rem] border border-luxury-border bg-luxury-section/80 p-6 shadow-sm ring-1 ring-[color:var(--overlay-ring)] backdrop-blur-xl sm:p-8 md:p-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
+            Guest journey
+          </p>
+          <h3 className="mt-3 font-display text-2xl font-semibold text-luxury-heading md:text-3xl">
+            A calm, premium process—end to end
+          </h3>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-luxury-body md:text-base">
+            You bring the story—we handle the production craft, distribution
+            polish, and promo packaging so you leave with assets you’re proud to
+            share.
+          </p>
+          <ul className="mt-5 flex flex-wrap gap-2.5 text-xs text-luxury-muted">
+            <li className="rounded-full border border-luxury-border bg-luxury-bg px-3 py-1.5">
+              Limited monthly guest slots
+            </li>
+            <li className="rounded-full border border-luxury-border bg-luxury-bg px-3 py-1.5">
+              Brand-safe review &amp; approvals
+            </li>
+            <li className="rounded-full border border-luxury-border bg-luxury-bg px-3 py-1.5">
+              Editorial direction included
+            </li>
+          </ul>
+
+          <ol className="mt-6 grid list-none grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:mt-7 xl:grid-cols-5 xl:gap-3">
+            {steps.map((st, i) => (
+              <li
+                key={st.title}
+                className="flex h-full flex-col gap-2.5 rounded-2xl border border-luxury-border bg-luxury-bg/90 p-4"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold-gradient text-xs font-bold text-[#1a1a1a] shadow-gold-glow">
+                  {i + 1}
+                </span>
+                <div className="min-w-0">
+                  <p className="font-display text-base font-semibold leading-snug text-luxury-heading">
+                    {st.title}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-luxury-body sm:text-sm">
+                    {st.desc}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-6 flex flex-col gap-4 border-t border-luxury-border pt-6 sm:mt-7 sm:gap-5 sm:pt-7">
+            <p className="text-sm leading-relaxed text-luxury-muted">
               Want the full experience? See packages, calendar options, and secure
               checkout on the booking page—built to feel as premium as the episode
               itself.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <GoldButton href="/book">Book your slot</GoldButton>
-              <GoldButton href="/contact" variant="outline">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <GoldButton href="/book" className="w-full sm:w-auto">
+                Book your slot
+              </GoldButton>
+              <GoldButton href="/contact" variant="outline" className="w-full sm:w-auto">
                 Ask a question
               </GoldButton>
               <Link
                 href="/podcast"
-                className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-brand-gold-deep underline-offset-4 hover:underline"
+                className="inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-brand-gold-deep underline-offset-4 hover:underline sm:w-auto"
               >
                 Preview episodes
               </Link>

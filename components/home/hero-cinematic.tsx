@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowRight, ChevronDown, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { formatTitleSeparators } from "@/lib/format-title";
 import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
 import type { YouTubeChannelStats } from "@/lib/youtube-data-api";
 import { Button } from "@/components/ui/button";
@@ -217,7 +218,7 @@ export function HeroCinematic({
                       Latest spotlight
                     </p>
                     <p className="relative mt-4 break-words font-display text-2xl font-semibold leading-snug text-luxury-heading">
-                      {current.title}
+                      {formatTitleSeparators(current.title)}
                     </p>
                     <p className="relative mt-3 line-clamp-3 text-sm leading-relaxed text-luxury-heading/82">
                       {current.description}
@@ -237,7 +238,7 @@ export function HeroCinematic({
                             Up next
                           </p>
                           <p className="line-clamp-2 text-xs font-medium text-luxury-heading">
-                            {second.title}
+                            {formatTitleSeparators(second.title)}
                           </p>
                         </div>
                       </div>
@@ -295,16 +296,6 @@ export function HeroCinematic({
           </div>
         </div>
 
-        <motion.a
-          href="#why-book"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.85, duration: 0.55 }}
-          className="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-luxury-border bg-surface/90 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.35em] text-luxury-muted shadow-sm backdrop-blur-md transition hover:border-brand-gold/40 hover:text-luxury-heading md:inline-flex"
-        >
-          Scroll
-          <ChevronDown className="h-4 w-4" aria-hidden />
-        </motion.a>
       </div>
     </section>
   );

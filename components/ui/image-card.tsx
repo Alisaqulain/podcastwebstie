@@ -47,11 +47,11 @@ const defaultSizesByType = (
 function ElegantPlaceholder({ type }: { type: ImageCardType }) {
   return (
     <div
-      className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-brand-cream via-brand-gold-light/25 to-brand-gold/15 px-6 text-center"
+      className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 bg-gradient-to-br from-luxury-section via-muted to-[color-mix(in_srgb,var(--gold)_22%,var(--luxury-section))] px-4 py-3 text-center ring-1 ring-inset ring-brand-gold/20"
       aria-hidden
     >
-      <Sparkles className="h-8 w-8 text-brand-gold-deep/50" strokeWidth={1.25} />
-      <p className="font-display text-sm font-medium text-brand-dark/45">
+      <Sparkles className="h-6 w-6 text-brand-gold sm:h-7 sm:w-7" strokeWidth={1.35} />
+      <p className="font-display text-xs font-semibold text-brand-gold-deep sm:text-sm">
         {type === "podcast" && "Episode artwork"}
         {type === "blog" && "Article cover"}
         {type === "testimonial" && "Portrait"}
@@ -92,7 +92,7 @@ export function ImageCard({
   return (
     <div
       className={cn(
-        "group/image relative overflow-hidden bg-brand-cream/50 shadow-card",
+        "group/image relative overflow-hidden bg-muted shadow-card",
         "rounded-2xl",
         isCircle && "!rounded-full",
         aspectByType[type],
