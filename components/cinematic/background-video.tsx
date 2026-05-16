@@ -86,7 +86,7 @@ function BackgroundVideoInner({
     return (
       <div
         className={cn(
-          "pointer-events-none bg-gradient-to-br from-[#f8f5f0] via-white to-[#efe8dc] dark:from-[#1a1816] dark:via-[#121110] dark:to-[#1c1a18]",
+          "pointer-events-none bg-gradient-to-br from-[color:var(--video-fallback-from)] via-[color:var(--video-fallback-via)] to-[color:var(--video-fallback-to)]",
           className
         )}
         aria-hidden
@@ -107,7 +107,7 @@ function BackgroundVideoInner({
           className="absolute inset-0 h-full w-full object-cover object-center"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/38 via-white/26 to-[#faf8f5]/42 dark:from-[#121110]/65 dark:via-[#121110]/50 dark:to-[#121110]/72" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-[color:var(--ambient-scrim-bottom)]" />
       </div>
     );
   }
@@ -190,7 +190,7 @@ function BackgroundVideoInner({
         aria-hidden
       />
       <div
-        className="absolute inset-0 z-[4] bg-gradient-to-tr from-amber-50/10 via-transparent to-rose-950/[0.04] dark:from-black/20 dark:to-transparent"
+        className="absolute inset-0 z-[4] bg-gradient-to-tr from-brand-gold/8 via-transparent to-brand-red/[0.04]"
         aria-hidden
       />
     </div>

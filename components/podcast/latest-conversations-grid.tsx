@@ -116,8 +116,8 @@ export function LatestConversationsGrid({
                   backgroundImage: `url(${ep.thumbnailUrl})`,
                 }}
               />
-              <span className="absolute inset-0 flex items-center justify-center bg-black/35 opacity-0 transition group-hover:opacity-100">
-                <Play className="h-7 w-7 text-white drop-shadow" />
+              <span className="absolute inset-0 flex items-center justify-center bg-foreground/40 opacity-0 transition group-hover:opacity-100">
+                <Play className="h-7 w-7 text-accent-foreground drop-shadow" />
               </span>
             </button>
           ))}
@@ -161,7 +161,7 @@ export function LatestConversationsGrid({
                   <X className="h-5 w-5" />
                 </button>
               </div>
-              <div className="aspect-video w-full bg-black">
+              <div className="aspect-video w-full bg-muted">
                 <iframe
                   title={`YouTube video: ${active.title}`}
                   src={`https://www.youtube.com/embed/${active.videoId}?autoplay=1&rel=0`}

@@ -14,7 +14,20 @@ const MAX_EDGE = 2400;
 export async function saveOptimizedWebpImage(
   buffer: Buffer
 ): Promise<{ absolutePath: string; url: string }> {
-  await ensureMediaDirs();
+  try {
+    await ensureMediaDirs();
+  } catch (e) {
+    const code =
+      e && typeof e === "object" && "code" in e
+        ? String((e as NodeJS.ErrnoException).code)
+        : "";
+    if (code === "EACCES" || code === "EPERM") {
+      throw new Error(
+        "Cannot write to public/uploads — fix folder permissions for the Node process."
+      );
+    }
+    throw e;
+  }
   const ym = yearMonthSubdir();
   const dir = path.join(SUBDIRS.images, ym);
   await fs.mkdir(dir, { recursive: true });

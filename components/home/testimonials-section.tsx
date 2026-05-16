@@ -8,11 +8,8 @@ import {
   type TestimonialItem,
 } from "@/components/testimonials/testimonial-slider";
 import { TestimonialGridCard } from "@/components/testimonials/testimonial-grid-card";
-import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
-import type { AmbientClip } from "@/lib/youtube-ambient";
-import { CinematicTestimonialReel } from "@/components/home/cinematic-testimonial-reel";
 
-export async function TestimonialsSection({ clips }: { clips: AmbientClip[] }) {
+export async function TestimonialsSection() {
   const raw = await listTestimonials();
   const items: TestimonialItem[] = raw.map((t) => ({
     id: t.id,
@@ -28,20 +25,13 @@ export async function TestimonialsSection({ clips }: { clips: AmbientClip[] }) {
   const preview = items.slice(0, 6);
 
   return (
-    <AmbientSectionShell
-      clips={clips}
-      variant="floating-orbs"
-      startOffset={5}
-      className="border-t border-luxury-border py-20 md:py-28"
-    >
+    <section className="border-t border-luxury-border bg-luxury-section py-20 md:py-28">
       <Container>
         <SectionHeading
           eyebrow="Proof"
           title="Women who felt the shift"
           subtitle="Real words from clients and listeners who chose expression over hesitation."
         />
-
-        <CinematicTestimonialReel clips={clips} />
 
         {items.length === 0 ? (
           <div className="glass-panel mx-auto max-w-xl rounded-3xl p-10 text-center text-luxury-body">
@@ -71,6 +61,6 @@ export async function TestimonialsSection({ clips }: { clips: AmbientClip[] }) {
           </GoldButton>
         </div>
       </Container>
-    </AmbientSectionShell>
+    </section>
   );
 }

@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronDown, Play, Sparkles } from "lucide-react";
 import type { PodcastEpisodeCard } from "@/lib/podcast-episodes";
 import type { YouTubeChannelStats } from "@/lib/youtube-data-api";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { clipsFromEpisodes, type AmbientClip } from "@/lib/youtube-ambient";
 import { BackgroundVideo } from "@/components/cinematic/background-video";
 
@@ -128,22 +127,21 @@ export function HeroCinematic({
               transition={{ duration: 0.55, delay: 0.12 }}
               className="mt-6 flex flex-col gap-2.5 sm:mt-10 sm:flex-row sm:items-stretch sm:gap-4"
             >
-              <Link
+              <Button
                 href="/book"
-                className="mobile-cta group gap-2 bg-gold-gradient text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 active:scale-[0.98] sm:hover:shadow-gold-glow-lg"
+                className="mobile-cta group gap-2"
               >
                 Book your slot
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
-              <Link
+              </Button>
+              <Button
                 href={current?.watchUrl ?? "/podcast"}
-                className={cn(
-                  "mobile-cta border border-luxury-border bg-luxury-section/90 text-luxury-heading backdrop-blur-md transition hover:border-brand-gold/40 active:scale-[0.98]"
-                )}
+                variant="outline"
+                className="mobile-cta"
               >
                 <Play className="mr-2 h-4 w-4 fill-current" aria-hidden />
                 Watch latest episode
-              </Link>
+              </Button>
             </motion.div>
 
             <motion.div
@@ -209,9 +207,12 @@ export function HeroCinematic({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 16 }}
                     transition={{ duration: 0.4 }}
-                    className="glass-panel relative overflow-hidden rounded-[1.75rem] p-7 shadow-luxury-card ring-1 ring-black/[0.06]"
+                    className="glass-panel relative overflow-hidden rounded-[1.75rem] p-7 shadow-luxury-card ring-1 ring-[color:var(--overlay-ring)]"
                   >
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white via-white/40 to-brand-cream/30" />
+                    <div
+                      className="pointer-events-none absolute inset-0 opacity-90"
+                      style={{ background: "var(--hero-card-shine)" }}
+                    />
                     <p className="relative text-xs font-semibold uppercase tracking-[0.26em] text-brand-gold-deep">
                       Latest spotlight
                     </p>
@@ -222,7 +223,7 @@ export function HeroCinematic({
                       {current.description}
                     </p>
                     {second && second.id !== current.id ? (
-                      <div className="relative mt-5 flex gap-3 overflow-hidden rounded-2xl border border-black/[0.06] bg-luxury-bg/60 p-2">
+                      <div className="relative mt-5 flex gap-3 overflow-hidden rounded-2xl border border-luxury-border bg-muted/60 p-2">
                         <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-xl bg-luxury-muted/20">
                           <div
                             className="absolute inset-0 bg-cover bg-center opacity-90"
@@ -242,20 +243,18 @@ export function HeroCinematic({
                       </div>
                     ) : null}
                     <div className="relative mt-6 flex flex-wrap gap-3">
-                      <Link
+                      <Button
                         href={current.watchUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center rounded-full bg-luxury-heading px-6 py-3 text-sm font-semibold text-white transition hover:bg-luxury-heading/90"
+                        variant="secondary"
+                        size="sm"
                       >
                         Watch on YouTube
-                      </Link>
-                      <Link
-                        href="/podcast"
-                        className="inline-flex items-center justify-center rounded-full border border-black/[0.08] bg-white/80 px-6 py-3 text-sm font-semibold text-luxury-heading backdrop-blur hover:border-brand-gold/45"
-                      >
+                      </Button>
+                      <Button href="/podcast" variant="outline" size="sm">
                         All episodes
-                      </Link>
+                      </Button>
                     </div>
                   </motion.div>
                 ) : (
@@ -263,7 +262,7 @@ export function HeroCinematic({
                     key="fallback"
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="glass-panel relative rounded-[1.75rem] p-7 shadow-luxury-card ring-1 ring-black/[0.06]"
+                    className="glass-panel relative rounded-[1.75rem] p-7 shadow-luxury-card ring-1 ring-[color:var(--overlay-ring)]"
                   >
                     <p className="text-xs font-semibold uppercase tracking-[0.26em] text-brand-gold-deep">
                       Channel
@@ -277,20 +276,17 @@ export function HeroCinematic({
                       full library anytime.
                     </p>
                     <div className="mt-6 flex flex-wrap gap-3">
-                      <Link
+                      <Button
                         href="https://youtube.com/@bhawnamrata"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex rounded-full bg-gold-gradient px-6 py-3 text-sm font-semibold text-[#1a1a1a] shadow-gold-glow"
+                        size="sm"
                       >
                         Open YouTube
-                      </Link>
-                      <Link
-                        href="/podcast"
-                        className="inline-flex rounded-full border border-black/[0.08] px-6 py-3 text-sm font-semibold text-luxury-heading"
-                      >
+                      </Button>
+                      <Button href="/podcast" variant="outline" size="sm">
                         Podcast hub
-                      </Link>
+                      </Button>
                     </div>
                   </motion.div>
                 )}
@@ -304,7 +300,7 @@ export function HeroCinematic({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.85, duration: 0.55 }}
-          className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-black/[0.08] bg-white/80 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.35em] text-luxury-muted shadow-sm backdrop-blur-md md:inline-flex"
+          className="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-luxury-border bg-surface/90 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.35em] text-luxury-muted shadow-sm backdrop-blur-md transition hover:border-brand-gold/40 hover:text-luxury-heading md:inline-flex"
         >
           Scroll
           <ChevronDown className="h-4 w-4" aria-hidden />

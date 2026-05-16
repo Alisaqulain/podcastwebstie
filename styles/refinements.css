@@ -9,21 +9,21 @@
 
   .podcast-carousel .swiper-pagination-bullet-active {
     opacity: 1;
-    background: #c9a14a;
+    background: var(--gold);
   }
 }
 
-/* Scrollbars — light premium UI */
+/* Scrollbars — theme-aware */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(201, 161, 74, 0.45);
+  background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(241, 234, 224, 0.85);
+  background: var(--scrollbar-track);
 }

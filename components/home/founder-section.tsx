@@ -1,11 +1,9 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { GoldButton } from "@/components/ui/gold-button";
-import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
-import type { AmbientClip } from "@/lib/youtube-ambient";
 
 const qualifications = [
   "MBA in Finance",
@@ -40,7 +38,7 @@ function FounderSidebar() {
           {qualifications.map((item) => (
             <li
               key={item}
-              className="flex items-start gap-3 rounded-2xl border border-luxury-border bg-white/70 px-4 py-2.5 text-sm text-luxury-body backdrop-blur-sm"
+              className="flex items-start gap-3 rounded-2xl border border-luxury-border bg-surface/90 px-4 py-2.5 text-sm text-luxury-body backdrop-blur-sm"
             >
               <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-gold-deep" />
               {item}
@@ -75,15 +73,12 @@ function FounderSidebar() {
   );
 }
 
-export function FounderSection({ clips }: { clips: AmbientClip[] }) {
+export function FounderSection() {
   return (
-    <AmbientSectionShell
-      clips={clips}
-      variant="split-left"
-      startOffset={3}
+    <section
       id="founder"
       aria-labelledby="founder-heading"
-      className="border-t border-luxury-border py-20 md:py-28"
+      className="border-t border-luxury-border bg-luxury-bg py-20 md:py-28"
     >
       <Container>
         <motion.div
@@ -232,6 +227,6 @@ export function FounderSection({ clips }: { clips: AmbientClip[] }) {
           </div>
         </motion.div>
       </Container>
-    </AmbientSectionShell>
+    </section>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { IconVideo, IconInstagram } from "@/components/icons/social-icons";
 import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
 export function SocialProof() {
@@ -23,28 +23,25 @@ export function SocialProof() {
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            <motion.a
+            <Button
               href={SITE.social.youtube}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ y: -4, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 rounded-full bg-gold-gradient px-7 py-3 font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110"
+              className="gap-3"
             >
               <IconVideo className="h-5 w-5" />
               YouTube
-            </motion.a>
-            <motion.a
+            </Button>
+            <Button
               href={SITE.social.instagram}
+              variant="secondary"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ y: -4, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 rounded-full border-2 border-luxury-heading bg-transparent px-7 py-3 font-semibold text-luxury-heading transition hover:bg-luxury-heading hover:text-white"
+              className="gap-3"
             >
               <IconInstagram className="h-5 w-5" />
               Instagram
-            </motion.a>
+            </Button>
           </div>
         </div>
       </Container>

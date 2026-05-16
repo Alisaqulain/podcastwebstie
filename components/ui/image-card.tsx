@@ -105,7 +105,7 @@ export function ImageCard({
         <>
           {status === "loading" ? (
             <div
-              className="absolute inset-0 z-10 animate-pulse bg-gradient-to-br from-brand-cream via-white to-brand-gold/10"
+              className="absolute inset-0 z-10 animate-pulse bg-gradient-to-br from-luxury-section via-luxury-bg to-brand-gold/10"
               aria-hidden
             />
           ) : null}

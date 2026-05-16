@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   type AmbientClip,
   youtubeAmbientEmbedSrc,
+  youtubePosterSrc,
 } from "@/lib/youtube-ambient";
 import {
   CINEMATIC_ROTATE_MS,
@@ -28,6 +29,11 @@ type Props = {
   startOffset?: number;
   className?: string;
   intervalMs?: number;
+  /**
+   * `poster` — still frame only (fast, no iframe).
+   * `auto` — mount embed when in view (hero-adjacent sections only).
+   */
+  playback?: "auto" | "poster";
 };
 
 export function AmbientVideoBackdrop({
@@ -36,6 +42,7 @@ export function AmbientVideoBackdrop({
   startOffset = 0,
   className,
   intervalMs = CINEMATIC_ROTATE_MS,
+  playback = "poster",
 }: Props) {
   const ctx = useCinematicVideo();
   const synced = Boolean(ctx?.clips?.length);
@@ -75,10 +82,10 @@ export function AmbientVideoBackdrop({
     variant === "masked-blob";
 
   useEffect(() => {
-    if (synced) return;
-    const id = window.setTimeout(() => setArmedLocal(true), 380);
+    if (synced || playback === "poster") return;
+    const id = window.setTimeout(() => setArmedLocal(true), 120);
     return () => window.clearTimeout(id);
-  }, [synced]);
+  }, [synced, playback]);
 
   useEffect(() => {
     const el = rootRef.current;
@@ -112,7 +119,12 @@ export function AmbientVideoBackdrop({
     };
   }, [synced, len, reduceMotion, inView, intervalMs]);
 
-  const autoplay = armed && inView && !reduceMotion && Boolean(current);
+  const mountEmbed =
+    playback === "auto" &&
+    armed &&
+    inView &&
+    !reduceMotion &&
+    Boolean(current);
 
   function Layer({
     clip,
@@ -129,14 +141,24 @@ export function AmbientVideoBackdrop({
         style={{ transitionDuration: `${VIDEO_CROSSFADE_MS}ms` }}
         aria-hidden
       >
-        <iframe
-          title=""
-          src={youtubeAmbientEmbedSrc(clip.videoId, autoplay)}
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 scale-[1.12] border-0"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen={false}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={youtubePosterSrc(clip.videoId)}
+          alt=""
+          className="absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 scale-[1.12] object-cover"
           loading={loading}
+          decoding="async"
         />
+        {mountEmbed ? (
+          <iframe
+            title=""
+            src={youtubeAmbientEmbedSrc(clip.videoId, true)}
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 scale-[1.12] border-0"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen={false}
+            loading={loading}
+          />
+        ) : null}
       </div>
     );
   }
@@ -182,7 +204,7 @@ export function AmbientVideoBackdrop({
 
   const warmFallback = (
     <div
-      className="absolute inset-0 bg-gradient-to-br from-[#faf8f5] via-white to-[#f3efe8]"
+      className="absolute inset-0 bg-gradient-to-br from-[color:var(--video-fallback-from)] via-[color:var(--video-fallback-via)] to-[color:var(--video-fallback-to)]"
       aria-hidden
     />
   );
@@ -243,26 +265,26 @@ export function AmbientVideoBackdrop({
                 secondary={next}
               />
             </div>
-            <div className="absolute inset-0 rounded-r-[2.25rem] ring-1 ring-black/[0.05]">
-              <div className="absolute inset-0 bg-gradient-to-r from-white/35 via-white/82 to-transparent" />
+            <div className="absolute inset-0 rounded-r-[2.25rem] ring-1 ring-[color:var(--overlay-ring)]">
+              <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--ambient-scrim-mid)] via-[color:var(--ambient-scrim-top)] to-transparent" />
             </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#fdfcfa] via-white to-[#faf8f5] lg:pointer-events-none lg:bg-gradient-to-r lg:from-transparent lg:via-white/92 lg:to-[#faf8f6]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--ambient-scrim-top)] via-[color:var(--luxury-bg)] to-[color:var(--luxury-bg)] lg:pointer-events-none lg:bg-gradient-to-r lg:from-transparent lg:via-[color:var(--ambient-scrim-mid)] lg:to-[color:var(--luxury-bg)]" />
           <div className="pointer-events-none absolute -right-32 top-1/4 hidden h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl lg:block" />
         </div>
       ) : null}
 
       {variant === "masked-blob" ? (
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -right-[12%] top-10 hidden h-[min(420px,48vh)] w-[min(620px,92vw)] overflow-hidden rounded-[2.25rem] shadow-[0_24px_60px_-22px_rgba(26,26,26,0.12)] ring-1 ring-black/[0.06] md:block">
+          <div className="absolute -right-[12%] top-10 hidden h-[min(420px,48vh)] w-[min(620px,92vw)] overflow-hidden rounded-[2.25rem] shadow-luxury-card ring-1 ring-[color:var(--overlay-ring)] md:block">
             <div className="relative h-full w-full opacity-95">
               <div className="absolute inset-0 blur-[3px]">
                 <ZoomedDual eagerPrimary primary={active} secondary={next} />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-tl from-white/92 via-white/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-tl from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-transparent" />
             </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-[#fdfcfa]/95 via-white/85 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-transparent" />
         </div>
       ) : null}
 
@@ -288,46 +310,30 @@ export function AmbientVideoBackdrop({
                   ease: "easeInOut",
                 }}
               >
-                <iframe
-                  title=""
-                  src={youtubeAmbientEmbedSrc(
-                    list[idx % len].videoId,
-                    autoplay
-                  )}
-                  className="pointer-events-none absolute left-1/2 top-1/2 h-[260%] w-[260%] -translate-x-1/2 -translate-y-1/2 border-0"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen={false}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={youtubePosterSrc(list[idx % len].videoId)}
+                  alt=""
+                  className="pointer-events-none absolute left-1/2 top-1/2 h-[260%] w-[260%] -translate-x-1/2 -translate-y-1/2 object-cover"
                   loading="eager"
+                  decoding="async"
                 />
               </motion.div>
               {len > 1 ? (
-                <motion.div
-                  className="absolute right-[2%] top-[18%] h-44 w-44 overflow-hidden rounded-full opacity-[0.32] blur-md md:h-52 md:w-52"
-                  animate={
-                    reduceMotion ? undefined : { y: [0, 12, 0], x: [0, -8, 0] }
-                  }
-                  transition={{
-                    duration: 22,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <iframe
-                    title=""
-                    src={youtubeAmbientEmbedSrc(
-                      list[(idx + 2) % len].videoId,
-                      autoplay
-                    )}
-                    className="pointer-events-none absolute left-1/2 top-1/2 h-[260%] w-[260%] -translate-x-1/2 -translate-y-1/2 border-0"
-                    allow="autoplay; encrypted-media; picture-in-picture"
-                    allowFullScreen={false}
+                <div className="absolute right-[2%] top-[18%] h-44 w-44 overflow-hidden rounded-full opacity-[0.32] blur-md md:h-52 md:w-52">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={youtubePosterSrc(list[(idx + 2) % len].videoId)}
+                    alt=""
+                    className="pointer-events-none absolute left-1/2 top-1/2 h-[260%] w-[260%] -translate-x-1/2 -translate-y-1/2 object-cover"
                     loading="lazy"
+                    decoding="async"
                   />
-                </motion.div>
+                </div>
               ) : null}
             </motion.div>
           </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-[#faf8f5]/78 to-white/88" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-[color:var(--ambient-scrim-bottom)]" />
         </div>
       ) : null}
 
@@ -336,7 +342,7 @@ export function AmbientVideoBackdrop({
           <div className="absolute inset-x-[-6%] top-1/2 min-h-[6.75rem] w-[112%] -translate-y-1/2 opacity-[0.62] blur-[8px] md:min-h-[8rem] md:blur-[6px]">
             <ZoomedDual eagerPrimary primary={active} secondary={next} />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-[#fdfcfa]/95 to-white" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-[color:var(--ambient-scrim-top)]" />
         </div>
       ) : null}
     </div>

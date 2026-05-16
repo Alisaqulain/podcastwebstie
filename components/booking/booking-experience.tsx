@@ -544,7 +544,7 @@ export function BookingExperience({
                     <div className="mb-3 flex items-center justify-between">
                       <button
                         type="button"
-                        className="rounded-xl p-2 text-luxury-heading hover:bg-white"
+                        className="rounded-xl p-2 text-luxury-heading hover:bg-muted"
                         onClick={() =>
                           setCalMonth(
                             new Date(
@@ -566,7 +566,7 @@ export function BookingExperience({
                       </span>
                       <button
                         type="button"
-                        className="rounded-xl p-2 text-luxury-heading hover:bg-white"
+                        className="rounded-xl p-2 text-luxury-heading hover:bg-muted"
                         onClick={() =>
                           setCalMonth(
                             new Date(
@@ -659,7 +659,7 @@ export function BookingExperience({
                                 "rounded-2xl border px-3 py-3 text-sm font-medium transition",
                                 time === s
                                   ? "border-brand-gold/50 bg-brand-gold/15 text-luxury-heading"
-                                  : "border-luxury-border bg-white text-luxury-body hover:border-brand-gold/40"
+                                  : "border-luxury-border bg-surface text-luxury-body hover:border-brand-gold/40 hover:bg-muted"
                               )}
                             >
                               {formatSlotLabel(s)}

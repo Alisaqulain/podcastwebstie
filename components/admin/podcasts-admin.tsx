@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { parseApiJson } from "@/lib/parse-api-response";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -109,18 +110,30 @@ export function PodcastsAdmin() {
       const res = await fetch("/api/upload/video", {
         method: "POST",
         body: fd,
+        credentials: "same-origin",
       });
-      const data = (await res.json()) as {
+      const parsed = await parseApiJson<{
         previewUrl?: string;
         url?: string;
         error?: string;
-      };
+      }>(res);
+      if (!parsed.ok) {
+        alert(parsed.error);
+        return;
+      }
+      const data = parsed.data;
       if (!res.ok) {
-        alert(data.error || "Upload failed");
+        alert(data.error || `Upload failed (HTTP ${res.status})`);
         return;
       }
       const url = data.previewUrl || data.url;
       if (url) setValue("localPreviewUrl", url);
+    } catch (cause) {
+      alert(
+        cause instanceof Error
+          ? cause.message
+          : "Video upload failed — check server logs and ffmpeg."
+      );
     } finally {
       setUploadingPreview(false);
     }

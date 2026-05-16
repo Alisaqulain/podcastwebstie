@@ -5,9 +5,6 @@ import { getDb } from "@/lib/mongodb";
 import { BookingExperience, type PackagePublic } from "@/components/booking/booking-experience";
 import { getSeedPackagesPublic } from "@/lib/packages-seed";
 import Link from "next/link";
-import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
-import { getLatestPodcastEpisodesForHome } from "@/lib/podcast-episodes";
-import { clipsFromEpisodes } from "@/lib/youtube-ambient";
 
 export const metadata: Metadata = {
   title: "Book a Guest Slot",
@@ -49,18 +46,9 @@ async function loadPackages(): Promise<PackagePublic[]> {
 
 export default async function BookPage() {
   const initialPackages = await loadPackages();
-  const ambientClips = clipsFromEpisodes(
-    await getLatestPodcastEpisodesForHome(6)
-  );
-
   return (
     <div className="pb-24">
-      <AmbientSectionShell
-        clips={ambientClips}
-        variant="section-soft"
-        startOffset={4}
-        className="relative overflow-hidden border-b border-luxury-border py-10 sm:py-14 md:py-20"
-      >
+      <section className="relative overflow-hidden border-b border-luxury-border bg-section-mesh py-10 sm:py-14 md:py-20">
         <div className="pointer-events-none absolute -right-24 top-0 z-10 h-72 w-72 rounded-full bg-brand-gold/12 blur-3xl" />
         <Container>
           <div className="readable-content-panel w-full max-w-3xl rounded-[1.35rem] px-4 py-5 sm:rounded-[1.75rem] sm:px-8 sm:py-9">
@@ -102,7 +90,7 @@ export default async function BookPage() {
             </ul>
           </div>
         </Container>
-      </AmbientSectionShell>
+      </section>
 
       {initialPackages[0]?._id.startsWith("demo-package") ? (
         <Container className="mt-6">
@@ -125,8 +113,8 @@ export default async function BookPage() {
 
       {SITE.calendlyUrl ? (
         <Container className="mt-16 md:mt-20">
-          <div className="glass-panel overflow-hidden rounded-[2rem] shadow-luxury-card ring-1 ring-black/[0.05]">
-            <div className="border-b border-luxury-border bg-white/85 px-6 py-6 md:px-10">
+          <div className="glass-panel overflow-hidden rounded-[2rem] shadow-luxury-card ring-1 ring-[color:var(--overlay-ring)]">
+            <div className="border-b border-luxury-border bg-surface-elevated px-6 py-6 md:px-10">
               <h2 className="font-display text-2xl font-semibold text-luxury-heading md:text-3xl">
                 Prefer Calendly? Schedule a discovery call
               </h2>
@@ -139,7 +127,7 @@ export default async function BookPage() {
             <iframe
               title="Schedule with Calendly"
               src={SITE.calendlyUrl}
-              className="min-h-[720px] w-full bg-white"
+              className="min-h-[720px] w-full bg-luxury-bg"
               loading="lazy"
             />
           </div>

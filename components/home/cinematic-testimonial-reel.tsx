@@ -34,7 +34,7 @@ export function CinematicTestimonialReel({ clips }: { clips: AmbientClip[] }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.55 }}
-      className="relative mx-auto mb-14 overflow-hidden rounded-[2rem] border border-black/[0.06] bg-white/70 shadow-luxury-card ring-1 ring-black/[0.04] backdrop-blur-xl md:mb-16"
+      className="relative mx-auto mb-14 overflow-hidden rounded-[2rem] border border-luxury-border glass-panel shadow-luxury-card ring-1 ring-[color:var(--overlay-ring)] md:mb-16"
     >
       <div className="relative aspect-[21/9] min-h-[200px] w-full bg-luxury-bg sm:min-h-[240px]">
         {reduceMotion ? (
@@ -55,8 +55,8 @@ export function CinematicTestimonialReel({ clips }: { clips: AmbientClip[] }) {
             loading="lazy"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/55 to-white/15" />
-        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--ambient-scrim-top)] via-[color:var(--ambient-scrim-mid)] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--ambient-scrim-bottom)] via-transparent to-[color:var(--ambient-scrim-mid)]" />
         <div className="relative flex h-full flex-col justify-end p-8 md:p-10">
           <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-brand-gold-deep">
             On-camera proof

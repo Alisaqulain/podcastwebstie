@@ -94,7 +94,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold-gradient py-3.5 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:-translate-y-0.5 disabled:opacity-60 md:w-auto md:px-10"
+        className="inline-flex w-full min-h-12 items-center justify-center gap-2 rounded-full bg-gold-gradient py-3.5 text-sm font-semibold text-[var(--gold-foreground)] shadow-gold-glow transition hover:brightness-105 hover:-translate-y-0.5 disabled:opacity-60 md:w-auto md:px-10"
       >
         {isSubmitting ? (
           <>

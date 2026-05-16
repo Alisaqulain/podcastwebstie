@@ -8,8 +8,6 @@ import {
   podcastEpisodesVideoObjectJsonLd,
 } from "@/lib/podcast-episodes";
 import { SITE } from "@/lib/site";
-import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
-import { clipsFromEpisodes } from "@/lib/youtube-ambient";
 
 const HOME_EPISODE_COUNT = 12;
 
@@ -25,10 +23,12 @@ export async function LatestConversations(props?: {
       ? podcastEpisodesVideoObjectJsonLd(episodes, siteUrl)
       : null;
 
-  const ambientClips = clipsFromEpisodes(episodes);
-
-  const inner = (
-    <>
+  return (
+    <section
+      id="latest-podcasts"
+      className="scroll-mt-28 border-t border-luxury-border bg-luxury-bg py-12 sm:py-16 md:py-28"
+      aria-labelledby="latest-conversations-heading"
+    >
       {jsonLd ? (
         <script
           type="application/ld+json"
@@ -56,31 +56,6 @@ export async function LatestConversations(props?: {
           </GoldButton>
         </div>
       </Container>
-    </>
-  );
-
-  if (ambientClips.length > 0) {
-    return (
-      <AmbientSectionShell
-        id="latest-podcasts"
-        clips={ambientClips}
-        variant="section-soft"
-        startOffset={1}
-        className="scroll-mt-24 border-t border-luxury-border py-12 sm:py-16 md:py-28"
-        aria-labelledby="latest-conversations-heading"
-      >
-        {inner}
-      </AmbientSectionShell>
-    );
-  }
-
-  return (
-    <section
-      id="latest-podcasts"
-      className="scroll-mt-28 border-t border-luxury-border bg-luxury-bg py-20 md:py-28"
-      aria-labelledby="latest-conversations-heading"
-    >
-      {inner}
     </section>
   );
 }

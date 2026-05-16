@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { GoldButton } from "@/components/ui/gold-button";
 import { Container } from "@/components/ui/container";
 import { SITE } from "@/lib/site";
-import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
-import { getLatestPodcastEpisodesForHome } from "@/lib/podcast-episodes";
-import { clipsFromEpisodes } from "@/lib/youtube-ambient";
 
 export const metadata: Metadata = {
   title: "About Namrata",
@@ -18,18 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const ambientClips = clipsFromEpisodes(
-    await getLatestPodcastEpisodesForHome(6)
-  );
-
   return (
     <div className="pb-24">
-      <AmbientSectionShell
-        clips={ambientClips}
-        variant="section-soft"
-        startOffset={2}
-        className="border-b border-luxury-border py-16 md:py-24"
-      >
+      <section className="border-b border-luxury-border bg-section-mesh py-16 md:py-24">
         <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
             About
@@ -41,7 +29,7 @@ export default async function AboutPage() {
             {SITE.description}
           </p>
         </Container>
-      </AmbientSectionShell>
+      </section>
 
       <Container className="mt-16 space-y-16 md:mt-24 md:space-y-24">
         <section className="grid gap-10 md:grid-cols-2 md:items-start">

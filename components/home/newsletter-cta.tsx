@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
 export function NewsletterCta() {
@@ -15,7 +16,7 @@ export function NewsletterCta() {
           viewport={{ once: true }}
           className="glass-panel flex flex-col items-center gap-6 rounded-3xl px-8 py-10 text-center md:flex-row md:text-left"
         >
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold-gradient text-[#1A1A1A] shadow-gold-glow">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold-gradient text-[var(--gold-foreground)] shadow-gold-glow">
             <Mail className="h-7 w-7" />
           </div>
           <div className="flex-1">
@@ -27,14 +28,14 @@ export function NewsletterCta() {
               to {SITE.name} and turn on notifications.
             </p>
           </div>
-          <a
+          <Button
             href={SITE.social.youtube}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 rounded-full bg-gold-gradient px-7 py-3 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.98]"
+            className="shrink-0"
           >
             Subscribe on YouTube
-          </a>
+          </Button>
         </motion.div>
       </Container>
     </section>

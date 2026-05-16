@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Loader2, Upload } from "lucide-react";
 import { optimizeMediaSrc } from "@/lib/media-url";
+import { parseApiJson } from "@/lib/parse-api-response";
 
 type Props = {
   label: string;
@@ -23,15 +24,29 @@ export function ImageField({ label, value, onChange }: Props) {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      const data = await res.json();
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: fd,
+        credentials: "same-origin",
+      });
+      const parsed = await parseApiJson<{ url?: string; error?: string }>(res);
+      if (!parsed.ok) {
+        setErr(parsed.error);
+        return;
+      }
+      const data = parsed.data;
       if (!res.ok) {
-        setErr(data.error || "Upload failed");
+        setErr(data.error || `Upload failed (HTTP ${res.status})`);
         return;
       }
       if (data.url) onChange(data.url);
-    } catch {
-      setErr("Upload failed");
+      else setErr("Upload succeeded but no URL was returned.");
+    } catch (cause) {
+      setErr(
+        cause instanceof Error
+          ? cause.message
+          : "Network error during upload — check you are signed in and the server is reachable."
+      );
     } finally {
       setLoading(false);
     }
@@ -67,7 +82,6 @@ export function ImageField({ label, value, onChange }: Props) {
             under /uploads (VPS-friendly WebP).
           </p>
           <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-2xl border border-brand-gold/20 shadow-card">
-            {/* Admin-only preview: any HTTPS URL may be pasted; avoid next/image remote allowlist issues */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={optimizeMediaSrc(value.trim())}

@@ -7,6 +7,12 @@ export type AmbientClip = {
 };
 
 /** Muted, looping YouTube embed suitable for ambient / background playback. */
+/** Fast-loading still frame — shown before any embed mounts. */
+export function youtubePosterSrc(videoId: string, quality: "hq" | "max" = "hq") {
+  const file = quality === "max" ? "maxresdefault" : "hqdefault";
+  return `https://i.ytimg.com/vi/${videoId}/${file}.jpg`;
+}
+
 export function youtubeAmbientEmbedSrc(videoId: string, autoplay: boolean) {
   const params = new URLSearchParams({
     autoplay: autoplay ? "1" : "0",

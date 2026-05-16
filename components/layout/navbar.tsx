@@ -8,6 +8,8 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { SiteLogo } from "@/components/brand/site-logo";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { Button } from "@/components/ui/button";
 
 const links = [
   { href: "/", label: "Home" },
@@ -69,7 +71,7 @@ export function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             aria-label="Close menu"
-            className="fixed inset-0 z-40 bg-luxury-heading/25 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm lg:hidden"
             onClick={closeMenu}
           />
         ) : null}
@@ -77,20 +79,21 @@ export function Navbar() {
 
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-luxury-section/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300 dark:bg-luxury-section/98",
-          scrolled
-            ? "py-1.5 shadow-soft-xl sm:py-2"
-            : "py-2 sm:py-3 lg:py-4"
+          "fixed inset-x-0 top-0 z-50 border-b border-luxury-border bg-surface/95 pt-[env(safe-area-inset-top,0px)] shadow-sm backdrop-blur-md transition-all duration-300",
+          scrolled ? "py-1.5 shadow-soft-xl sm:py-2" : "py-2 sm:py-3 lg:py-4"
         )}
       >
         <Container className="flex items-center justify-between gap-2 sm:gap-4">
-          <div className="min-w-0 flex-1">
+          <motion.div
+            className="min-w-0 flex-1"
+            whileTap={{ scale: 0.98 }}
+          >
             <Link
               href="/"
-              className="group inline-flex max-w-full items-center gap-3 transition-transform active:scale-[0.98] sm:hover:scale-[1.02]"
+              className="group inline-flex max-w-full items-center gap-3"
               onClick={closeMenu}
             >
-              <span className="logo-pill flex shrink-0 items-center justify-center rounded-full p-2 shadow-soft-xl ring-1 ring-luxury-border sm:p-2.5 md:p-3">
+              <span className="logo-pill flex shrink-0 items-center justify-center rounded-full p-2 ring-1 ring-luxury-border sm:p-2.5 md:p-3">
                 <SiteLogo
                   variant="nav"
                   priority={pathname === "/"}
@@ -98,7 +101,7 @@ export function Navbar() {
                 />
               </span>
             </Link>
-          </div>
+          </motion.div>
 
           <nav
             className="hidden items-center gap-0.5 lg:flex xl:gap-1"
@@ -134,25 +137,33 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="hidden shrink-0 lg:block">
-            <Link
-              href="/book"
-              className="inline-flex rounded-full bg-gold-gradient px-6 py-2.5 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:shadow-gold-glow-lg hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.98]"
-            >
-              Book a Session
-            </Link>
-          </div>
-
-          <button
-            type="button"
-            className="inline-flex min-h-11 min-w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-luxury-border bg-luxury-section p-2.5 text-luxury-heading shadow-sm transition hover:border-brand-gold/40 hover:bg-luxury-bg active:scale-95 lg:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-navigation"
-            onClick={() => setOpen((v) => !v)}
+          <motion.div
+            className="hidden shrink-0 items-center gap-2 lg:flex"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+            <ThemeToggle />
+            <Button href="/book" size="sm">
+              Book a Session
+            </Button>
+          </motion.div>
+
+          <motion.div
+            className="flex shrink-0 items-center gap-2 lg:hidden"
+            whileTap={{ scale: 0.95 }}
+          >
+            <ThemeToggle className="h-11 w-11" />
+            <button
+              type="button"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-luxury-border bg-surface p-2.5 text-luxury-heading shadow-sm transition hover:border-brand-gold/40 hover:bg-muted"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </motion.div>
         </Container>
 
         <AnimatePresence>
@@ -165,7 +176,7 @@ export function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              className="overflow-hidden border-t border-luxury-border bg-luxury-section shadow-soft-xl lg:hidden"
+              className="overflow-hidden border-t border-luxury-border bg-surface shadow-soft-xl lg:hidden"
             >
               <Container className="max-h-[min(70vh,calc(100dvh-5.5rem))] overflow-y-auto overscroll-y-contain py-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
                 <ul className="flex flex-col gap-0.5">
@@ -179,7 +190,7 @@ export function Navbar() {
                             "flex min-h-12 items-center rounded-xl px-4 py-3.5 text-base font-medium transition-colors",
                             active
                               ? "bg-brand-gold/12 text-luxury-heading ring-1 ring-brand-gold/40"
-                              : "text-luxury-body hover:bg-luxury-bg hover:text-luxury-heading"
+                              : "text-luxury-body hover:bg-muted hover:text-luxury-heading"
                           )}
                           onClick={closeMenu}
                         >
@@ -189,13 +200,13 @@ export function Navbar() {
                     );
                   })}
                 </ul>
-                <Link
+                <Button
                   href="/book"
-                  className="mt-3 flex min-h-12 items-center justify-center rounded-full bg-gold-gradient px-4 py-3.5 text-center text-base font-semibold text-[#1A1A1A] shadow-gold-glow active:brightness-95"
+                  className="mt-3 w-full"
                   onClick={closeMenu}
                 >
                   Book a Session
-                </Link>
+                </Button>
               </Container>
             </motion.nav>
           ) : null}

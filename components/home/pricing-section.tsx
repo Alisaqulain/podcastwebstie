@@ -1,15 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { Check, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
 import { PaymentTrustBadges } from "@/components/payment/payment-trust-badges";
 import type { PackagePublic } from "@/components/booking/booking-experience";
 import { cn } from "@/lib/utils";
-import { AmbientSectionShell } from "@/components/cinematic/ambient-section-shell";
-import type { AmbientClip } from "@/lib/youtube-ambient";
 
 function formatInrPaise(paise: number) {
   return new Intl.NumberFormat("en-IN", {
@@ -29,11 +27,7 @@ function payablePaise(pkg: PackagePublic) {
   return base;
 }
 
-export function PricingSection({
-  ambientClips,
-}: {
-  ambientClips?: AmbientClip[];
-}) {
+export function PricingSection() {
   const [packages, setPackages] = useState<PackagePublic[]>([]);
 
   useEffect(() => {
@@ -44,76 +38,68 @@ export function PricingSection({
     })();
   }, []);
 
-  const inner = (
-    <>
+  return (
+    <section
+      id="pricing"
+      className="scroll-mt-28 border-t border-luxury-border bg-luxury-section py-20 md:py-28"
+    >
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
-          className="mx-auto max-w-3xl text-center"
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
-            Booking &amp; packages
-          </p>
-          <h2 className="mt-4 font-display text-3xl font-semibold text-luxury-heading md:text-4xl">
-            A premium pathway to becoming a featured guest—with calm checkout
-          </h2>
-          <p className="mt-4 text-base text-luxury-body">
-            Packages update live from our studio CMS. Booking a slot means
-            professionally featuring your story through cinematic podcast
-            production and promotion.{" "}
-            <Link
-              href="/refund-policy"
-              className="font-medium text-brand-gold-deep underline underline-offset-4 hover:text-brand-gold"
-            >
-              Refund policy
-            </Link>{" "}
-            ·{" "}
-            <Link
-              href="/terms"
-              className="font-medium text-brand-gold-deep underline underline-offset-4 hover:text-brand-gold"
-            >
-              Terms
-            </Link>
-            .
-          </p>
-          <ul className="mx-auto mt-8 grid max-w-3xl gap-3 text-left text-sm text-luxury-body sm:grid-cols-2">
-            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <span className="text-brand-gold-deep">✦</span>
-              Personal branding lift—story-led positioning on camera
-            </li>
-            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <span className="text-brand-gold-deep">✦</span>
-              Audience exposure through publishing &amp; promo assets
-            </li>
-            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <span className="text-brand-gold-deep">✦</span>
-              Production credibility—sound, edit, and cinematic finish
-            </li>
-            <li className="flex gap-2 rounded-2xl border border-luxury-border bg-white/80 px-4 py-3 backdrop-blur-sm">
-              <span className="text-brand-gold-deep">✦</span>
-              Limited monthly guest slots—quality over volume
-            </li>
-          </ul>
-        </motion.div>
+        <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">
+              Booking &amp; packages
+            </p>
+            <h2 className="mt-4 font-display text-3xl font-semibold text-luxury-heading md:text-4xl">
+              A premium pathway to becoming a featured guest—with calm checkout
+            </h2>
+            <p className="mt-4 text-base text-luxury-body">
+              Packages update live from our studio CMS. Booking a slot means
+              professionally featuring your story through cinematic podcast
+              production and promotion.{" "}
+              <Link
+                href="/refund-policy"
+                className="font-medium text-brand-gold-deep underline underline-offset-4 hover:text-brand-gold"
+              >
+                Refund policy
+              </Link>{" "}
+              ·{" "}
+              <Link
+                href="/terms"
+                className="font-medium text-brand-gold-deep underline underline-offset-4 hover:text-brand-gold"
+              >
+                Terms
+              </Link>
+              .
+            </p>
+            <ul className="mx-auto mt-8 grid max-w-3xl gap-3 text-left text-sm text-luxury-body sm:grid-cols-2">
+              <li className="flex gap-2 rounded-2xl border border-luxury-border bg-surface/90 px-4 py-3 backdrop-blur-sm">
+                <span className="text-brand-gold-deep">✦</span>
+                Personal branding lift—story-led positioning on camera
+              </li>
+              <li className="flex gap-2 rounded-2xl border border-luxury-border bg-surface/90 px-4 py-3 backdrop-blur-sm">
+                <span className="text-brand-gold-deep">✦</span>
+                Audience exposure through publishing &amp; promo assets
+              </li>
+              <li className="flex gap-2 rounded-2xl border border-luxury-border bg-surface/90 px-4 py-3 backdrop-blur-sm">
+                <span className="text-brand-gold-deep">✦</span>
+                Production credibility—sound, edit, and cinematic finish
+              </li>
+              <li className="flex gap-2 rounded-2xl border border-luxury-border bg-surface/90 px-4 py-3 backdrop-blur-sm">
+                <span className="text-brand-gold-deep">✦</span>
+                Limited monthly guest slots—quality over volume
+              </li>
+            </ul>
+        </div>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
           {packages.length === 0 ? (
             <div className="glass-panel xl:col-span-3 rounded-4xl border border-dashed border-brand-gold/40 p-12 text-center text-luxury-body">
               Packages will appear here once published in the admin panel.
               <div className="mt-6">
-                <Link
-                  href="/book"
-                  className="inline-flex rounded-full bg-gold-gradient px-8 py-3.5 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:-translate-y-0.5 hover:scale-[1.02]"
-                >
-                  Go to booking
-                </Link>
+                <Button href="/book">Go to booking</Button>
               </div>
             </div>
           ) : (
-            packages.slice(0, 3).map((pkg, i) => {
+            packages.slice(0, 3).map((pkg) => {
               const pay = payablePaise(pkg);
               const showStrike =
                 pkg.discountPrice != null &&
@@ -122,22 +108,16 @@ export function PricingSection({
               const popular =
                 pkg.badge?.toLowerCase().includes("popular") ?? false;
               return (
-                <motion.article
+                <article
                   key={pkg._id}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.45, delay: i * 0.06 }}
                   className={cn(
                     "glass-panel relative flex flex-col overflow-hidden rounded-4xl p-8 shadow-luxury-card md:p-9",
-                    "border border-luxury-border transition-shadow duration-300 hover:border-brand-gold/45 hover:shadow-gold-glow",
-                    popular &&
-                      "ring-2 ring-brand-gold/40 shadow-[0_12px_40px_-10px_rgba(201,161,74,0.28)]"
+                    "border border-luxury-border transition-shadow duration-200 hover:border-brand-gold/45 hover:shadow-soft-xl",
+                    popular && "ring-2 ring-brand-gold/40"
                   )}
                 >
                   {pkg.badge ? (
-                    <span className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full bg-gold-gradient px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A] shadow-sm">
+                    <span className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full bg-gold-gradient px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[var(--gold-foreground)] shadow-sm">
                       <Sparkles className="h-3 w-3" />
                       {pkg.badge}
                     </span>
@@ -167,14 +147,11 @@ export function PricingSection({
                         {formatInrPaise(pay)}
                       </span>
                     </div>
-                    <Link
-                      href={`/book#packages`}
-                      className="mt-5 flex w-full items-center justify-center rounded-full bg-gold-gradient py-3.5 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.98]"
-                    >
+                    <Button href={`/book#packages`} className="mt-5 w-full">
                       Select &amp; book
-                    </Link>
+                    </Button>
                   </div>
-                </motion.article>
+                </article>
               );
             })
           )}
@@ -195,29 +172,6 @@ export function PricingSection({
           <PaymentTrustBadges />
         </div>
       </Container>
-    </>
-  );
-
-  if (ambientClips?.length) {
-    return (
-      <AmbientSectionShell
-        clips={ambientClips}
-        variant="masked-blob"
-        startOffset={3}
-        id="pricing"
-        className="scroll-mt-28 border-t border-luxury-border py-20 md:py-28"
-      >
-        {inner}
-      </AmbientSectionShell>
-    );
-  }
-
-  return (
-    <section
-      id="pricing"
-      className="scroll-mt-28 border-t border-luxury-border bg-luxury-section py-20 md:py-28"
-    >
-      {inner}
     </section>
   );
 }

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
 export function CtaSection() {
@@ -29,20 +30,18 @@ export function CtaSection() {
               both are invitations to practice powerful expression.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <a
-                href="/book"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-8 py-3.5 text-sm font-semibold text-[#1A1A1A] shadow-gold-glow transition hover:brightness-110 hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.98]"
-              >
+              <Button href="/book" size="lg">
                 Book a Session
-              </a>
-              <a
+              </Button>
+              <Button
                 href={SITE.social.youtube}
+                variant="secondary"
+                size="lg"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-luxury-heading bg-transparent px-8 py-3.5 text-sm font-semibold text-luxury-heading transition hover:bg-luxury-heading hover:text-white active:scale-[0.98]"
               >
                 Watch the Podcast
-              </a>
+              </Button>
             </div>
           </div>
         </motion.div>

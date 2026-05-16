@@ -8,8 +8,6 @@ import { CtaSection } from "@/components/home/cta-section";
 import { NewsletterCta } from "@/components/home/newsletter-cta";
 import { WhyBookSection } from "@/components/home/why-book-section";
 import { MediaJournalSpotlight } from "@/components/home/media-journal-spotlight";
-import { CinematicStripDivider } from "@/components/cinematic/cinematic-strip-divider";
-import { CinematicExperienceShell } from "@/components/cinematic/cinematic-experience-shell";
 import { getLatestPodcastEpisodesForHome } from "@/lib/podcast-episodes";
 import { fetchYouTubeChannelStats } from "@/lib/youtube-data-api";
 import { clipsFromEpisodes } from "@/lib/youtube-ambient";
@@ -26,18 +24,17 @@ export default async function HomePage() {
     apiKey ? await fetchYouTubeChannelStats(apiKey, handle) : null;
 
   return (
-    <CinematicExperienceShell episodes={episodes}>
+    <>
       <HeroCinematic episodes={episodes} channel={channel} clips={clips} />
       <LatestConversations episodes={episodes} />
-      <CinematicStripDivider clips={clips} startOffset={1} />
       <WhyBookSection syncedEpisodeCount={episodes.length} />
-      <FounderSection clips={clips} />
-      <TestimonialsSection clips={clips} />
+      <FounderSection />
+      <TestimonialsSection />
       <MediaJournalSpotlight />
       <SocialProof />
-      <PricingSection ambientClips={clips} />
+      <PricingSection />
       <CtaSection />
       <NewsletterCta />
-    </CinematicExperienceShell>
+    </>
   );
 }

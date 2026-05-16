@@ -4,44 +4,162 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* ——— Design tokens: light (default) ——— */
+:root,
+.light {
   color-scheme: light;
-  --background: #faf8f5;
-  --foreground: #4b5563;
+
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --surface: #ffffff;
+  --surface-elevated: #f8fafc;
+  --border: #e2e8f0;
+  --ring: rgba(15, 23, 42, 0.08);
+  --accent: #0f172a;
+  --accent-foreground: #f8fafc;
+
   --gold: #c9a14a;
-  --gold-soft: rgba(201, 161, 74, 0.15);
-  --luxury-bg: #faf8f5;
-  --luxury-section: #ffffff;
-  --luxury-heading: #0f0f0f;
-  --luxury-body: #4b5563;
-  --luxury-muted: #6b7280;
-  --luxury-border: #ebe4db;
-  --glass-bg: rgba(255, 255, 255, 0.78);
-  --glass-border: rgba(26, 26, 26, 0.07);
-  --glass-shadow: 0 22px 44px -12px rgba(26, 26, 26, 0.08);
-  --ambient-scrim-top: rgba(255, 255, 255, 0.52);
-  --ambient-scrim-mid: rgba(255, 255, 255, 0.34);
-  --ambient-scrim-bottom: rgba(255, 255, 255, 0.62);
+  --gold-soft: rgba(201, 161, 74, 0.14);
+  --gold-foreground: #1a1a1a;
+
+  --luxury-bg: var(--background);
+  --luxury-section: var(--surface-elevated);
+  --luxury-heading: var(--foreground);
+  --luxury-body: #475569;
+  --luxury-muted: var(--muted-foreground);
+  --luxury-border: var(--border);
+
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-shadow: 0 20px 40px -16px rgba(15, 23, 42, 0.1);
+
+  --ambient-scrim-top: rgba(255, 255, 255, 0.78);
+  --ambient-scrim-mid: rgba(248, 250, 252, 0.62);
+  --ambient-scrim-bottom: rgba(255, 255, 255, 0.88);
+
+  --video-fallback-from: #f8fafc;
+  --video-fallback-via: #ffffff;
+  --video-fallback-to: #f1f5f9;
+
+  --btn-secondary-hover-bg: #0f172a;
+  --btn-secondary-hover-fg: #f8fafc;
+
+  --scrollbar-thumb: rgba(201, 161, 74, 0.5);
+  --scrollbar-track: rgba(241, 245, 249, 0.9);
+
+  --logo-pill-bg: #ffffff;
+  --logo-pill-ring: var(--border);
+
+  --overlay-ring: rgba(15, 23, 42, 0.06);
+  --surface-card: rgba(255, 255, 255, 0.85);
+  --hero-card-shine: linear-gradient(
+    135deg,
+    var(--luxury-bg) 0%,
+    color-mix(in srgb, var(--luxury-bg) 55%, transparent) 50%,
+    color-mix(in srgb, var(--gold) 8%, var(--luxury-bg)) 100%
+  );
+}
+
+/* ——— Design tokens: dark ——— */
+.dark {
+  color-scheme: dark;
+
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --surface: #1e293b;
+  --surface-elevated: #1e293b;
+  --border: #334155;
+  --ring: rgba(248, 250, 252, 0.08);
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+
+  --gold-soft: rgba(201, 161, 74, 0.2);
+
+  --luxury-bg: var(--background);
+  --luxury-section: #1e293b;
+  --luxury-heading: var(--foreground);
+  --luxury-body: #cbd5e1;
+  --luxury-muted: var(--muted-foreground);
+  --luxury-border: var(--border);
+
+  --glass-bg: rgba(30, 41, 59, 0.92);
+  --glass-border: rgba(248, 250, 252, 0.1);
+  --glass-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.45);
+
+  --ambient-scrim-top: rgba(15, 23, 42, 0.82);
+  --ambient-scrim-mid: rgba(15, 23, 42, 0.68);
+  --ambient-scrim-bottom: rgba(15, 23, 42, 0.9);
+
+  --video-fallback-from: #1e293b;
+  --video-fallback-via: #0f172a;
+  --video-fallback-to: #1e293b;
+
+  --btn-secondary-hover-bg: #f1f5f9;
+  --btn-secondary-hover-fg: #0f172a;
+
+  --scrollbar-thumb: rgba(201, 161, 74, 0.55);
+  --scrollbar-track: rgba(30, 41, 59, 0.95);
+
+  --logo-pill-bg: #1e293b;
+  --logo-pill-ring: var(--border);
+
+  --overlay-ring: rgba(248, 250, 252, 0.08);
+  --surface-card: rgba(30, 41, 59, 0.88);
+  --hero-card-shine: linear-gradient(
+    135deg,
+    var(--surface) 0%,
+    color-mix(in srgb, var(--surface) 70%, transparent) 50%,
+    color-mix(in srgb, var(--gold) 12%, var(--surface)) 100%
+  );
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  html:not(.light) {
     color-scheme: dark;
-    --background: #121110;
-    --foreground: #c4bdb4;
-    --gold-soft: rgba(201, 161, 74, 0.22);
-    --luxury-bg: #121110;
-    --luxury-section: #1c1a18;
-    --luxury-heading: #f5f2ed;
-    --luxury-body: #c4bdb4;
-    --luxury-muted: #9a9288;
-    --luxury-border: #2e2b28;
-    --glass-bg: rgba(28, 26, 24, 0.88);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-shadow: 0 22px 44px -12px rgba(0, 0, 0, 0.45);
-    --ambient-scrim-top: rgba(18, 17, 16, 0.72);
-    --ambient-scrim-mid: rgba(18, 17, 16, 0.58);
-    --ambient-scrim-bottom: rgba(18, 17, 16, 0.78);
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --surface: #1e293b;
+    --surface-elevated: #1e293b;
+    --border: #334155;
+    --ring: rgba(248, 250, 252, 0.08);
+    --accent: #f1f5f9;
+    --accent-foreground: #0f172a;
+    --gold-soft: rgba(201, 161, 74, 0.2);
+    --luxury-bg: var(--background);
+    --luxury-section: #1e293b;
+    --luxury-heading: var(--foreground);
+    --luxury-body: #cbd5e1;
+    --luxury-muted: var(--muted-foreground);
+    --luxury-border: var(--border);
+    --glass-bg: rgba(30, 41, 59, 0.92);
+    --glass-border: rgba(248, 250, 252, 0.1);
+    --glass-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.45);
+    --ambient-scrim-top: rgba(15, 23, 42, 0.82);
+    --ambient-scrim-mid: rgba(15, 23, 42, 0.68);
+    --ambient-scrim-bottom: rgba(15, 23, 42, 0.9);
+    --video-fallback-from: #1e293b;
+    --video-fallback-via: #0f172a;
+    --video-fallback-to: #1e293b;
+    --btn-secondary-hover-bg: #f1f5f9;
+    --btn-secondary-hover-fg: #0f172a;
+    --scrollbar-thumb: rgba(201, 161, 74, 0.55);
+    --scrollbar-track: rgba(30, 41, 59, 0.95);
+    --logo-pill-bg: #1e293b;
+    --logo-pill-ring: var(--border);
+    --overlay-ring: rgba(248, 250, 252, 0.08);
+    --surface-card: rgba(30, 41, 59, 0.88);
+    --hero-card-shine: linear-gradient(
+      135deg,
+      var(--surface) 0%,
+      color-mix(in srgb, var(--surface) 70%, transparent) 50%,
+      color-mix(in srgb, var(--gold) 12%, var(--surface)) 100%
+    );
   }
 }
 
@@ -56,11 +174,14 @@ html {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--luxury-body);
+  background: var(--luxury-bg);
   font-family: var(--font-poppins), system-ui, sans-serif;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
 }
 
 @layer utilities {
@@ -68,7 +189,6 @@ body {
     text-wrap: balance;
   }
 
-  /** Frosted glass — readable over video in light and dark mode */
   .glass-panel {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -77,40 +197,29 @@ body {
     -webkit-backdrop-filter: blur(18px);
   }
 
-  /** Hero / booking copy over cinematic video */
   .readable-content-panel {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(20px) saturate(1.15);
-    -webkit-backdrop-filter: blur(20px) saturate(1.15);
+    backdrop-filter: blur(20px) saturate(1.12);
+    -webkit-backdrop-filter: blur(20px) saturate(1.12);
   }
 
-  /** Keeps brand logo visible when the OS forces dark mode on pages */
   .logo-pill {
-    background-color: #ffffff !important;
+    background-color: var(--logo-pill-bg) !important;
     forced-color-adjust: none;
-    color-scheme: light;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .logo-pill {
-      box-shadow:
-        0 8px 24px -8px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(255, 255, 255, 0.12);
-    }
+    box-shadow: var(--glass-shadow);
+    ring-color: var(--logo-pill-ring);
   }
 
   .surface-form {
     background: var(--luxury-section);
     border: 1px solid var(--luxury-border);
-    box-shadow:
-      0 22px 44px -12px rgba(26, 26, 26, 0.07),
-      0 10px 24px -10px rgba(201, 161, 74, 0.05);
+    box-shadow: var(--glass-shadow);
   }
 
   .field-input {
-    @apply w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-[#C9A14A] focus:ring-2 focus:ring-[#C9A14A]/30;
+    @apply w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/30;
     background-color: var(--luxury-bg);
     border-color: var(--luxury-border);
     color: var(--luxury-heading);
@@ -128,34 +237,40 @@ body {
     background-color: var(--luxury-section);
   }
 
-  /** Theme-aware pills — readable in light and dark on mobile */
+  .section-muted {
+    background-color: var(--muted);
+  }
+
   .luxury-chip {
-    @apply inline-flex items-center rounded-full border border-luxury-border px-3 py-1.5 text-xs font-medium;
-    background: color-mix(in srgb, var(--luxury-section) 88%, transparent);
+    @apply inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium;
+    border-color: var(--luxury-border);
+    background: color-mix(in srgb, var(--luxury-section) 92%, transparent);
     color: var(--luxury-heading);
   }
 
   .mobile-cta {
     @apply inline-flex min-h-12 w-full max-w-full items-center justify-center rounded-full px-5 text-sm font-semibold touch-manipulation sm:min-h-[3.25rem] sm:w-auto sm:px-6;
   }
+
+  .ring-subtle {
+    box-shadow: inset 0 0 0 1px var(--ring);
+  }
 }
 
-/* ——— Mobile-first readability (≤639px) ——— */
 @media (max-width: 639px) {
-  :root {
-    --glass-bg: rgba(255, 255, 255, 0.9);
-    --ambient-scrim-top: rgba(255, 255, 255, 0.68);
-    --ambient-scrim-mid: rgba(255, 255, 255, 0.5);
-    --ambient-scrim-bottom: rgba(255, 255, 255, 0.74);
+  :root,
+  .light {
+    --glass-bg: rgba(255, 255, 255, 0.94);
+    --ambient-scrim-top: rgba(255, 255, 255, 0.84);
+    --ambient-scrim-mid: rgba(248, 250, 252, 0.72);
+    --ambient-scrim-bottom: rgba(255, 255, 255, 0.9);
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --glass-bg: rgba(28, 26, 24, 0.94);
-      --ambient-scrim-top: rgba(18, 17, 16, 0.82);
-      --ambient-scrim-mid: rgba(18, 17, 16, 0.7);
-      --ambient-scrim-bottom: rgba(18, 17, 16, 0.86);
-    }
+  .dark {
+    --glass-bg: rgba(30, 41, 59, 0.96);
+    --ambient-scrim-top: rgba(15, 23, 42, 0.9);
+    --ambient-scrim-mid: rgba(15, 23, 42, 0.78);
+    --ambient-scrim-bottom: rgba(15, 23, 42, 0.92);
   }
 
   .readable-content-panel,
@@ -169,62 +284,50 @@ body {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .prose-blog h1,
-  .prose-blog h2,
-  .prose-blog h3 {
-    color: var(--luxury-heading);
-  }
-  .prose-blog p,
-  .prose-blog ul,
-  .prose-blog ol {
-    color: var(--luxury-body);
-  }
+/* Blog prose — theme-aware */
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3 {
+  @apply font-display font-semibold;
+  color: var(--luxury-heading);
 }
-
-/* Blog — editorial on warm white */
 .prose-blog h1 {
-  @apply font-display text-3xl md:text-4xl font-semibold mt-10 mb-4;
-  color: #111827;
+  @apply text-3xl md:text-4xl mt-10 mb-4;
 }
 .prose-blog h2 {
-  @apply font-display text-2xl md:text-3xl font-semibold mt-8 mb-3;
-  color: #111827;
+  @apply text-2xl md:text-3xl mt-8 mb-3;
 }
 .prose-blog h3 {
-  @apply font-display text-xl md:text-2xl font-semibold mt-6 mb-2;
-  color: #111827;
+  @apply text-xl md:text-2xl mt-6 mb-2;
 }
-.prose-blog p {
+.prose-blog p,
+.prose-blog ul,
+.prose-blog ol {
   @apply leading-relaxed mb-4;
-  color: #4b5563;
+  color: var(--luxury-body);
 }
 .prose-blog ul {
-  @apply list-disc pl-6 mb-4 space-y-2;
-  color: #4b5563;
+  @apply list-disc pl-6 space-y-2;
 }
 .prose-blog ol {
-  @apply list-decimal pl-6 mb-4 space-y-2;
-  color: #4b5563;
+  @apply list-decimal pl-6 space-y-2;
 }
 .prose-blog a {
   @apply underline underline-offset-4;
-  color: #a67c2e;
-  text-decoration-color: rgb(201 161 74 / 0.55);
+  color: var(--gold);
+  text-decoration-color: color-mix(in srgb, var(--gold) 55%, transparent);
 }
 .prose-blog a:hover {
-  color: #c9a14a;
-  text-decoration-color: #c9a14a;
+  color: #e8c468;
+  text-decoration-color: var(--gold);
 }
 .prose-blog blockquote {
   @apply border-l-4 pl-4 italic my-6;
-  border-color: #c9a14a;
-  color: #6b7280;
+  border-color: var(--gold);
+  color: var(--luxury-muted);
 }
 .prose-blog img {
   @apply rounded-2xl border my-6 max-w-full h-auto;
-  border-color: #ebe4db;
-  box-shadow:
-    0 22px 44px -12px rgba(26, 26, 26, 0.07),
-    0 10px 24px -10px rgba(201, 161, 74, 0.05);
+  border-color: var(--luxury-border);
+  box-shadow: var(--glass-shadow);
 }

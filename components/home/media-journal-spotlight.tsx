@@ -18,7 +18,7 @@ export async function MediaJournalSpotlight() {
 
   return (
     <section
-      className="border-t border-luxury-border bg-[linear-gradient(180deg,#ffffff_0%,#faf8f5_55%,#ffffff_100%)] py-20 md:py-28"
+      className="section-alt border-t border-luxury-border bg-section-mesh py-20 md:py-28"
       aria-labelledby="journal-heading"
     >
       <Container>

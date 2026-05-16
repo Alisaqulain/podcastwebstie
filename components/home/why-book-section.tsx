@@ -130,7 +130,7 @@ export function WhyBookSection({
                 hidden: { opacity: 0, y: 14 },
                 show: { opacity: 1, y: 0 },
               }}
-              className="glass-panel rounded-3xl px-5 py-6 text-center ring-1 ring-black/[0.04]"
+              className="glass-panel rounded-3xl px-5 py-6 text-center ring-1 ring-[color:var(--overlay-ring)]"
             >
               <p className="font-display text-2xl font-semibold text-luxury-heading md:text-3xl">
                 {s.value}
@@ -150,7 +150,7 @@ export function WhyBookSection({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: Math.min(i * 0.05, 0.3) }}
-              className="glass-panel group rounded-3xl p-6 shadow-sm ring-1 ring-black/[0.04] transition hover:-translate-y-1 hover:shadow-soft-xl"
+              className="glass-panel group rounded-3xl p-6 shadow-sm ring-1 ring-[color:var(--overlay-ring)] transition hover:-translate-y-1 hover:shadow-soft-xl"
             >
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-gold/12 text-brand-gold-deep ring-1 ring-brand-gold/25">
                 <c.icon className="h-5 w-5" aria-hidden />
@@ -165,7 +165,7 @@ export function WhyBookSection({
           ))}
         </div>
 
-        <div className="mt-20 rounded-[2rem] border border-luxury-border bg-luxury-section/80 p-8 shadow-sm ring-1 ring-black/[0.04] backdrop-blur-xl md:p-12">
+        <div className="mt-20 rounded-[2rem] border border-luxury-border bg-luxury-section/80 p-8 shadow-sm ring-1 ring-[color:var(--overlay-ring)] backdrop-blur-xl md:p-12">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-start">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold-deep">

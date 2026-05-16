@@ -75,13 +75,16 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
             className="mb-0"
           />
           <div className="relative mt-10 max-w-xl">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-luxury-muted" />
+            <Search
+              className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-luxury-muted"
+              aria-hidden
+            />
             <input
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search episodes..."
-              className="field-input w-full py-3.5 pl-12 pr-4 shadow-sm"
+              className="field-input w-full py-3.5 !pl-12 pr-4 shadow-sm"
             />
             {loading ? (
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-luxury-muted">
