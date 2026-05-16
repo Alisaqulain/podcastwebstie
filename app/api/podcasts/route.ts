@@ -1,44 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import { requireAdminSession } from "@/lib/api-auth";
+import { listPodcastsPublic } from "@/lib/list-podcasts-public";
 import { getYoutubeThumbnail } from "@/lib/youtube";
 import type { PodcastInput } from "@/models/podcast";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
-  const db = await getDb();
-  if (!db) {
-    return NextResponse.json([]);
-  }
   const { searchParams } = new URL(req.url);
-  const limit = searchParams.get("limit");
+  const limitRaw = searchParams.get("limit");
+  const limit = limitRaw ? parseInt(limitRaw, 10) : undefined;
   const q = searchParams.get("q")?.trim();
 
-  const filter = q
-    ? {
-        $or: [
-          { title: { $regex: q, $options: "i" } },
-          { description: { $regex: q, $options: "i" } },
-        ],
-      }
-    : {};
+  const rows = await listPodcastsPublic({
+    q: q || undefined,
+    limit:
+      typeof limit === "number" && !Number.isNaN(limit) && limit > 0
+        ? limit
+        : undefined,
+  });
 
-  let cur = db
-    .collection("podcasts")
-    .find(filter)
-    .sort({ createdAt: -1 });
-  if (limit) {
-    const n = parseInt(limit, 10);
-    if (!Number.isNaN(n) && n > 0) cur = cur.limit(n);
-  }
-  const docs = await cur.toArray();
-  return NextResponse.json(
-    docs.map((d) => ({
-      ...d,
-      _id: d._id.toString(),
-    }))
-  );
+  return NextResponse.json(rows);
 }
 
 export async function POST(req: NextRequest) {

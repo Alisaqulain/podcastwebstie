@@ -7,7 +7,6 @@ import { Search } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getYoutubeEmbedUrl } from "@/lib/youtube";
-import { ImageCard } from "@/components/ui/image-card";
 
 export type PodcastApi = {
   _id: string;
@@ -64,17 +63,17 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
   );
 
   return (
-    <div className="pb-24">
-      <section className="border-b border-luxury-border bg-luxury-section py-14 md:py-20">
-        <Container>
+    <div className="pb-20 md:pb-28">
+      <section className="border-b border-luxury-border bg-luxury-section pb-12 pt-6 md:pb-16 md:pt-8">
+        <Container className="flex flex-col items-center text-center">
           <SectionHeading
-            align="left"
+            align="center"
             eyebrow="BHAW Namrata Podcast"
             title="Conversations that return you to yourself"
             subtitle="Watch episodes on YouTube—search below to find a topic or title."
             className="mb-0"
           />
-          <div className="relative mt-10 max-w-xl">
+          <div className="relative mt-8 w-full max-w-xl md:mt-10">
             <Search
               className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-luxury-muted"
               aria-hidden
@@ -95,7 +94,7 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
         </Container>
       </section>
 
-      <Container className="mt-14">
+      <Container className="mt-10 md:mt-14">
         {sorted.length === 0 ? (
           <div className="glass-panel rounded-3xl p-12 text-center text-luxury-body">
             No episodes match your search yet. Try another keyword—or explore
@@ -113,9 +112,34 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.45, delay: Math.min(idx * 0.04, 0.2) }}
                   whileHover={{ y: -4 }}
-                  className="grid gap-8 rounded-4xl border border-luxury-border bg-luxury-section p-6 shadow-luxury-card transition hover:border-brand-gold/40 hover:shadow-gold-glow md:grid-cols-[1.15fr_0.85fr] md:p-8"
+                  className="flex flex-col gap-6 rounded-4xl border border-luxury-border bg-luxury-section p-5 shadow-luxury-card transition hover:border-brand-gold/40 hover:shadow-gold-glow sm:p-6 lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:p-8"
                 >
-                  <div className="overflow-hidden rounded-3xl bg-luxury-bg ring-1 ring-luxury-border">
+                  <div className="order-1 min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-widest text-brand-gold-deep">
+                      {p.createdAt
+                        ? new Date(p.createdAt).toLocaleDateString(undefined, {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })
+                        : "Episode"}
+                    </p>
+                    <h2 className="mt-3 font-display text-xl font-semibold leading-snug text-luxury-heading sm:text-2xl md:text-3xl">
+                      {p.title}
+                    </h2>
+                    <p className="mt-4 text-sm leading-relaxed text-luxury-body sm:text-base">
+                      {p.description}
+                    </p>
+                    <a
+                      href={p.youtubeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-6 inline-flex text-sm font-semibold text-brand-gold-deep hover:text-brand-gold hover:underline"
+                    >
+                      Open on YouTube →
+                    </a>
+                  </div>
+                  <div className="order-2 min-w-0 overflow-hidden rounded-3xl bg-luxury-bg ring-1 ring-luxury-border">
                     {embed ? (
                       <div className="aspect-video w-full">
                         <iframe
@@ -132,42 +156,6 @@ export function PodcastDirectory({ initial }: { initial: PodcastApi[] }) {
                         Invalid YouTube URL
                       </div>
                     )}
-                  </div>
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-widest text-brand-gold-deep">
-                      {p.createdAt
-                        ? new Date(p.createdAt).toLocaleDateString(undefined, {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })
-                        : "Episode"}
-                    </p>
-                    <h2 className="mt-3 font-display text-2xl font-semibold text-luxury-heading md:text-3xl">
-                      {p.title}
-                    </h2>
-                    <p className="mt-4 leading-relaxed text-luxury-body">
-                      {p.description}
-                    </p>
-                    <div className="mt-6 flex flex-wrap items-center gap-4">
-                      {p.thumbnail ? (
-                        <ImageCard
-                          type="podcast"
-                          src={p.thumbnail}
-                          alt={`Thumbnail: ${p.title}`}
-                          className="w-28 shrink-0 shadow-sm ring-1 ring-luxury-border"
-                          sizes="112px"
-                        />
-                      ) : null}
-                      <a
-                        href={p.youtubeLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-semibold text-brand-gold-deep hover:text-brand-gold hover:underline"
-                      >
-                        Open on YouTube
-                      </a>
-                    </div>
                   </div>
                 </motion.article>
               );

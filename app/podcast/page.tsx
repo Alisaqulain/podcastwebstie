@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { PodcastDirectory } from "@/components/podcast/podcast-directory";
-import { getSeedPodcastApiRows } from "@/lib/podcasts-seed";
-import { getDb } from "@/lib/mongodb";
+import { listPodcastsPublic } from "@/lib/list-podcasts-public";
 import { SITE } from "@/lib/site";
-import type { PodcastApi } from "@/components/podcast/podcast-directory";
 
 export const metadata: Metadata = {
   title: "Podcast",
@@ -18,26 +16,7 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-async function getInitial(): Promise<PodcastApi[]> {
-  const db = await getDb();
-  if (!db) return getSeedPodcastApiRows();
-  const docs = await db
-    .collection("podcasts")
-    .find({})
-    .sort({ createdAt: -1 })
-    .toArray();
-  return docs.map((d) => ({
-    _id: d._id.toString(),
-    title: d.title as string,
-    description: d.description as string,
-    youtubeLink: d.youtubeLink as string,
-    thumbnail: (d.thumbnail as string) || "",
-    localPreviewUrl: (d as { localPreviewUrl?: string }).localPreviewUrl?.trim(),
-    createdAt: d.createdAt ? new Date(d.createdAt as Date).toISOString() : undefined,
-  }));
-}
-
 export default async function PodcastPage() {
-  const initial = await getInitial();
+  const initial = await listPodcastsPublic();
   return <PodcastDirectory initial={initial} />;
 }
