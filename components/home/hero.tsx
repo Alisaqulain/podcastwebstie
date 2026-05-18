@@ -79,8 +79,8 @@ export function Hero() {
           >
             <div className="glass-panel relative overflow-hidden rounded-4xl p-2 shadow-card">
               <div className="relative flex aspect-[4/5] flex-col overflow-hidden rounded-3xl">
-                <div className="relative min-h-[48%] flex-1 bg-brand-dark">
-                  <SiteLogo fill className="!p-4 sm:!p-5" />
+                <div className="relative min-h-[48%] flex-1 overflow-hidden bg-brand-cream">
+                  <SiteLogo fill />
                 </div>
                 <div className="flex flex-1 flex-col justify-end bg-gradient-to-br from-brand-cream via-white to-brand-gold/15 p-8">
                   <p className="font-display text-2xl text-brand-dark md:text-3xl">

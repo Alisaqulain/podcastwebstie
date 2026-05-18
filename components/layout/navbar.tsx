@@ -93,13 +93,7 @@ export function Navbar() {
               className="group inline-flex max-w-full items-center gap-3"
               onClick={closeMenu}
             >
-              <span className="logo-pill flex shrink-0 items-center justify-center rounded-full bg-white p-2 ring-1 ring-slate-200/90 sm:p-2.5 md:p-3">
-                <SiteLogo
-                  variant="nav"
-                  priority={pathname === "/"}
-                  className="!h-10 !max-w-[4.5rem] sm:!h-12 sm:!max-w-[5.25rem] md:!h-14 md:!max-w-[6rem]"
-                />
-              </span>
+              <SiteLogo variant="nav" priority={pathname === "/"} />
             </Link>
           </motion.div>
 

@@ -4,22 +4,16 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { GoldButton } from "@/components/ui/gold-button";
-
-const qualifications = [
-  "MBA in Finance",
-  "2 Years Corporate Experience",
-  "7 Years Boutique Business Experience",
-  "3 Years Event Management Experience",
-  "2+ Years in Podcasting & Personal Branding",
-  "85+ Podcast Shoots Executed",
-] as const;
-
-const fears = [
-  "Fear of speaking",
-  "Fear of being judged",
-  "Fear of showing up online",
-  "Fear of owning their expertise",
-] as const;
+import {
+  FOUNDER_FEARS,
+  FOUNDER_MISSION,
+  FOUNDER_QUALIFICATIONS,
+  FOUNDER_STORY_CLOSING,
+  FOUNDER_STORY_CLOSING_LINE,
+  FOUNDER_STORY_INTRO,
+  FOUNDER_TAGLINE,
+  FOUNDER_VISION,
+} from "@/lib/founder-content";
 
 function FounderSidebar() {
   return (
@@ -35,7 +29,7 @@ function FounderSidebar() {
           Educational Qualification &amp; Experience
         </h3>
         <ul className="mt-4 space-y-2.5">
-          {qualifications.map((item) => (
+          {FOUNDER_QUALIFICATIONS.map((item) => (
             <li
               key={item}
               className="flex items-start gap-3 rounded-2xl border border-luxury-border bg-surface/90 px-4 py-2.5 text-sm text-luxury-body backdrop-blur-sm"
@@ -52,10 +46,7 @@ function FounderSidebar() {
           Mission
         </h3>
         <p className="mt-2.5 text-sm leading-relaxed text-luxury-body">
-          To help entrepreneurs, professionals, and women leaders build
-          visibility, confidence, and credibility through authentic expression,
-          strategic personal branding, meaningful content, and impactful
-          storytelling.
+          {FOUNDER_MISSION}
         </p>
       </div>
 
@@ -64,9 +55,7 @@ function FounderSidebar() {
           Vision
         </h3>
         <p className="mt-2.5 text-sm leading-relaxed text-luxury-body">
-          To empower 100 million business leaders, entrepreneurs, and
-          individuals to transform their expression into influence, their
-          visibility into impact, and their presence into powerful opportunities.
+          {FOUNDER_VISION}
         </p>
       </div>
     </motion.div>
@@ -98,7 +87,7 @@ export function FounderSection() {
             BHAW Namrata
           </h2>
           <p className="mt-2 font-display text-lg text-brand-gold-deep md:text-xl">
-            Where Expression is Power
+            {FOUNDER_TAGLINE}
           </p>
         </motion.div>
 
@@ -149,39 +138,19 @@ export function FounderSection() {
                 My Story
               </h3>
               <div className="mt-5 space-y-4 leading-relaxed text-luxury-body">
-                <p>
-                  I started BHAW Namrata with one deep belief — many talented
-                  people remain unseen not because they lack potential, but
-                  because they struggle to express their value confidently.
-                </p>
-                <p>
-                  My journey began with an MBA in Finance and 2 years of
-                  corporate experience, where I learned professionalism, business
-                  structure, and strategic thinking. But my entrepreneurial
-                  spirit always pushed me toward creativity, people, and impact.
-                </p>
-                <p>
-                  I then spent 7 years building and managing my boutique
-                  business, which taught me branding, presentation, customer
-                  understanding, and relationship building. Later, through 3
-                  years in event management, I gained hands-on experience in
-                  planning, execution, audience engagement, coordination, and
-                  creating memorable experiences.
-                </p>
-                <p>
-                  Over time, I realized something powerful — visibility is not
-                  about being loud. It is about being authentic, confident, and
-                  emotionally connected to your audience.
-                </p>
+                {FOUNDER_STORY_INTRO.map((paragraph) => (
+                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+                ))}
               </div>
             </div>
 
             <div className="rounded-3xl border border-luxury-border bg-luxury-bg/80 p-6 md:p-8">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-gold-deep">
-                As a woman entrepreneur, I understood
+                As a woman entrepreneur, I deeply understood the fears many people
+                silently carry
               </p>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                {fears.map((fear) => (
+                {FOUNDER_FEARS.map((fear) => (
                   <li
                     key={fear}
                     className="flex gap-3 text-sm text-luxury-body"
@@ -193,28 +162,16 @@ export function FounderSection() {
               </ul>
             </div>
 
-            <p className="leading-relaxed text-luxury-body">
-              These experiences inspired me to create a platform where
-              entrepreneurs, professionals, and especially women could discover
-              the power of their voice, presence, and personal brand.
-            </p>
-            <p className="leading-relaxed text-luxury-body">
-              In the last 2 years, I stepped into podcasting and personal
-              branding with a solo podcast initiative that has now grown into
-              85+ podcast shoots featuring entrepreneurs, professionals, and
-              inspiring personalities. Through every conversation, strategy
-              session, and piece of content, my focus has remained the same —
-              helping people express themselves with confidence and clarity.
-            </p>
-            <p className="leading-relaxed text-luxury-body">
-              Today, through podcasting, visibility mentoring, personal branding,
-              content curation, strategic storytelling, and execution planning, I
-              help individuals and businesses position themselves powerfully in
-              front of the right audience.
-            </p>
+            {FOUNDER_STORY_CLOSING.map((paragraph) => (
+              <p
+                key={paragraph.slice(0, 48)}
+                className="leading-relaxed text-luxury-body"
+              >
+                {paragraph}
+              </p>
+            ))}
             <p className="font-display text-lg font-medium text-luxury-heading">
-              Because when expression becomes powerful, opportunities naturally
-              follow.
+              {FOUNDER_STORY_CLOSING_LINE}
             </p>
 
             <GoldButton href="/about" variant="outline">

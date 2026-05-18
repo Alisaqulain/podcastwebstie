@@ -2,9 +2,9 @@ export const SITE = {
   name: "BHAW Namrata",
   /** Primary brand mark (navbar, footer, auth, payments). */
   logoSrc: "/newlogo.jpeg",
-  tagline: "Stories That Inspire Millions",
+  tagline: "Where Expression is Power",
   description:
-    "A premium podcast & media platform for cinematic interviews—helping founders, creators, and leaders build trust, authority, and reach through conversations that move people.",
+    "Podcasting, visibility mentoring, and personal branding—helping entrepreneurs, professionals, and women leaders express themselves with confidence, clarity, and powerful presence.",
   url: process.env.NEXTAUTH_URL || "http://localhost:3000",
   /** Optional full-screen hero video (mp4 URL or path like /hero.mp4). Leave empty for gradient-only hero. */
   heroVideoUrl: (process.env.NEXT_PUBLIC_HERO_VIDEO_URL || "").trim(),

@@ -36,8 +36,11 @@ export function AboutHero({ clips }: { clips: AmbientClip[] }) {
             About
           </p>
           <h1 className="mt-4 font-display text-[clamp(1.75rem,5.5vw,3.25rem)] font-semibold leading-[1.12] tracking-tight text-luxury-heading text-balance">
-            The woman behind the microphone—and the mirror.
+            {SITE.name}
           </h1>
+          <p className="mt-3 font-display text-lg text-brand-gold-deep sm:text-xl">
+            {SITE.tagline}
+          </p>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-luxury-body sm:mt-6 sm:text-lg">
             {SITE.description}
           </p>

@@ -34,12 +34,7 @@ export function Footer() {
         <div className="flex flex-col gap-12 md:flex-row md:flex-wrap md:items-start md:justify-between lg:flex-nowrap">
           <div className="max-w-md">
             <div className="flex items-center">
-              <span className="logo-pill inline-flex rounded-full bg-white p-3 ring-1 ring-slate-200/90">
-                <SiteLogo
-                  variant="footer"
-                  className="!h-16 !max-w-[7rem] sm:!h-[4.5rem] sm:!max-w-[8rem] md:!h-20 md:!max-w-[9rem]"
-                />
-              </span>
+              <SiteLogo variant="footer" />
             </div>
             <p className="mt-6 text-sm leading-relaxed text-luxury-body">
               {SITE.description}
